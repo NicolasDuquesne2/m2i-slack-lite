@@ -64,4 +64,15 @@ public class Channel {
     public void setUser(User user) {
         this.user = user;
     }
+
+    @Override
+    public String toString() {
+        return "Channel{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", isDeletable=" + isDeletable +
+                ", color=" + color +
+                ", user=" + user +
+                '}';
+    }
 }
