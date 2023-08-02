@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import fr.goupe3.slacklite.entity.User;
@@ -60,24 +61,52 @@ public class UserController {
 		}
 		
 		Optional<User> optionalUser = userService.getByEmail(user.getEmail());
-		if(optionalUser.isPresent()) return ResponseEntity.badRequest().body(Map.of("error", "The given email is already used"));;
+		if(optionalUser.isPresent()) return ResponseEntity.badRequest().body(Map.of("error", "The given email is already used"));
 		
 		// create an Hashed password
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String hashedPassword = passwordEncoder.encode(user.getPassword());
 		user.setPassword(hashedPassword);
 		
-		return ResponseEntity.ok(userService.save(user));
+		userService.save(user);
+		
+		return new ResponseEntity<>(Map.of("message", "User has been successfully created"), HttpStatus.CREATED);
 			
 	}
 	
 	@PostMapping("/login")
-	public void login(@RequestBody User user) {
+	public ResponseEntity<?> login(@RequestBody User user) {
+		if(user.getEmail() == null || user.getPassword() == null) {
+			Map<String, String> errorMap = new HashMap<>();
+			if (user.getEmail() == null) errorMap.put("Arg error", "Invalid email");
+			if (user.getPassword() == null) errorMap.put("Arg error", "Invalid password");
+			
+			return ResponseEntity.badRequest().body(errorMap);
+		}
+		
+		Optional<User> optionalUser = userService.getByEmail(user.getEmail());
+		if(optionalUser.isEmpty()) return new ResponseEntity<>(Map.of("error", "No user found with the specified email"), HttpStatus.NOT_FOUND);
+		
+		// Password check
+		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		boolean isPasswordValid = passwordEncoder.matches(user.getPassword(), optionalUser.get().getPassword());
+		
+		if(isPasswordValid) {
+			Long userId = user.getId();
+			String token = passwordEncoder.encode(userId.toString());
+			Map<String, String> resMap = new HashMap<>();
+			resMap.put("userId", userId.toString());
+			resMap.put("token", token);
+			return ResponseEntity.ok(resMap);
+		}		
+		
+		return new ResponseEntity<>(Map.of("error", "Incorrect password"), HttpStatus.UNAUTHORIZED);
 		
 	}
 	
 	@PutMapping("/{id}")
 	public void update(@PathVariable("id") Long id, @RequestBody User user) {
+		
 		
 	}
 	
