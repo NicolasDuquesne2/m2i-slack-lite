@@ -22,7 +22,7 @@ public class ChannelController {
 
     //add user service
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id) {
         Optional<Channel> optionalChannel = channelService.getById(id);
 
@@ -71,8 +71,12 @@ public class ChannelController {
     }
 
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Channel channel) {
+
+        if(id  == null) return ResponseEntity
+                .badRequest()
+                .body(Map.of("error", "The path variable must no be null"));
 
         if(channel.getId() != id) {
             return ResponseEntity
@@ -102,8 +106,13 @@ public class ChannelController {
         return new ResponseEntity<>(channelService.save(channel), HttpStatus.OK);
     }
 
-    @PatchMapping("{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<?> partialUpdate(@PathVariable Long id, @RequestBody Channel channel) {
+
+        if(id  == null) return ResponseEntity
+                .badRequest()
+                .body(Map.of("error", "The path variable must no be null"));
+
 
         if(id != channel.getId()) {
             return ResponseEntity
@@ -111,13 +120,12 @@ public class ChannelController {
                     .body(Map.of("error", "The path variable id must match with channel within body"));
         }
 
-        if(channel.getId() == null ||
+        if(channel.getUser() == null||
             channel.getUser().getId() == null) {
-
+            //add user check here
             Map<String, String> errorMap = new HashMap<>();
             if(channel.getUser() == null) errorMap.put("Arg error", "User must not be null");
             if(channel.getUser().getId() == null) errorMap.put("Arg error", "User's id must not be null");
-
             return ResponseEntity.badRequest().body(errorMap);
         }
 
@@ -139,7 +147,7 @@ public class ChannelController {
         return new ResponseEntity<>(channelService.save(fetchedChannel), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
 
         if(id == null) return ResponseEntity.badRequest().body(Map.of("error", "The id parameter must not be null"));
