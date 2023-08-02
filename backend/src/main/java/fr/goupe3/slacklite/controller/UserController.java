@@ -1,5 +1,6 @@
 package fr.goupe3.slacklite.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -7,6 +8,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,8 +47,28 @@ public class UserController {
 	}
 	
 	@PostMapping("/signup")
-	public void create(@RequestBody User user) {
+	public ResponseEntity<?> create(@RequestBody User user) {
+		if(user.getId() != null) return ResponseEntity.badRequest().body(Map.of("error", "The user body must not contains an id"));
 		
+		if(user.getName() == null || user.getEmail() == null || user.getPassword() == null) {
+			Map<String, String> errorMap = new HashMap<>();
+			if (user.getName() == null) errorMap.put("Arg error", "Name must not be null");
+			if (user.getEmail() == null) errorMap.put("Arg error", "Email must not be null");
+			if (user.getPassword() == null) errorMap.put("Arg error", "Password must not be null");
+			
+			return ResponseEntity.badRequest().body(errorMap);
+		}
+		
+		Optional<User> optionalUser = userService.getByEmail(user.getEmail());
+		if(optionalUser.isPresent()) return ResponseEntity.badRequest().body(Map.of("error", "The given email is already used"));;
+		
+		// create an Hashed password
+		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String hashedPassword = passwordEncoder.encode(user.getPassword());
+		user.setPassword(hashedPassword);
+		
+		return ResponseEntity.ok(userService.save(user));
+			
 	}
 	
 	@PostMapping("/login")
