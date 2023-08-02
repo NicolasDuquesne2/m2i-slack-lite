@@ -22,10 +22,10 @@ public class Post {
     private String text;
 
     @Column(nullable = false)
-    private LocalDateTime createDateTime;
+    private LocalDateTime createdDateTime;
 
     @Column(nullable = false)
-    private LocalDateTime updateTime;
+    private LocalDateTime updatedDateTime;
 
     @ManyToOne
     private User user;
@@ -65,20 +65,28 @@ public class Post {
         this.text = text;
     }
 
-    public LocalDateTime getCreateDateTime() {
-        return createDateTime;
+    
+    public LocalDateTime getCreatedDateTime() {
+        return createdDateTime;
     }
 
-    public void setCreateDateTime(LocalDateTime createDateTime) {
-        this.createDateTime = createDateTime;
+    public void setCreatedDateTime(LocalDateTime createdDateTime) {
+        this.createdDateTime = createdDateTime;
     }
 
-    public LocalDateTime getUpdateTime() {
-        return updateTime;
+    public LocalDateTime getUpdatedDateTime() {
+        return updatedDateTime;
     }
 
-    public void setUpdateTime(LocalDateTime updateTime) {
-        this.updateTime = updateTime;
+    public void setUpdatedDateTime(LocalDateTime updatedDateTime) {
+        this.updatedDateTime = updatedDateTime;
     }
 
+    @Override
+    public String toString() {
+        return "Post [id=" + id + ", text=" + text + ", createdDateTime=" + createdDateTime + ", updatedDateTime="
+                + updatedDateTime + ", user=" + user + ", channel=" + channel + "]";
+    }
+
+   
 }
