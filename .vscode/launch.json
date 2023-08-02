@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-SlackliteApplication<slacklite>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "fr.goupe3.slacklite.SlackliteApplication",
+            "projectName": "slacklite",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
