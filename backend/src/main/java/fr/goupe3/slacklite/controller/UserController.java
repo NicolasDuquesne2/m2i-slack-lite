@@ -8,8 +8,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -67,10 +67,10 @@ public class UserController {
 			return ResponseEntity.badRequest().body(Map.of("error", "The given email is already used"));
 
 		// create an Hashed password
-		/*PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String hashedPassword = passwordEncoder.encode(user.getPassword());
 		user.setPassword(hashedPassword);
-		*/
+		
 		userService.save(user);
 
 		return new ResponseEntity<>(Map.of("message", "User has been successfully created"), HttpStatus.CREATED);
@@ -97,14 +97,12 @@ public class UserController {
 		User fetchedUser = optionalUser.get();
 
 		// Password check
-		//PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		//boolean isPasswordValid = passwordEncoder.matches(user.getPassword(), optionalUser.get().getPassword());
-		boolean isPasswordValid = true;
+		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		boolean isPasswordValid = passwordEncoder.matches(user.getPassword(), optionalUser.get().getPassword());
 
 		if (isPasswordValid) {
 			Long userId = fetchedUser.getId();
-			//String token = passwordEncoder.encode(userId.toString());
-			String token = "token";
+			String token = passwordEncoder.encode(userId.toString());
 			Map<String, String> resMap = new HashMap<>();
 			resMap.put("userId", userId.toString());
 			resMap.put("token", token);
