@@ -8,5 +8,7 @@ import fr.goupe3.slacklite.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 	
-	public Optional<User> findOneByEmail(String email); 
+	public Optional<User> findOneByEmail(String email);
+	
+	public Boolean existsByEmail(String email);
 }
