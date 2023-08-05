@@ -62,11 +62,12 @@ public class UserController {
 			return ResponseEntity.badRequest().body(errorMap);
 		}
 
+		// Check if the email has already been used
 		Optional<User> optionalUser = userService.getByEmail(user.getEmail());
 		if (optionalUser.isPresent())
 			return ResponseEntity.badRequest().body(Map.of("error", "The given email is already used"));
 
-		// create an Hashed password
+		// Create an hashed password
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String hashedPassword = passwordEncoder.encode(user.getPassword());
 		user.setPassword(hashedPassword);
@@ -123,25 +124,39 @@ public class UserController {
 		if (id == null)
 			return ResponseEntity.badRequest().body(Map.of("error", "The id parameter must not be null"));
 
-		if (id != user.getId())
-			return ResponseEntity.badRequest().body(Map.of("error", "The id parameter must match to the user id"));
-
 		if (user.getId() == null)
 			return ResponseEntity.badRequest().body(Map.of("error", "The user id parameter must not be null"));
+
+		if (id != user.getId())
+			return ResponseEntity.badRequest().body(Map.of("error", "The id parameter must match to the user id"));
 
 		Optional<User> optionalUser = userService.getById(id);
 
 		if (optionalUser.isEmpty())
 			return new ResponseEntity<>(Map.of("error", "No user found with the specified email"),
 					HttpStatus.NOT_FOUND);
-		
+
 		User fetchedUser = optionalUser.get();
 		
-		if(user.getName() != null) fetchedUser.setName(user.getName());
-		if(user.getEmail() != null) fetchedUser.setEmail(user.getEmail());
-		if(user.getPassword() != null) fetchedUser.setPassword(user.getPassword());
-		if(user.getAvatar() != null) fetchedUser.setAvatar(user.getAvatar());
-		
+		if (user.getName() != null)
+			fetchedUser.setName(user.getName());
+		if (user.getEmail() != null && !user.getEmail().equals(fetchedUser.getEmail())) {
+			// Check if the email has already been used
+			Optional<User> optionalUserByEmail = userService.getByEmail(user.getEmail());
+			if (optionalUserByEmail.isPresent())
+				return ResponseEntity.badRequest().body(Map.of("error", "The given email is already used"));
+
+			fetchedUser.setEmail(user.getEmail());
+		}
+		if (user.getPassword() != null) {
+			// Create an hashed password
+			PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+			String hashedPassword = passwordEncoder.encode(user.getPassword());
+			fetchedUser.setPassword(hashedPassword);
+		}
+		if (user.getAvatar() != null)
+			fetchedUser.setAvatar(user.getAvatar());
+
 		return ResponseEntity.ok(userService.save(fetchedUser));
 	}
 
