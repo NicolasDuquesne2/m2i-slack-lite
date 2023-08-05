@@ -63,8 +63,7 @@ public class UserController {
 		}
 
 		// Check if the email has already been used
-		Optional<User> optionalUser = userService.getByEmail(user.getEmail());
-		if (optionalUser.isPresent())
+		if (userService.getEmailExist(user.getEmail()))
 			return ResponseEntity.badRequest().body(Map.of("error", "The given email is already used"));
 
 		// Create an hashed password
@@ -115,8 +114,44 @@ public class UserController {
 	}
 
 	@PutMapping("/{id}")
-	public void update(@PathVariable("id") Long id, @RequestBody User user) {
+	public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody User user) {
+		if (id == null)
+			return ResponseEntity.badRequest().body(Map.of("error", "The id parameter must not be null"));
 
+		if (id != user.getId())
+			return ResponseEntity.badRequest().body(Map.of("error", "The id parameter must match to the user id"));
+
+		if (user.getId() == null || user.getName() == null || user.getEmail() == null || user.getPassword() == null
+				|| user.getAvatar() == null) {
+
+			Map<String, String> errorMap = new HashMap<>();
+			if (user.getId() == null)
+				errorMap.put("Arg error", "Id must not be null");
+			if (user.getName() == null)
+				errorMap.put("Arg error", "Name must not be null");
+			if (user.getEmail() == null)
+				errorMap.put("Arg error", "Email must not be null");
+			if (user.getPassword() == null)
+				errorMap.put("Arg error", "Password must not be null");
+			if (user.getAvatar() == null)
+				errorMap.put("Arg error", "Avatar must not be null");
+
+			return ResponseEntity.badRequest().body(errorMap);
+		}
+
+		if (userService.getById(id).isEmpty())
+			return new ResponseEntity<>(Map.of("error", "No user found with the specified id"), HttpStatus.NOT_FOUND);
+
+		// Check if the email has already been used
+		if (userService.getEmailExist(user.getEmail()))
+			return ResponseEntity.badRequest().body(Map.of("error", "The given email is already used"));
+
+		// Create an hashed password
+		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String hashedPassword = passwordEncoder.encode(user.getPassword());
+		user.setPassword(hashedPassword);
+
+		return ResponseEntity.ok(userService.save(user));
 	}
 
 	@PatchMapping("/{id}")
@@ -133,17 +168,15 @@ public class UserController {
 		Optional<User> optionalUser = userService.getById(id);
 
 		if (optionalUser.isEmpty())
-			return new ResponseEntity<>(Map.of("error", "No user found with the specified email"),
-					HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(Map.of("error", "No user found with the specified id"), HttpStatus.NOT_FOUND);
 
 		User fetchedUser = optionalUser.get();
-		
+
 		if (user.getName() != null)
 			fetchedUser.setName(user.getName());
 		if (user.getEmail() != null && !user.getEmail().equals(fetchedUser.getEmail())) {
 			// Check if the email has already been used
-			Optional<User> optionalUserByEmail = userService.getByEmail(user.getEmail());
-			if (optionalUserByEmail.isPresent())
+			if (userService.getEmailExist(user.getEmail()))
 				return ResponseEntity.badRequest().body(Map.of("error", "The given email is already used"));
 
 			fetchedUser.setEmail(user.getEmail());
