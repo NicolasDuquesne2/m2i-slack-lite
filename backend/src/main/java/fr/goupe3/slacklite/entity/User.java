@@ -21,7 +21,7 @@ public class User {
 	@Column(nullable = false)
 	private String password;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	private String email;
 	
 	private String avatar;
@@ -73,6 +73,14 @@ public class User {
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", password=" + password + ", email=" + email + ", avatar="
+				+ avatar + "]";
+	}
+	
+	
 	
 	
 }
