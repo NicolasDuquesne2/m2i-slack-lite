@@ -138,12 +138,14 @@ public class UserController {
 
 			return ResponseEntity.badRequest().body(errorMap);
 		}
+		
+		Optional<User> optionalUser = userService.getById(id);
 
-		if (userService.getById(id).isEmpty())
+		if (optionalUser.isEmpty())
 			return new ResponseEntity<>(Map.of("error", "No user found with the specified id"), HttpStatus.NOT_FOUND);
 
 		// Check if the email has already been used
-		if (userService.getEmailExist(user.getEmail()))
+		if (userService.getEmailExist(user.getEmail()) && !user.getEmail().equals(optionalUser.get().getEmail()))
 			return ResponseEntity.badRequest().body(Map.of("error", "The given email is already used"));
 
 		// Create an hashed password
