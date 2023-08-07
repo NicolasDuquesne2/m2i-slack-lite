@@ -1,19 +1,18 @@
-package fr.goupe3.slacklite.service;
+package fr.m2i.slacklite.service;
 
 import java.util.List;
 import java.util.Optional;
 
+import fr.m2i.slacklite.entity.User;
+import fr.m2i.slacklite.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import fr.goupe3.slacklite.entity.User;
-import fr.goupe3.slacklite.repository.UserRepository;
 
 @Service
 public class UserService {
 	
 	@Autowired
-	UserRepository userRepository;	
+	UserRepository userRepository;
 	
 	public List<User> getAll() {
 		return userRepository.findAll();

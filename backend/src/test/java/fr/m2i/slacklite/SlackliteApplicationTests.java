@@ -1,4 +1,4 @@
-package fr.goupe3.slacklite;
+package fr.m2i.slacklite;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

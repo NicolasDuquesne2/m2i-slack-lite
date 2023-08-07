@@ -1,10 +1,11 @@
-package fr.goupe3.slacklite.controller;
+package fr.m2i.slacklite.controller;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import fr.m2i.slacklite.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +21,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import fr.goupe3.slacklite.entity.User;
-import fr.goupe3.slacklite.service.UserService;
+import fr.m2i.slacklite.service.UserService;
 
 @Controller
 @RequestMapping("/users")

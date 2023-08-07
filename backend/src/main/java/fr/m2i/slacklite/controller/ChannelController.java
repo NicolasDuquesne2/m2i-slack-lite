@@ -1,8 +1,10 @@
-package fr.goupe3.slacklite.controller;
+package fr.m2i.slacklite.controller;
 
 
-import fr.goupe3.slacklite.entity.Channel;
-import fr.goupe3.slacklite.service.ChannelService;
+import fr.m2i.slacklite.entity.Channel;
+import fr.m2i.slacklite.entity.User;
+import fr.m2i.slacklite.service.ChannelService;
+import fr.m2i.slacklite.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +22,8 @@ public class ChannelController {
     @Autowired
     ChannelService channelService;
 
-    //add user service
+    @Autowired
+    UserService userService;
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id) {
@@ -60,12 +63,18 @@ public class ChannelController {
             if(channel.getName() == null) errorMap.put("Arg error", "Name must not be null");
             if(channel.getUser() == null) errorMap.put("Arg error", "User must not be null");
             if(channel.getUser().getId() == null) errorMap.put("Arg error", "User's id must not be null");
-            if(channel.getDeletable() == null) errorMap.put("Arr error", "Deletable option must not be null");
-            if(channel.getColor() == null) errorMap.put("Arr error", "Color option must not be null");
-            //add user check here
+            if(channel.getDeletable() == null) errorMap.put("Arg error", "Deletable option must not be null");
+            if(channel.getColor() == null) errorMap.put("Arg error", "Color option must not be null");
+            if(userService.getById(channel.getUser().getId()).isEmpty()) errorMap.put("Arg error", "Channel user does not exists");
 
             return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
         }
+
+        //testing user with user id
+        Optional<User> optionalUser = userService.getById(channel.getUser().getId());
+
+        if (optionalUser.isEmpty())
+            return new ResponseEntity<>(Map.of("error", "No user found with the specified id"), HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(channelService.save(channel), HttpStatus.CREATED);
     }
@@ -96,12 +105,19 @@ public class ChannelController {
             if(channel.getName() == null) errorMap.put("Arg error", "Name must not be null");
             if(channel.getUser() == null) errorMap.put("Arg error", "User must not be null");
             if(channel.getUser().getId() == null) errorMap.put("Arg error", "User's id must not be null");
-            if(channel.getDeletable() == null) errorMap.put("Arr error", "Deletable option must not be null");
-            if(channel.getColor() == null) errorMap.put("Arr error", "Color option must not be null");
-            //add user check here
+            if(channel.getDeletable() == null) errorMap.put("Arg error", "Deletable option must not be null");
+            if(channel.getColor() == null) errorMap.put("Arg error", "Color option must not be null");
+            if(userService.getById(channel.getUser().getId()).isEmpty()) errorMap.put("Arg error", "Channel user does not exists");
 
             return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
         }
+
+        //testing user with user id
+        Optional<User> optionalUser = userService.getById(channel.getUser().getId());
+
+        if (optionalUser.isEmpty())
+            return new ResponseEntity<>(Map.of("error", "No user found with the specified id"), HttpStatus.NOT_FOUND);
+
 
         return new ResponseEntity<>(channelService.save(channel), HttpStatus.OK);
     }
@@ -126,6 +142,7 @@ public class ChannelController {
             Map<String, String> errorMap = new HashMap<>();
             if(channel.getUser() == null) errorMap.put("Arg error", "User must not be null");
             if(channel.getUser().getId() == null) errorMap.put("Arg error", "User's id must not be null");
+            if(userService.getById(channel.getUser().getId()).isEmpty()) errorMap.put("Arg error", "Channel user does not exists");
             return ResponseEntity.badRequest().body(errorMap);
         }
 
@@ -137,6 +154,12 @@ public class ChannelController {
                     HttpStatus.NOT_FOUND);
         }
 
+        //testing user with user id
+        Optional<User> optionalUser = userService.getById(channel.getUser().getId());
+
+        if (optionalUser.isEmpty())
+            return new ResponseEntity<>(Map.of("error", "No user found with the specified id"), HttpStatus.NOT_FOUND);
+
         Channel fetchedChannel = optionalChannel.get();
 
         if(channel.getUser() != null) fetchedChannel.setUser(channel.getUser());
@@ -144,7 +167,7 @@ public class ChannelController {
         if(channel.getColor() != null) fetchedChannel.setColor(channel.getColor());
         if(channel.getName() != null) fetchedChannel.setName(channel.getName());
 
-        return new ResponseEntity<>(channelService.save(fetchedChannel), HttpStatus.CREATED);
+        return new ResponseEntity<>(channelService.save(fetchedChannel), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

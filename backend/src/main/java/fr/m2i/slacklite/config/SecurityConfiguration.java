@@ -1,4 +1,4 @@
-package fr.goupe3.slacklite.config;
+package fr.m2i.slacklite.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

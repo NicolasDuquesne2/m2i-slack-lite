@@ -1,10 +1,12 @@
-package fr.goupe3.slacklite.controller;
+package fr.m2i.slacklite.controller;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import fr.m2i.slacklite.entity.Post;
+import fr.m2i.slacklite.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.goupe3.slacklite.entity.Post;
-import fr.goupe3.slacklite.service.PostService;
 import java.time.LocalDateTime;
 
 @RestController

@@ -1,7 +1,7 @@
-package fr.goupe3.slacklite.entity;
+package fr.m2i.slacklite.entity;
 
 
-import fr.goupe3.slacklite.enums.ColorEnum;
+import fr.m2i.slacklite.enums.ColorEnum;
 import jakarta.persistence.*;
 
 @Entity

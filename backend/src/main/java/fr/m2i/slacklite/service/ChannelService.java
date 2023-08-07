@@ -1,9 +1,8 @@
-package fr.goupe3.slacklite.service;
+package fr.m2i.slacklite.service;
 
-import fr.goupe3.slacklite.entity.Channel;
-import fr.goupe3.slacklite.repository.ChannelRepository;
+import fr.m2i.slacklite.entity.Channel;
+import fr.m2i.slacklite.repository.ChannelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

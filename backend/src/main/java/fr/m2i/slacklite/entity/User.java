@@ -1,4 +1,4 @@
-package fr.goupe3.slacklite.entity;
+package fr.m2i.slacklite.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

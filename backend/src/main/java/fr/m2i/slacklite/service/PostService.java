@@ -1,11 +1,12 @@
-package fr.goupe3.slacklite.service;
+package fr.m2i.slacklite.service;
 
 import java.util.List;
 import java.util.Optional;
+
+import fr.m2i.slacklite.entity.Post;
+import fr.m2i.slacklite.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import fr.goupe3.slacklite.entity.Post;
-import fr.goupe3.slacklite.repository.PostRepository;
 
 @Service
 public class PostService {

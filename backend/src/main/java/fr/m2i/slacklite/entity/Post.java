@@ -1,4 +1,4 @@
-package fr.goupe3.slacklite.entity;
+package fr.m2i.slacklite.entity;
 
 import java.time.LocalDateTime;
 
