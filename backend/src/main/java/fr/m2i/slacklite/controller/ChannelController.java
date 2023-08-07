@@ -2,6 +2,7 @@ package fr.m2i.slacklite.controller;
 
 
 import fr.m2i.slacklite.entity.Channel;
+import fr.m2i.slacklite.interfaces.ChannelProjection;
 import fr.m2i.slacklite.service.ChannelService;
 import fr.m2i.slacklite.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class ChannelController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id) {
-        Optional<Channel> optionalChannel = channelService.getById(id);
+        Optional<ChannelProjection> optionalChannel = channelService.getByIdChannelProjection(id);
 
         if(optionalChannel.isEmpty()) {
             return new ResponseEntity<>(Map.of(
@@ -37,8 +38,8 @@ public class ChannelController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<Channel>> getAll() {
-        return ResponseEntity.ok(channelService.getAll());
+    public ResponseEntity<List<ChannelProjection>> getAll() {
+        return ResponseEntity.ok(channelService.getAllChannelProjection());
     }
 
 
@@ -75,7 +76,8 @@ public class ChannelController {
         //returns an error map if issue on channel object
         if(!errorMap.isEmpty()) return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
 
-        return new ResponseEntity<>(channelService.save(channel), HttpStatus.CREATED);
+        channelService.save(channel);
+        return new ResponseEntity<>(Map.of("message", "The Channel has been successfully created"), HttpStatus.CREATED);
     }
 
 
@@ -113,7 +115,9 @@ public class ChannelController {
             if(channel.getColor() == null) errorMap.put("Arg error color", "Color option must not be null");
         }
 
-        return new ResponseEntity<>(channelService.save(channel), HttpStatus.OK);
+        channelService.save(channel);
+
+        return ResponseEntity.ok(Map.of("message", "The Channel has been successfully updated"));
     }
 
     @PatchMapping("/{id}")
@@ -155,7 +159,9 @@ public class ChannelController {
         if(channel.getColor() != null) fetchedChannel.setColor(channel.getColor());
         if(channel.getName() != null) fetchedChannel.setName(channel.getName());
 
-        return new ResponseEntity<>(channelService.save(fetchedChannel), HttpStatus.OK);
+        channelService.save(fetchedChannel);
+
+        return ResponseEntity.ok(Map.of("message", "The Channel has been successfully updated"));
     }
 
     @DeleteMapping("/{id}")
@@ -177,6 +183,6 @@ public class ChannelController {
                     HttpStatus.NOT_FOUND);
         }
 
-        return ResponseEntity.ok(Map.of("Delete success", "The Channel has been successfully been deleted"));
+        return ResponseEntity.ok(Map.of("message", "The Channel has been successfully been deleted"));
     }
 }
