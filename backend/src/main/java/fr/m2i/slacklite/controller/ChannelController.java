@@ -60,12 +60,12 @@ public class ChannelController {
                 channel.getColor() == null) {
 
             Map<String, String> errorMap = new HashMap<>();
-            if(channel.getName() == null) errorMap.put("Arg error", "Name must not be null");
-            if(channel.getUser() == null) errorMap.put("Arg error", "User must not be null");
-            if(channel.getUser().getId() == null) errorMap.put("Arg error", "User's id must not be null");
-            if(channel.getDeletable() == null) errorMap.put("Arg error", "Deletable option must not be null");
-            if(channel.getColor() == null) errorMap.put("Arg error", "Color option must not be null");
-            if(userService.getById(channel.getUser().getId()).isEmpty()) errorMap.put("Arg error", "Channel user does not exists");
+            if(channel.getName() == null) errorMap.put("Arg error name", "Name must not be null");
+            if(channel.getUser() == null) errorMap.put("Arg error user", "User must not be null");
+            if(channel.getUser().getId() == null) errorMap.put("Arg error user id", "User's id must not be null");
+            if(channel.getDeletable() == null) errorMap.put("Arg error deletable", "Deletable option must not be null");
+            if(channel.getColor() == null) errorMap.put("Arg error color", "Color option must not be null");
+            if(userService.getById(channel.getUser().getId()).isEmpty()) errorMap.put("Arg error bad user", "Channel user does not exists");
 
             return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
         }
@@ -101,13 +101,13 @@ public class ChannelController {
                 channel.getColor() == null) {
 
             Map<String, String> errorMap = new HashMap<>();
-            if(channel.getId() == null) errorMap.put("Arg error", "Channel post id must not be null");
-            if(channel.getName() == null) errorMap.put("Arg error", "Name must not be null");
-            if(channel.getUser() == null) errorMap.put("Arg error", "User must not be null");
-            if(channel.getUser().getId() == null) errorMap.put("Arg error", "User's id must not be null");
-            if(channel.getDeletable() == null) errorMap.put("Arg error", "Deletable option must not be null");
-            if(channel.getColor() == null) errorMap.put("Arg error", "Color option must not be null");
-            if(userService.getById(channel.getUser().getId()).isEmpty()) errorMap.put("Arg error", "Channel user does not exists");
+            if(channel.getId() == null) errorMap.put("Arg error id", "Channel post id must not be null");
+            if(channel.getName() == null) errorMap.put("Arg error name", "Name must not be null");
+            if(channel.getUser() == null) errorMap.put("Arg error user", "User must not be null");
+            if(channel.getUser().getId() == null) errorMap.put("Arg error user id", "User's id must not be null");
+            if(channel.getDeletable() == null) errorMap.put("Arg error deletable", "Deletable option must not be null");
+            if(channel.getColor() == null) errorMap.put("Arg error color", "Color option must not be null");
+            if(userService.getById(channel.getUser().getId()).isEmpty()) errorMap.put("Arg error bad user", "Channel user does not exists");
 
             return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
         }
@@ -140,9 +140,9 @@ public class ChannelController {
             channel.getUser().getId() == null) {
             //add user check here
             Map<String, String> errorMap = new HashMap<>();
-            if(channel.getUser() == null) errorMap.put("Arg error", "User must not be null");
-            if(channel.getUser().getId() == null) errorMap.put("Arg error", "User's id must not be null");
-            if(userService.getById(channel.getUser().getId()).isEmpty()) errorMap.put("Arg error", "Channel user does not exists");
+            if(channel.getUser() == null) errorMap.put("Arg error user", "User must not be null");
+            if(channel.getUser().getId() == null) errorMap.put("Arg error user id", "User's id must not be null");
+            if(userService.getById(channel.getUser().getId()).isEmpty()) errorMap.put("Arg error bad user", "Channel user does not exists");
             return ResponseEntity.badRequest().body(errorMap);
         }
 

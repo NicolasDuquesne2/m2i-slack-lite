@@ -53,11 +53,11 @@ public class UserController {
 		if (user.getName() == null || user.getEmail() == null || user.getPassword() == null) {
 			Map<String, String> errorMap = new HashMap<>();
 			if (user.getName() == null)
-				errorMap.put("Arg error", "Name must not be null");
+				errorMap.put("Arg error name", "Name must not be null");
 			if (user.getEmail() == null)
-				errorMap.put("Arg error", "Email must not be null");
+				errorMap.put("Arg error email", "Email must not be null");
 			if (user.getPassword() == null)
-				errorMap.put("Arg error", "Password must not be null");
+				errorMap.put("Arg error password", "Password must not be null");
 
 			return ResponseEntity.badRequest().body(errorMap);
 		}
@@ -82,9 +82,9 @@ public class UserController {
 		if (user.getEmail() == null || user.getPassword() == null) {
 			Map<String, String> errorMap = new HashMap<>();
 			if (user.getEmail() == null)
-				errorMap.put("Arg error", "Invalid email");
+				errorMap.put("Arg error mail", "Invalid email");
 			if (user.getPassword() == null)
-				errorMap.put("Arg error", "Invalid password");
+				errorMap.put("Arg error password", "Invalid password");
 
 			return ResponseEntity.badRequest().body(errorMap);
 		}
@@ -126,15 +126,15 @@ public class UserController {
 
 			Map<String, String> errorMap = new HashMap<>();
 			if (user.getId() == null)
-				errorMap.put("Arg error", "Id must not be null");
+				errorMap.put("Arg error id", "Id must not be null");
 			if (user.getName() == null)
-				errorMap.put("Arg error", "Name must not be null");
+				errorMap.put("Arg error name", "Name must not be null");
 			if (user.getEmail() == null)
-				errorMap.put("Arg error", "Email must not be null");
+				errorMap.put("Arg error email", "Email must not be null");
 			if (user.getPassword() == null)
-				errorMap.put("Arg error", "Password must not be null");
+				errorMap.put("Arg error password", "Password must not be null");
 			if (user.getAvatar() == null)
-				errorMap.put("Arg error", "Avatar must not be null");
+				errorMap.put("Arg error avatar", "Avatar must not be null");
 
 			return ResponseEntity.badRequest().body(errorMap);
 		}

@@ -59,15 +59,15 @@ public class PostController {
                 post.getText() == null) {
             Map<String, String> errorMap = new HashMap<>();
             if (post.getChannel() == null)
-                errorMap.put("Arg error", "Channel must not be null");
+                errorMap.put("Arg error channel", "Channel must not be null");
             if (post.getUser() == null)
-                errorMap.put("Arg error", "User must not be null");
+                errorMap.put("Arg error user", "User must not be null");
             if (post.getText() == null)
-                errorMap.put("Arg error", "Text must not be null");
+                errorMap.put("Arg error text", "Text must not be null");
             if (post.getChannel().getId() == null)
-                errorMap.put("Arg error", "channel id must not be null");
+                errorMap.put("Arg error channel id", "channel id must not be null");
             if (post.getUser().getId() == null)
-                errorMap.put("Arg error", "user id must not be null");
+                errorMap.put("Arg error user id", "user id must not be null");
 
             return ResponseEntity.badRequest().body(errorMap);
         }
