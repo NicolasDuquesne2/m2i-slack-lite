@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import fr.m2i.slacklite.entity.User;
+import fr.m2i.slacklite.interfaces.UserProjection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,13 +33,13 @@ public class UserController {
 	UserService userService;
 
 	@GetMapping("")
-	public ResponseEntity<List<User>> getAll() {
-		return ResponseEntity.ok(userService.getAll());
+	public ResponseEntity<List<UserProjection>> getAll() {
+		return ResponseEntity.ok(userService.getAllUserProjection());
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getById(@PathVariable("id") Long id) {
-		Optional<User> optionalUser = userService.getById(id);
+		Optional<UserProjection> optionalUser = userService.getByIdUserProjection(id);
 
 		if (optionalUser.isPresent())
 			return ResponseEntity.ok(optionalUser.get());
@@ -152,8 +154,10 @@ public class UserController {
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String hashedPassword = passwordEncoder.encode(user.getPassword());
 		user.setPassword(hashedPassword);
-
-		return ResponseEntity.ok(userService.save(user));
+		
+		userService.save(user);
+		
+		return ResponseEntity.ok(Map.of("message", "User has been successfully updated"));
 	}
 
 	@PatchMapping("/{id}")
@@ -191,8 +195,10 @@ public class UserController {
 		}
 		if (user.getAvatar() != null)
 			fetchedUser.setAvatar(user.getAvatar());
-
-		return ResponseEntity.ok(userService.save(fetchedUser));
+		
+		userService.save(fetchedUser);
+		
+		return ResponseEntity.ok(Map.of("message", "User has been successfully updated"));
 	}
 
 	@DeleteMapping("/{id}")
