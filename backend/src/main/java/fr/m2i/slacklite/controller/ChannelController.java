@@ -52,29 +52,29 @@ public class ChannelController {
                     .body(Map.of("error", "The channel body must not contains an id"));
         }
 
+        //Channel object tests
 
+        Map<String, String> errorMap = new HashMap<>();
+
+        //channel users
+        if(channel.getUser() == null) {
+            errorMap.put("Arg error user", "User must not be null");
+        } else if(channel.getUser().getId() == null) {
+            errorMap.put("Arg error user id", "User's id must not be null");
+        } else if(userService.getById(channel.getUser().getId()).isEmpty())
+            errorMap.put("Arg error bad user", "Channel user does not exists");
+
+        //channel its self
         if(channel.getName() == null ||
-                channel.getUser() == null ||
-                channel.getUser().getId() == null ||
                 channel.getDeletable() == null ||
                 channel.getColor() == null) {
-
-            Map<String, String> errorMap = new HashMap<>();
             if(channel.getName() == null) errorMap.put("Arg error name", "Name must not be null");
-            if(channel.getUser() == null) errorMap.put("Arg error user", "User must not be null");
-            if(channel.getUser().getId() == null) errorMap.put("Arg error user id", "User's id must not be null");
             if(channel.getDeletable() == null) errorMap.put("Arg error deletable", "Deletable option must not be null");
             if(channel.getColor() == null) errorMap.put("Arg error color", "Color option must not be null");
-            if(userService.getById(channel.getUser().getId()).isEmpty()) errorMap.put("Arg error bad user", "Channel user does not exists");
-
-            return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
         }
 
-        //testing user with user id
-        Optional<User> optionalUser = userService.getById(channel.getUser().getId());
-
-        if (optionalUser.isEmpty())
-            return new ResponseEntity<>(Map.of("error", "No user found with the specified id"), HttpStatus.NOT_FOUND);
+        //returns an error map if issue on channel object
+        if(!errorMap.isEmpty()) return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
 
         return new ResponseEntity<>(channelService.save(channel), HttpStatus.CREATED);
     }
@@ -93,31 +93,26 @@ public class ChannelController {
                     .body(Map.of("error", "The path variable id must match with channel within body"));
         }
 
-        if(channel.getId() == null ||
-                channel.getName() == null ||
-                channel.getUser() == null ||
-                channel.getUser().getId() == null ||
+        //Channel object tests
+
+        Map<String, String> errorMap = new HashMap<>();
+
+        //channel users
+        if(channel.getUser() == null) {
+            errorMap.put("Arg error user", "User must not be null");
+        } else if(channel.getUser().getId() == null) {
+            errorMap.put("Arg error user id", "User's id must not be null");
+        } else if(userService.getById(channel.getUser().getId()).isEmpty())
+            errorMap.put("Arg error bad user", "Channel user does not exists");
+
+        //channel its self
+        if(channel.getName() == null ||
                 channel.getDeletable() == null ||
                 channel.getColor() == null) {
-
-            Map<String, String> errorMap = new HashMap<>();
-            if(channel.getId() == null) errorMap.put("Arg error id", "Channel post id must not be null");
             if(channel.getName() == null) errorMap.put("Arg error name", "Name must not be null");
-            if(channel.getUser() == null) errorMap.put("Arg error user", "User must not be null");
-            if(channel.getUser().getId() == null) errorMap.put("Arg error user id", "User's id must not be null");
             if(channel.getDeletable() == null) errorMap.put("Arg error deletable", "Deletable option must not be null");
             if(channel.getColor() == null) errorMap.put("Arg error color", "Color option must not be null");
-            if(userService.getById(channel.getUser().getId()).isEmpty()) errorMap.put("Arg error bad user", "Channel user does not exists");
-
-            return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
         }
-
-        //testing user with user id
-        Optional<User> optionalUser = userService.getById(channel.getUser().getId());
-
-        if (optionalUser.isEmpty())
-            return new ResponseEntity<>(Map.of("error", "No user found with the specified id"), HttpStatus.NOT_FOUND);
-
 
         return new ResponseEntity<>(channelService.save(channel), HttpStatus.OK);
     }
@@ -136,15 +131,15 @@ public class ChannelController {
                     .body(Map.of("error", "The path variable id must match with channel within body"));
         }
 
-        if(channel.getUser() == null||
-            channel.getUser().getId() == null) {
-            //add user check here
-            Map<String, String> errorMap = new HashMap<>();
-            if(channel.getUser() == null) errorMap.put("Arg error user", "User must not be null");
-            if(channel.getUser().getId() == null) errorMap.put("Arg error user id", "User's id must not be null");
-            if(userService.getById(channel.getUser().getId()).isEmpty()) errorMap.put("Arg error bad user", "Channel user does not exists");
-            return ResponseEntity.badRequest().body(errorMap);
-        }
+
+        //channel users
+        if(channel.getUser() == null) {
+             return ResponseEntity.badRequest().body(Map.of("Arg error user", "User must not be null"));
+        } else if(channel.getUser().getId() == null) {
+            return ResponseEntity.badRequest().body(Map.of("Arg error user id", "User's id must not be null"));
+        } else if(userService.getById(channel.getUser().getId()).isEmpty())
+            return ResponseEntity.badRequest().body(Map.of("Arg error bad user", "Channel user does not exists"));
+
 
         Optional<Channel> optionalChannel = channelService.getById(id);
 
@@ -153,13 +148,7 @@ public class ChannelController {
                     "error", "No Channel found with the specified id)"),
                     HttpStatus.NOT_FOUND);
         }
-
-        //testing user with user id
-        Optional<User> optionalUser = userService.getById(channel.getUser().getId());
-
-        if (optionalUser.isEmpty())
-            return new ResponseEntity<>(Map.of("error", "No user found with the specified id"), HttpStatus.NOT_FOUND);
-
+        
         Channel fetchedChannel = optionalChannel.get();
 
         if(channel.getUser() != null) fetchedChannel.setUser(channel.getUser());
