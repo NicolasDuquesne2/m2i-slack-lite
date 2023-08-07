@@ -1,6 +1,7 @@
 package fr.m2i.slacklite.service;
 
 import fr.m2i.slacklite.entity.Channel;
+import fr.m2i.slacklite.interfaces.ChannelProjection;
 import fr.m2i.slacklite.repository.ChannelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,16 @@ public class ChannelService {
         return channelRepository.findById(id);
     }
 
+    public Optional<ChannelProjection> getByIdChannelProjection(Long id) {
+        return channelRepository.findOneById(id);
+    }
+
     public List<Channel> getAll() {
         return channelRepository.findAll();
+    }
+
+    public List<ChannelProjection> getAllChannelProjection() {
+        return channelRepository.findAllBy();
     }
 
     public Channel save(Channel channel) {

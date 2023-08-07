@@ -16,7 +16,7 @@ public class Channel {
     private String name;
 
     @Column(nullable = false)
-    private Boolean isDeletable;
+    private Boolean deletable;
 
     @Column(nullable = false)
     @Enumerated(EnumType.ORDINAL)
@@ -42,11 +42,11 @@ public class Channel {
     }
 
     public Boolean getDeletable() {
-        return isDeletable;
+        return deletable;
     }
 
     public void setDeletable(Boolean deletable) {
-        isDeletable = deletable;
+        this.deletable = deletable;
     }
 
     public ColorEnum getColor() {
@@ -70,7 +70,7 @@ public class Channel {
         return "Channel{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", isDeletable=" + isDeletable +
+                ", deletable=" + deletable +
                 ", color=" + color +
                 ", user=" + user +
                 '}';
