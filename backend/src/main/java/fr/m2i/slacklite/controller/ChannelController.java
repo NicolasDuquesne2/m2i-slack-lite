@@ -2,7 +2,6 @@ package fr.m2i.slacklite.controller;
 
 
 import fr.m2i.slacklite.entity.Channel;
-import fr.m2i.slacklite.entity.User;
 import fr.m2i.slacklite.service.ChannelService;
 import fr.m2i.slacklite.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -148,7 +147,7 @@ public class ChannelController {
                     "error", "No Channel found with the specified id)"),
                     HttpStatus.NOT_FOUND);
         }
-        
+
         Channel fetchedChannel = optionalChannel.get();
 
         if(channel.getUser() != null) fetchedChannel.setUser(channel.getUser());
