@@ -6,7 +6,11 @@ import java.util.Map;
 import java.util.Optional;
 
 import fr.m2i.slacklite.entity.Post;
+import fr.m2i.slacklite.interfaces.PostProjection;
+import fr.m2i.slacklite.service.ChannelService;
 import fr.m2i.slacklite.service.PostService;
+import fr.m2i.slacklite.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +32,15 @@ public class PostController {
     @Autowired
     private PostService postService;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private ChannelService channelService;
+
     @GetMapping("{id}")
     public ResponseEntity<?> getById(@PathVariable Long id) {
-        Optional<Post> optionalPost = postService.getById(id);
+        Optional<PostProjection> optionalPost = postService.getByIdPostProjection(id);
 
         if (optionalPost.isEmpty()) {
             return new ResponseEntity<>(Map.of("error", "No Post found with the specified id"), HttpStatus.NOT_FOUND);
@@ -41,8 +51,8 @@ public class PostController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<Post>> getAll() {
-        return ResponseEntity.ok(postService.getAll());
+    public ResponseEntity<List<PostProjection>> getAll() {
+        return ResponseEntity.ok(postService.getAllPostProjection());
     }
 
     @PostMapping("")
@@ -50,33 +60,42 @@ public class PostController {
 
         if (post.getId() != null) {
             return ResponseEntity.badRequest().body(Map.of("error", "The post body must not contains an id)"));
-
         }
-        if (post.getChannel() == null ||
-                post.getChannel().getId() == null ||
-                post.getUser() == null ||
-                post.getUser().getId() == null ||
-                post.getText() == null) {
-            Map<String, String> errorMap = new HashMap<>();
-            if (post.getChannel() == null)
-                errorMap.put("Arg error channel", "Channel must not be null");
-            if (post.getUser() == null)
-                errorMap.put("Arg error user", "User must not be null");
-            if (post.getText() == null)
-                errorMap.put("Arg error text", "Text must not be null");
-            if (post.getChannel().getId() == null)
-                errorMap.put("Arg error channel id", "channel id must not be null");
-            if (post.getUser().getId() == null)
-                errorMap.put("Arg error user id", "user id must not be null");
 
+        // Post object tests
+
+        Map<String, String> errorMap = new HashMap<>();
+
+        // Post users
+        if (post.getUser() == null) {
+            errorMap.put("Arg error user", "User must not be null");
+        } else if (post.getUser().getId() == null) {
+            errorMap.put("Arg error user id", "User's id must not be null");
+        } else if (userService.getById(post.getUser().getId()).isEmpty())
+            errorMap.put("Arg error bad user", "Post user does not exists");
+
+        // Post channels
+        if (post.getChannel() == null) {
+            errorMap.put("Arg error channel", "Channel must not be null");
+        } else if (post.getChannel().getId() == null) {
+            errorMap.put("Arg error channel id", "Channel's id must not be null");
+        } else if (channelService.getById(post.getChannel().getId()).isEmpty())
+            errorMap.put("Arg error bad channel", "Post channel does not exists");
+
+        if (post.getText() == null)
+            errorMap.put("Arg error text", "Text must not be null");
+
+        // returns an error map if issue on post object
+        if (!errorMap.isEmpty())
             return ResponseEntity.badRequest().body(errorMap);
-        }
+
         post.setCreatedDateTime(LocalDateTime.now());
         post.setUpdatedDateTime(LocalDateTime.now());
-        return new ResponseEntity<>(postService.save(post), HttpStatus.CREATED);
+        postService.save(post);
+        return new ResponseEntity<>(Map.of("message", "The Post has been successfully created"), HttpStatus.CREATED);
     }
 
-   
+    
     @PatchMapping("{id}")
     public ResponseEntity<?> partialUpdate(@PathVariable Long id, @RequestBody Post post) {
         if (id == null || post.getId() == null || id != post.getId()) {
