@@ -101,7 +101,7 @@ public class PostController {
         if (id == null)
             return ResponseEntity.badRequest().body(Map.of("error", "The path variable must not be null"));
         if (post.getId() != id) {
-            return ResponseEntity.badRequest().body(Map.of("error", "The post body must not contains an id"));
+            return ResponseEntity.badRequest().body(Map.of("error", "The post body must contains an id"));
         }
 
         // Post object tests
