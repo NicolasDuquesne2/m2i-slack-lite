@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -90,6 +91,52 @@ public class PostController {
             return ResponseEntity.badRequest().body(errorMap);
 
         post.setCreatedDateTime(LocalDateTime.now());
+        post.setUpdatedDateTime(LocalDateTime.now());
+        postService.save(post);
+        return new ResponseEntity<>(Map.of("message", "The Post has been successfully created"), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Post post) {
+        if (id == null)
+            return ResponseEntity.badRequest().body(Map.of("error", "The path variable must not be null"));
+        if (post.getId() != id) {
+            return ResponseEntity.badRequest().body(Map.of("error", "The post body must not contains an id"));
+        }
+
+        // Post object tests
+
+        Map<String, String> errorMap = new HashMap<>();
+
+        // Post users
+        if (post.getUser() == null) {
+            errorMap.put("Arg error user", "User must not be null");
+        } else if (post.getUser().getId() == null) {
+            errorMap.put("Arg error user id", "User's id must not be null");
+        } else if (userService.getById(post.getUser().getId()).isEmpty())
+            errorMap.put("Arg error bad user", "Post user does not exists");
+
+        // Post channels
+        if (post.getChannel() == null) {
+            errorMap.put("Arg error channel", "Channel must not be null");
+        } else if (post.getChannel().getId() == null) {
+            errorMap.put("Arg error channel id", "Channel's id must not be null");
+        } else if (channelService.getById(post.getChannel().getId()).isEmpty())
+            errorMap.put("Arg error bad channel", "Post channel does not exists");
+
+        if (post.getText() == null)
+            errorMap.put("Arg error text", "Text must not be null");
+
+        // returns an error map if issue on post object
+        if (!errorMap.isEmpty())
+            return ResponseEntity.badRequest().body(errorMap);
+
+        Optional<Post> optionalPost = postService.getById(id);
+        if (optionalPost.isEmpty())
+            return new ResponseEntity<>(Map.of("error", "No Post found with the specified id"), HttpStatus.NOT_FOUND);
+
+        Post fetchedPost = optionalPost.get();
+        post.setCreatedDateTime(fetchedPost.getCreatedDateTime());
         post.setUpdatedDateTime(LocalDateTime.now());
         postService.save(post);
         return new ResponseEntity<>(Map.of("message", "The Post has been successfully created"), HttpStatus.CREATED);
