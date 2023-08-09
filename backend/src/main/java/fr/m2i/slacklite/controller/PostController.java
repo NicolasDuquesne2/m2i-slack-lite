@@ -95,13 +95,23 @@ public class PostController {
         return new ResponseEntity<>(Map.of("message", "The Post has been successfully created"), HttpStatus.CREATED);
     }
 
-    
     @PatchMapping("{id}")
     public ResponseEntity<?> partialUpdate(@PathVariable Long id, @RequestBody Post post) {
         if (id == null || post.getId() == null || id != post.getId()) {
             return ResponseEntity.badRequest()
                     .body(Map.of("error", "The id parameter must not be null and must match the post's id"));
         }
+
+        // post users
+        if (post.getUser() != null && post.getUser().getId() != null
+                && userService.getById(post.getUser().getId()).isEmpty())
+            return ResponseEntity.badRequest().body(Map.of("Arg error bad user", "Post user does not exists"));
+
+        // post channels
+        if (post.getChannel() != null && post.getChannel().getId() != null
+                && channelService.getById(post.getChannel().getId()).isEmpty())
+            return ResponseEntity.badRequest().body(Map.of("Arg error bad channel", "Post channel does not exists"));
+
         Optional<Post> optionalPost = postService.getById(id);
         if (optionalPost.isEmpty())
             return new ResponseEntity<>(Map.of("error", "No Post found with the specified id"), HttpStatus.NOT_FOUND);
@@ -116,7 +126,9 @@ public class PostController {
         if (post.getText() != null)
             fetchedPost.setText(post.getText());
 
-        return new ResponseEntity<>(postService.save(fetchedPost), HttpStatus.CREATED);
+        postService.save(fetchedPost);
+
+        return ResponseEntity.ok(Map.of("message", "The Post has been successfully updated"));
 
     }
 
