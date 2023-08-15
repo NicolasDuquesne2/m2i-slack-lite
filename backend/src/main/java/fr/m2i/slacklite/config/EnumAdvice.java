@@ -13,6 +13,6 @@ public class EnumAdvice {
     public ResponseEntity<Object> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
         return ResponseEntity
                 .badRequest()
-                .body(Map.of("Arg error", "Invalid color value"));
+                .body(Map.of("Arg error", e.getMessage()));
     }
 }
