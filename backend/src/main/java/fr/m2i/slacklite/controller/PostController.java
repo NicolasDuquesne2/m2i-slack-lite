@@ -83,8 +83,8 @@ public class PostController {
 		} else if (channelService.getById(post.getChannel().getId()).isEmpty())
 			errorMap.put("Arg error bad channel", "Post channel does not exists");
 
-		if (post.getText() == null)
-			errorMap.put("Arg error text", "Text must not be null");
+		if (post.getText() == null || post.getText().length() == 0)
+			errorMap.put("Arg error text", "Text must not be null or empty");
 
 		// returns an error map if issue on post object
 		if (!errorMap.isEmpty())
@@ -126,8 +126,8 @@ public class PostController {
 		} else if (channelService.getById(post.getChannel().getId()).isEmpty())
 			errorMap.put("Arg error bad channel", "Post channel does not exists");
 
-		if (post.getText() == null)
-			errorMap.put("Arg error text", "Text must not be null");
+		if (post.getText() == null || post.getText().length() == 0)
+			errorMap.put("Arg error text", "Text must not be null or empty");
 
 		// returns an error map if issue on post object
 		if (!errorMap.isEmpty())
@@ -151,25 +151,32 @@ public class PostController {
 					.body(Map.of("error", "The id parameter must not be null and must match the post's id"));
 		}
 
+		Map<String, String> errorMap = new HashMap<>();
+
 		// Post users
 		if (post.getUser() != null) {
-			if (post.getUser().getId() == null)
-				return ResponseEntity.badRequest().body(Map.of("Arg error user id", "User's id must not be null"));
-
-			if (userService.getById(post.getUser().getId()).isEmpty())
-				return ResponseEntity.badRequest().body(Map.of("Arg error bad user", "Post user does not exists"));
+			if (post.getUser().getId() == null) {
+				errorMap.put("Arg error user id", "User's id must not be null");
+			} else if (userService.getById(post.getUser().getId()).isEmpty()) {
+				errorMap.put("Arg error bad user", "Post user does not exists");
+			}				
 		}
 
 		// post channels
 		if (post.getChannel() != null) {
-			if (post.getChannel().getId() == null)
-				return ResponseEntity.badRequest()
-						.body(Map.of("Arg error channel id", "Channel's id must not be null"));
-
-			if (channelService.getById(post.getChannel().getId()).isEmpty())
-				return ResponseEntity.badRequest()
-						.body(Map.of("Arg error bad channel", "Post channel does not exists"));
+			if (post.getChannel().getId() == null) {
+				errorMap.put("Arg error channel id", "Channel's id must not be null");
+			} else if (channelService.getById(post.getChannel().getId()).isEmpty()) {
+				errorMap.put("Arg error bad channel", "Post channel does not exists");
+			}
 		}
+
+		if (post.getText() != null && post.getText().length() == 0)
+			errorMap.put("Arg error text", "Text must not be null or empty");
+
+		// returns an error map if issue on post object
+		if (!errorMap.isEmpty())
+			return ResponseEntity.badRequest().body(errorMap);
 
 		Optional<Post> optionalPost = postService.getById(id);
 		if (optionalPost.isEmpty())
