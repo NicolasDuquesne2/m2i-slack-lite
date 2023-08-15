@@ -65,18 +65,17 @@ public class ChannelController {
             errorMap.put("Arg error bad user", "Channel user does not exists");
 
         //channel its self
-        if(channel.getName() == null ||
-                channel.getDeletable() == null ||
-                channel.getColor() == null) {
-            if(channel.getName() == null) errorMap.put("Arg error name", "Name must not be null");
-            if(channel.getDeletable() == null) errorMap.put("Arg error deletable", "Deletable option must not be null");
-            if(channel.getColor() == null) errorMap.put("Arg error color", "Color option must not be null");
-        }
+        if(channel.getName() == null || channel.getName().length() == 0)
+            errorMap.put("Arg error name", "Text must not be null or empty");
+        if(channel.getDeletable() == null)
+            errorMap.put("Arg error deletable", "Deletable option must not be null");
+        if(channel.getColor() == null)
+            errorMap.put("Arg error color", "Color option must not be null");
 
         //returns an error map if issue on channel object
         if(!errorMap.isEmpty()) return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
 
-        channelService.save(channel);
+        //channelService.save(channel);
         return new ResponseEntity<>(Map.of("message", "The Channel has been successfully created"), HttpStatus.CREATED);
     }
 
@@ -115,13 +114,15 @@ public class ChannelController {
             errorMap.put("Arg error bad user", "Channel user does not exists");
 
         //channel its self
-        if(channel.getName() == null ||
-                channel.getDeletable() == null ||
-                channel.getColor() == null) {
-            if(channel.getName() == null) errorMap.put("Arg error name", "Name must not be null");
-            if(channel.getDeletable() == null) errorMap.put("Arg error deletable", "Deletable option must not be null");
-            if(channel.getColor() == null) errorMap.put("Arg error color", "Color option must not be null");
-        }
+        if(channel.getName() == null || channel.getName().length() == 0)
+            errorMap.put("Arg error name", "Text must not be null or empty");
+        if(channel.getDeletable() == null)
+            errorMap.put("Arg error deletable", "Deletable option must not be null");
+        if(channel.getColor() == null)
+            errorMap.put("Arg error color", "Color option must not be null");
+
+        //returns an error map if issue on channel object
+        if(!errorMap.isEmpty()) return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
 
         channelService.save(channel);
 
@@ -131,7 +132,8 @@ public class ChannelController {
     @PatchMapping("/{id}")
     public ResponseEntity<?> partialUpdate(@PathVariable Long id, @RequestBody Channel channel) {
 
-        if(id  == null) return ResponseEntity
+        if(id  == null)
+            return ResponseEntity
                 .badRequest()
                 .body(Map.of("error", "The path variable must no be null"));
 
@@ -142,22 +144,27 @@ public class ChannelController {
                     .body(Map.of("error", "The path variable id must match with channel within body"));
         }
 
-        Optional<Channel> optionalChannel = channelService.getById(id);
 
-        if(optionalChannel.isEmpty()) {
-            return new ResponseEntity<>(Map.of(
-                    "error", "No Channel found with the specified id)"),
-                    HttpStatus.NOT_FOUND);
-        }
-
+        Map<String, String> errorMap = new HashMap<>();
 
         //channel users
-        if(channel.getUser() != null &&
-                channel.getUser().getId() != null &&
-                userService.getById(channel.getUser().getId()).isEmpty()) {
-            return ResponseEntity.badRequest().body(Map.of("Arg error bad user", "Channel user does not exists"));
+        if(channel.getUser() != null) {
+            if(channel.getUser().getId() == null) {
+                errorMap.put("Arg error user id", "User's id must not be null");
+            } else if(userService.getById(channel.getUser().getId()).isEmpty()) {
+                errorMap.put("error", "No user found with the specified id");
+            }
         }
 
+        //Channel itself
+
+        if(channel.getName() != null && channel.getName().length() == 0)
+            errorMap.put("Arg error name", "Text must not be null or empty");
+
+        //returns an error map if issue on channel object
+        if(!errorMap.isEmpty()) return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
+
+        Optional<Channel> optionalChannel = channelService.getById(id);
         Channel fetchedChannel = optionalChannel.get();
 
         if(channel.getUser() != null) fetchedChannel.setUser(channel.getUser());
@@ -165,7 +172,7 @@ public class ChannelController {
         if(channel.getColor() != null) fetchedChannel.setColor(channel.getColor());
         if(channel.getName() != null) fetchedChannel.setName(channel.getName());
 
-        channelService.save(fetchedChannel);
+        //channelService.save(fetchedChannel);
 
         return ResponseEntity.ok(Map.of("message", "The Channel has been successfully updated"));
     }
@@ -177,7 +184,7 @@ public class ChannelController {
 
         if(channelService.getById(id).isEmpty()) {
             return new ResponseEntity<>(Map.of(
-                    "error", "No Channel found with the specified id)"),
+                    "error", "No Channel found with the specified id"),
                     HttpStatus.NOT_FOUND);
         }
 
