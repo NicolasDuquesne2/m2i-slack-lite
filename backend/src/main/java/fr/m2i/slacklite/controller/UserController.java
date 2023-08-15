@@ -52,17 +52,18 @@ public class UserController {
 		if (user.getId() != null)
 			return ResponseEntity.badRequest().body(Map.of("error", "The user body must not contains an id"));
 
-		if (user.getName() == null || user.getEmail() == null || user.getPassword() == null) {
-			Map<String, String> errorMap = new HashMap<>();
-			if (user.getName() == null)
-				errorMap.put("Arg error name", "Name must not be null");
-			if (user.getEmail() == null)
-				errorMap.put("Arg error email", "Email must not be null");
-			if (user.getPassword() == null)
-				errorMap.put("Arg error password", "Password must not be null");
+		Map<String, String> errorMap = new HashMap<>();
 
+		if (user.getName() == null || user.getName().length() == 0)
+			errorMap.put("Arg error name", "Name must not be null or empty");
+		if (user.getEmail() == null || user.getEmail().length() == 0)
+			errorMap.put("Arg error email", "Email must not be null or empty");
+		if (user.getPassword() == null || user.getPassword().length() == 0)
+			errorMap.put("Arg error password", "Password must not be null or empty");
+
+		// returns an error map if issue on user object
+		if (!errorMap.isEmpty())
 			return ResponseEntity.badRequest().body(errorMap);
-		}
 
 		// Check if the email has already been used
 		if (userService.getEmailExist(user.getEmail()))
@@ -81,15 +82,15 @@ public class UserController {
 
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody User user) {
-		if (user.getEmail() == null || user.getPassword() == null) {
-			Map<String, String> errorMap = new HashMap<>();
-			if (user.getEmail() == null)
-				errorMap.put("Arg error mail", "Invalid email");
-			if (user.getPassword() == null)
-				errorMap.put("Arg error password", "Invalid password");
+		Map<String, String> errorMap = new HashMap<>();
 
+		if (user.getEmail() == null || user.getEmail().length() == 0)
+			errorMap.put("Arg error mail", "Invalid email");
+		if (user.getPassword() == null || user.getPassword().length() == 0)
+			errorMap.put("Arg error password", "Invalid password");
+
+		if (!errorMap.isEmpty())
 			return ResponseEntity.badRequest().body(errorMap);
-		}
 
 		Optional<User> optionalUser = userService.getByEmail(user.getEmail());
 		if (optionalUser.isEmpty())
@@ -123,24 +124,23 @@ public class UserController {
 		if (id != user.getId())
 			return ResponseEntity.badRequest().body(Map.of("error", "The id parameter must match to the user id"));
 
-		if (user.getId() == null || user.getName() == null || user.getEmail() == null || user.getPassword() == null
-				|| user.getAvatar() == null) {
+		Map<String, String> errorMap = new HashMap<>();
 
-			Map<String, String> errorMap = new HashMap<>();
-			if (user.getId() == null)
-				errorMap.put("Arg error id", "Id must not be null");
-			if (user.getName() == null)
-				errorMap.put("Arg error name", "Name must not be null");
-			if (user.getEmail() == null)
-				errorMap.put("Arg error email", "Email must not be null");
-			if (user.getPassword() == null)
-				errorMap.put("Arg error password", "Password must not be null");
-			if (user.getAvatar() == null)
-				errorMap.put("Arg error avatar", "Avatar must not be null");
+		if (user.getId() == null)
+			errorMap.put("Arg error id", "Id must not be null");
+		if (user.getName() == null || user.getName().length() == 0)
+			errorMap.put("Arg error name", "Name must not be null or empty");
+		if (user.getEmail() == null || user.getEmail().length() == 0)
+			errorMap.put("Arg error email", "Email must not be null or empty");
+		if (user.getPassword() == null || user.getPassword().length() == 0)
+			errorMap.put("Arg error password", "Password must not be null or empty");
+		if (user.getAvatar() == null)
+			errorMap.put("Arg error avatar", "Avatar must not be null");
 
+		// returns an error map if issue on user object
+		if (!errorMap.isEmpty())
 			return ResponseEntity.badRequest().body(errorMap);
-		}
-		
+
 		Optional<User> optionalUser = userService.getById(id);
 
 		if (optionalUser.isEmpty())
@@ -154,9 +154,9 @@ public class UserController {
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String hashedPassword = passwordEncoder.encode(user.getPassword());
 		user.setPassword(hashedPassword);
-		
+
 		userService.save(user);
-		
+
 		return ResponseEntity.ok(Map.of("message", "User has been successfully updated"));
 	}
 
@@ -170,6 +170,19 @@ public class UserController {
 
 		if (id != user.getId())
 			return ResponseEntity.badRequest().body(Map.of("error", "The id parameter must match to the user id"));
+
+		Map<String, String> errorMap = new HashMap<>();
+
+		if (user.getName() != null && user.getName().length() == 0)
+			errorMap.put("Arg error name", "Name must not be null or empty");
+		if (user.getEmail() != null && user.getEmail().length() == 0)
+			errorMap.put("Arg error email", "Email must not be null or empty");
+		if (user.getPassword() != null && user.getPassword().length() == 0)
+			errorMap.put("Arg error password", "Password must not be null or empty");
+
+		// returns an error map if issue on user object
+		if (!errorMap.isEmpty())
+			return ResponseEntity.badRequest().body(errorMap);
 
 		Optional<User> optionalUser = userService.getById(id);
 
@@ -195,9 +208,9 @@ public class UserController {
 		}
 		if (user.getAvatar() != null)
 			fetchedUser.setAvatar(user.getAvatar());
-		
+
 		userService.save(fetchedUser);
-		
+
 		return ResponseEntity.ok(Map.of("message", "User has been successfully updated"));
 	}
 
