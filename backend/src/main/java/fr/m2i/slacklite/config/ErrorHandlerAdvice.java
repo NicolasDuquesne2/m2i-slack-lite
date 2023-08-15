@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.Map;
 
 @ControllerAdvice
-public class EnumAdvice {
+public class ErrorHandlerAdvice {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<Object> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
         return ResponseEntity
