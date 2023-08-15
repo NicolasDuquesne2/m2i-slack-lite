@@ -75,7 +75,7 @@ public class ChannelController {
         //returns an error map if issue on channel object
         if(!errorMap.isEmpty()) return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
 
-        //channelService.save(channel);
+        channelService.save(channel);
         return new ResponseEntity<>(Map.of("message", "The Channel has been successfully created"), HttpStatus.CREATED);
     }
 
@@ -172,7 +172,7 @@ public class ChannelController {
         if(channel.getColor() != null) fetchedChannel.setColor(channel.getColor());
         if(channel.getName() != null) fetchedChannel.setName(channel.getName());
 
-        //channelService.save(fetchedChannel);
+        channelService.save(fetchedChannel);
 
         return ResponseEntity.ok(Map.of("message", "The Channel has been successfully updated"));
     }
