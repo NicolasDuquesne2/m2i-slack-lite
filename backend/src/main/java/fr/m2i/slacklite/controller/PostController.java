@@ -89,9 +89,11 @@ public class PostController {
         // returns an error map if issue on post object
         if (!errorMap.isEmpty())
             return ResponseEntity.badRequest().body(errorMap);
-
-        post.setCreatedDateTime(LocalDateTime.now());
-        post.setUpdatedDateTime(LocalDateTime.now());
+        
+        LocalDateTime createdDate = LocalDateTime.now(); 
+        post.setCreatedDateTime(createdDate);
+        post.setUpdatedDateTime(createdDate);
+        
         postService.save(post);
         return new ResponseEntity<>(Map.of("message", "The Post has been successfully created"), HttpStatus.CREATED);
     }
@@ -175,20 +177,20 @@ public class PostController {
 
         postService.save(fetchedPost);
 
-        return ResponseEntity.ok(Map.of("message", "The Post has been successfully updated"));
+        return ResponseEntity.ok(Map.of("message", "The post has been successfully updated"));
 
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         if (id == null)
-            return ResponseEntity.badRequest().body(Map.of("error", " the id parameter must not be null"));
+            return ResponseEntity.badRequest().body(Map.of("error", "The id parameter must not be null"));
         if (postService.getById(id).isEmpty())
-            return new ResponseEntity<>(Map.of("error", " no Post found with the specified id"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(Map.of("error", "No post found with the specified id"), HttpStatus.NOT_FOUND);
         if (postService.delete(id))
-            return ResponseEntity.ok(Map.of("message", " The Post has been successfully been deleted "));
+            return ResponseEntity.ok(Map.of("message", "The post has been successfully been deleted"));
         return ResponseEntity.internalServerError()
-                .body(Map.of("error", " An error occurred while attempting to delete the post "));
+                .body(Map.of("error", "An error occurred while attempting to delete the post"));
 
     }
 }
