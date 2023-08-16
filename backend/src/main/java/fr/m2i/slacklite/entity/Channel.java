@@ -4,6 +4,8 @@ package fr.m2i.slacklite.entity;
 import fr.m2i.slacklite.enums.ColorEnum;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "channels")
 public class Channel {
@@ -21,6 +23,9 @@ public class Channel {
     @Column(nullable = false)
     @Enumerated(EnumType.ORDINAL)
     private ColorEnum color;
+
+    @OneToMany(mappedBy ="channel" ,cascade = CascadeType.ALL)
+    private List<Post> posts;
 
     @ManyToOne
     private User user;
@@ -63,6 +68,14 @@ public class Channel {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
     }
 
     @Override
