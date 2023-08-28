@@ -7,6 +7,7 @@ import { HeaderComponent } from './component/header/header.component';
 import { FooterComponent } from './component/footer/footer.component';
 import { UserProfileComponent } from './component/user-profile/user-profile.component';
 import { ChannelCreateFormComponent } from './component/channel-create-form/channel-create-form.component';
+import { ChannelListComponent } from './component/channel-list/channel-list.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { ChannelCreateFormComponent } from './component/channel-create-form/chan
     HeaderComponent,
     FooterComponent,
     UserProfileComponent,
-    ChannelCreateFormComponent
+    ChannelCreateFormComponent,
+    ChannelListComponent
   ],
   imports: [
     BrowserModule,
