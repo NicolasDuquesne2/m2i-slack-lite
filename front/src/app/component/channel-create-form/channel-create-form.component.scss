@@ -1,0 +1,8 @@
+#btn-toggle-create {
+    transition: transform 400ms ease-in-out;
+    aspect-ratio: 1 / 1;
+
+    &[aria-expanded="true"]{
+        transform: rotate(180deg);
+    }
+}

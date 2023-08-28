@@ -5,12 +5,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './component/home/home.component';
 import { HeaderComponent } from './component/header/header.component';
 import { FooterComponent } from './component/footer/footer.component';
+import { UserProfileComponent } from './component/user-profile/user-profile.component';
+import { ChannelCreateFormComponent } from './component/channel-create-form/channel-create-form.component';
 
 @NgModule({
   declarations: [
     HomeComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    UserProfileComponent,
+    ChannelCreateFormComponent
   ],
   imports: [
     BrowserModule,

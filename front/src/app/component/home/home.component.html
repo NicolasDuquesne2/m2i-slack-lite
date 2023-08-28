@@ -11,15 +11,17 @@
                         data-bs-target="#offcanvasResponsive" aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body flex-column">
+                    <!-- ajouter affichage conditionnel -->
+                    <!-- if !logged-->
                     <div class="mb-3">
                         <a class="btn btn-outline-dark w-100" href="./login.html">Me connecter</a>
                     </div>
-
-                    <router-outlet></router-outlet>
-
-                   
-
+                    <!-- else-->
+                    <div app-user-profile class="mb-3 position-relative"></div>                                  
+                    <!-- -->
                 </div>
+
+                <div app-channel-create-form></div>
             </div>
 
             <main class="col-lg-9 col-xl-10 bg-light p-0 rounded">
