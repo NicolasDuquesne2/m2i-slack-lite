@@ -19,6 +19,10 @@ public class ChannelService {
         return channelRepository.findById(id);
     }
 
+    public Optional<ChannelProjection> getByDeletableChannelProjection(Boolean deletable) {
+        return  channelRepository.findOneByDeletable(deletable);
+    }
+
     public Optional<ChannelProjection> getByIdChannelProjection(Long id) {
         return channelRepository.findOneById(id);
     }

@@ -17,4 +17,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	public List<UserProjection> findAllBy();
 	
 	public Optional<UserProjection> findOneById(Long id);
+
+	public Optional<UserProjection> findOneByName(String name);
 }

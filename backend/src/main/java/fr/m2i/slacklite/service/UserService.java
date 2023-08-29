@@ -30,6 +30,8 @@ public class UserService {
 	public Optional<UserProjection> getByIdUserProjection(Long id) {
 		return userRepository.findOneById(id);
 	}
+
+	public Optional<UserProjection> getByNameUserProjection(String name) { return userRepository.findOneByName(name);}
 	
 	public Optional<User> getByEmail(String email){
 		return userRepository.findOneByEmail(email);
