@@ -14,6 +14,8 @@ import { UserAccountComponent } from './component/user-account/user-account.comp
 import { ErrorPageComponent } from './component/error-page/error-page.component';
 import { ChannelComponent } from './component/channel/channel.component';
 import { PostFormComponent } from './component/post-form/post-form.component';
+import { PostCardComponent } from './component/post-card/post-card.component';
+import { ChannelUpdateFormComponent } from './component/channel-update-form/channel-update-form.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { PostFormComponent } from './component/post-form/post-form.component';
     UserAccountComponent,
     ErrorPageComponent,
     ChannelComponent,
-    PostFormComponent
+    PostFormComponent,
+    PostCardComponent,
+    ChannelUpdateFormComponent
   ],
   imports: [
     BrowserModule,

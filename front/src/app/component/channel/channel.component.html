@@ -2,12 +2,28 @@
 <!-- h2 est une variable : nom de canal-->
 <header class="header-channel rounded-top position-relative channel-cyan">
   <h2>Canal vide</h2>
+  <app-channel-update-form *ngIf="accessToForm"></app-channel-update-form>
 </header>
 
 <div class="container p-3">
-  <div class="alert alert-info mb-5" role="alert">
-    <p>C'est un peu vide par ici...</p>
-    <p>N'hésitez pas a publier quelque chose !</p>
+  <!-- bloc afficher le temps du chargement des publications -->
+  <div class="text-center p-5" *ngIf="isLoading; else elseBlock">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-3">Chargement des publications</p>
   </div>
-  <app-post-form></app-post-form>
+
+  <ng-template #elseBlock>
+    <div class="alert alert-info mb-5" role="alert" *ngIf="posts.length == 0">
+      <p>C'est un peu vide par ici...</p>
+      <p>N'hésitez pas a publier quelque chose !</p>
+    </div>
+
+    <div *ngFor="let post of posts">
+      <app-post-card [text]="post"></app-post-card>
+    </div>
+
+    <app-post-form></app-post-form>
+  </ng-template>
 </div>
