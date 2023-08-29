@@ -4,8 +4,6 @@ import { Component, ViewEncapsulation } from '@angular/core';
   selector: '[app-channel-list]',
   templateUrl: './channel-list.component.html',
   styleUrls: ['./channel-list.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
-export class ChannelListComponent {
-
-}
+export class ChannelListComponent {}

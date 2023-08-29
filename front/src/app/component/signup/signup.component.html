@@ -1,0 +1,62 @@
+<h2 class="text-center my-3">Créer un compte</h2>
+
+<div class="container text-center">
+  <form
+    class="border border-dark rounded col-12 col-lg-6 mx-auto mb-3 p-3"
+    id="form-signup"
+    novalidate
+  >
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input
+        type="email"
+        class="form-control text-center is-invalid"
+        aria-describedby="email-feedback"
+        id="email"
+        required
+      />
+      <div class="invalid-feedback" id="email-feedback">Email invalide</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="name" class="form-label">Pseudo</label>
+      <input
+        type="text"
+        class="form-control text-center is-valid"
+        aria-describedby="pseudo-feedback"
+        id="name"
+      />
+      <div class="invalid-feedback" id="pseudo-feedback">Pseudo invalide</div>
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Mot de passe</label>
+      <input
+        type="password"
+        class="form-control text-center is-invalid"
+        id="password"
+        aria-describedby="passwordHelp"
+      />
+      <div id="passwordHelp" class="form-text">
+        Doit comporter minuscule, majuscule, chiffre, caractère spécial et
+        minimun 8 caractères
+      </div>
+      <div class="invalid-feedback" id="password-feedback">
+        Mot de passe invalide
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="password-confirm" class="form-label"
+        >Confirmation du mot de passe</label
+      >
+      <input
+        type="password"
+        class="form-control text-center is-invalid"
+        id="password-confirm"
+      />
+      <div class="invalid-feedback" id="password-confirm-feedback">
+        Confirmation du mot de passe invalide
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary w-100">Valider</button>
+  </form>
+</div>

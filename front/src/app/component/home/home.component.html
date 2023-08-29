@@ -1,36 +1,52 @@
-<header app-header class="container-fluid navbar bg-body-secondary p-3" ></header>
+<header
+  app-header
+  class="container-fluid navbar bg-body-secondary p-3"
+></header>
 
 <div class="container-fluid flex-grow-1">
-    <div class="container h-100">
-        <div class="row h-100">
-            <div class="offcanvas-lg offcanvas-end col-lg-3 col-xl-2 bg-body-secondary p-3" tabindex="-1"
-                id="offcanvasResponsive" aria-labelledby="offcanvasResponsiveLabel">
-                <div class="offcanvas-header">
-                    <h2 class="offcanvas-title" id="offcanvasResponsiveLabel">Slack Lite menu</h2>
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
-                        data-bs-target="#offcanvasResponsive" aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body flex-column">
-                    <!-- ajouter affichage conditionnel -->
-                    <!-- if !logged-->
-                    <div class="mb-3">
-                        <a class="btn btn-outline-dark w-100" href="./login.html">Me connecter</a>
-                    </div>
-                    <!-- else-->
-                    <div app-user-profile class="mb-3 position-relative"></div>                                  
-                    <!-- -->
-                
-                    <div app-channel-create-form></div>
-
-                    <div app-channel-list></div>
-                </div>
-            </div>
-
-            <main class="col-lg-9 col-xl-10 bg-light p-0 rounded">
-                <router-outlet></router-outlet>    
-            </main>
+  <div class="container h-100">
+    <div class="row h-100">
+      <div
+        class="offcanvas-lg offcanvas-end col-lg-3 col-xl-2 bg-body-secondary p-3"
+        tabindex="-1"
+        id="offcanvasResponsive"
+        aria-labelledby="offcanvasResponsiveLabel"
+      >
+        <div class="offcanvas-header">
+          <h2 class="offcanvas-title" id="offcanvasResponsiveLabel">
+            Slack Lite menu
+          </h2>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="offcanvas"
+            data-bs-target="#offcanvasResponsive"
+            aria-label="Close"
+          ></button>
         </div>
+        <div class="offcanvas-body flex-column">
+          <!-- ajouter affichage conditionnel -->
+          <!-- if !logged-->
+          <div class="mb-3">
+            <a class="btn btn-outline-dark w-100" routerLink="/login"
+              >Me connecter</a
+            >
+          </div>
+          <!-- else-->
+          <div app-user-profile class="mb-3 position-relative"></div>
+          <!-- -->
+
+          <div app-channel-create-form></div>
+
+          <div app-channel-list></div>
+        </div>
+      </div>
+
+      <main class="col-lg-9 col-xl-10 bg-light p-0 rounded">
+        <router-outlet></router-outlet>
+      </main>
     </div>
+  </div>
 </div>
 
 <footer app-footer class="container-fluid p-3"></footer>
