@@ -51,7 +51,7 @@ public class SlackliteApplication {
 		if(optionalChannel.isEmpty()) {
 			Channel newChannel = new Channel();
 			newChannel.setName("Général");
-			newChannel.setColor(ColorEnum.RED);
+			newChannel.setColor(ColorEnum.WHITE);
 			newChannel.setDeletable(false);
 			newChannel.setUser(userService.getByEmail("admin@domain.com").get());
 			channelService.save(newChannel);
