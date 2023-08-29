@@ -12,4 +12,6 @@ public interface ChannelRepository extends JpaRepository<Channel, Long> {
     public List<ChannelProjection> findAllBy();
 
     public Optional<ChannelProjection> findOneById(Long id);
+
+    public Optional <ChannelProjection> findOneByDeletable(Boolean deletable);
 }
