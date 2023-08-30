@@ -14,6 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootApplication
@@ -33,9 +34,9 @@ public class SlackliteApplication {
 	@PostConstruct
 	void init_accounts() {
 		System.out.println("Data base auto loader : open");
-		Optional<UserProjection> optionalUser =  userService.getByNameUserProjection("admin");
+		List<UserProjection> users =  userService.getAllUserProjection();
 
-		if (optionalUser.isEmpty()) {
+		if (users.size() == 0) {
 			User newUser = new User();
 			newUser.setName("admin");
 			PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -46,9 +47,9 @@ public class SlackliteApplication {
 			System.out.println("New user added to Data base");
 		}
 
-		Optional<ChannelProjection> optionalChannel = channelService.getByDeletableChannelProjection(false);
+		List<ChannelProjection> channels = channelService.getAllChannelProjection();
 
-		if(optionalChannel.isEmpty()) {
+		if(channels.size() == 0) {
 			Channel newChannel = new Channel();
 			newChannel.setName("Général");
 			newChannel.setColor(ColorEnum.WHITE);
