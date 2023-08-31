@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
 })
 export class ChannelComponent {
   posts = ['Ornstein', 'Artorias', 'Malenia'];
-  accessToForm: boolean = false;
+  accessToForm: boolean = true;
   isLoading: boolean = false;
 }
