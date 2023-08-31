@@ -41,7 +41,7 @@ export class HttpPostService {
   }
 
   // Method to delet a POST of Post
-  deletPostById(id: number) {
+  deletePostById(id: number) {
     return this.http.delete(`${BASE_URL}/posts/${id}`);
   }
 }
