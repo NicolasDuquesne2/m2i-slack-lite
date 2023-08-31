@@ -19,32 +19,32 @@ export class HttpUserService {
     return this.http.get<User>(`${BASE_URL}/users/${id}`);
   }
 
-  createUser(user: UserForm){
+  createUser(userForm: UserForm){
     const body = {
-      name: user.name,
-      email: user.email,
-      password: user.password,
+      name: userForm.name,
+      email: userForm.email,
+      password: userForm.password,
     }
     return this.http.post(`${BASE_URL}/users/signup`, body);
   }
 
-  loginUser(user: UserForm){
+  loginUser(userForm: UserForm){
     const body = {
-      email: user.email,
-      password: user.password,
+      email: userForm.email,
+      password: userForm.password,
     }
     return this.http.post(`${BASE_URL}/users/login`, body);
   }
 
-  partialUpdateUser(user: UserForm){
+  partialUpdateUser(userForm: UserForm){
     const body = {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      password: user.password,
-      avatar: user.avatar
+      id: userForm.id,
+      name: userForm.name,
+      email: userForm.email,
+      password: userForm.password,
+      avatar: userForm.avatar
     }
-    return this.http.patch(`${BASE_URL}/users/${user.id}`, body);
+    return this.http.patch(`${BASE_URL}/users/${userForm.id}`, body);
   }
 
   deleteUserById(id: number){
