@@ -16,6 +16,8 @@ import { ChannelComponent } from './component/channel/channel.component';
 import { PostFormComponent } from './component/post-form/post-form.component';
 import { PostCardComponent } from './component/post-card/post-card.component';
 import { ChannelUpdateFormComponent } from './component/channel-update-form/channel-update-form.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -32,13 +34,16 @@ import { ChannelUpdateFormComponent } from './component/channel-update-form/chan
     ChannelComponent,
     PostFormComponent,
     PostCardComponent,
-    ChannelUpdateFormComponent
+    ChannelUpdateFormComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule,
   ],
   providers: [],
-  bootstrap: [HomeComponent]
+  bootstrap: [HomeComponent],
 })
-export class AppModule { }
+export class AppModule {}
