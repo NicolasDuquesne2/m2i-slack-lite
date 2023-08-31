@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import fr.m2i.slacklite.entity.Post;
+import fr.m2i.slacklite.interfaces.ChannelProjection;
 import fr.m2i.slacklite.interfaces.PostProjection;
 import fr.m2i.slacklite.service.ChannelService;
 import fr.m2i.slacklite.service.PostService;
@@ -47,6 +48,16 @@ public class PostController {
 	@GetMapping("")
 	public ResponseEntity<List<PostProjection>> getAll() {
 		return ResponseEntity.ok(postService.getAllPostProjection());
+	}
+	@GetMapping("channel/{id}")
+	public ResponseEntity<?> getAllByChannelId(@PathVariable Long id) {
+
+		Optional<ChannelProjection> optionalChannelProjection = channelService.getByIdChannelProjection(id);
+
+		if (optionalChannelProjection.isEmpty()) {
+			return new ResponseEntity<>(Map.of("error", "No channel found with the specified id"), HttpStatus.NOT_FOUND);
+		}
+		return ResponseEntity.ok(postService.getAllPostProjectionByChannelId(id));
 	}
 
 	@PostMapping("")
