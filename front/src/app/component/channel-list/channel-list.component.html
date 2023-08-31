@@ -2,6 +2,21 @@
   <!-- la classe channel-{{color}} doit être généré avec la couleur du canal 
         les liens sont dynamique et généré avec l'id
     -->
+
+  <div *ngFor="let channel of channels">
+    <li *ngIf="channel" class="mb-2">
+      <a
+        routerLink="{{ '/channels/' + channel.id }}"
+        class="{{
+          'btn btn-outline-dark w-100 text-break channel-' +
+            channel.color.toString().toLowerCase()
+        }}"
+      >
+        {{ channel.name }}
+      </a>
+    </li>
+  </div>
+
   <li class="mb-2">
     <a
       routerLink="/channels/1"
