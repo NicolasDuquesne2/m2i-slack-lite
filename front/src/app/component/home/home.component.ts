@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'app-home',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
+  isLogged: boolean = false;
 
+  constructor(private userService: UserService){ 
+    this.userService.isLogged.subscribe((observer)=>{
+      this.isLogged = observer;
+    });
+  }
 }
