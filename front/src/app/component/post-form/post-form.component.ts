@@ -7,4 +7,16 @@ import { Component } from '@angular/core';
 })
 export class PostFormComponent {
   isLogged: boolean = false;
+  newPostText: string = '';
+
+  limitText(event: any) {
+    const maxLength = 1000;
+    if (event.target.value.length > maxLength) {
+      event.target.value = event.target.value.slice(0, maxLength);
+    }
+  }
+
+  submitPost(){
+    this.newPostText = '';
+  }
 }
