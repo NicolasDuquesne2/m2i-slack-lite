@@ -48,4 +48,11 @@ export class UserProfileComponent {
     if(!this.user.avatar.startsWith('http')) return './assets/img/default-user.svg';
     return  this.user.avatar;
   }
+
+  logout(){
+    this.userService.setIsLogged(false);
+    this.userService.setUserId(null);
+    this.userService.setUser(undefined);
+    localStorage.clear();
+  }
 }
