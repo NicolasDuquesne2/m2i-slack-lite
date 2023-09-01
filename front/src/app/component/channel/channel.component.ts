@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Channel } from 'src/app/interface/channel';
 import { Post } from 'src/app/interface/post';
+import { HttpChannelService } from 'src/app/service/http-channel.service';
 import { HttpPostService } from 'src/app/service/http-post.service';
 
 @Component({
@@ -18,6 +19,7 @@ export class ChannelComponent implements OnInit {
   constructor(
 
     private httppostService: HttpPostService,
+    private httpChannelService: HttpChannelService,
     private activeRoute: ActivatedRoute,
     private router: Router
   ) {}
@@ -29,10 +31,20 @@ export class ChannelComponent implements OnInit {
 
       if (id) numid = parseInt(id);
 
+
+      this.httpChannelService.getChanelById(numid).subscribe({
+        next: (res) => {
+          this.channel = res;
+        },
+        error: (err) => {
+          console.error('something wrong occurred: ' + err.message);
+          this.router.navigate(['/error']);
+        },
+      })
+
       this.httppostService.getPostByChannelId(numid).subscribe({
         next: (res) => {
           this.posts = res;
-          if (res.length > 0) this.channel = res[0].channel;
         },
         error: (err) => {
           console.error('something wrong occurred: ' + err.message);

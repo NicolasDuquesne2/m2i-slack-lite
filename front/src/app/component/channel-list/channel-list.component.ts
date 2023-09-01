@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Channel } from 'src/app/interface/channel';
+import { ChannelService } from 'src/app/service/channel.service';
 import { HttpChannelService } from 'src/app/service/http-channel.service';
 
 @Component({
@@ -15,6 +16,8 @@ export class ChannelListComponent {
   constructor(private httpChannelService: HttpChannelService) {
     this.httpChannelService.getChannels().subscribe({
       next: (res) => {
+        console.log(res);
+
         this.channels = res;
       },
       error: (err) => {

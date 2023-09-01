@@ -2,6 +2,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ChannelForm } from 'src/app/interface/channel-form';
+import { ChannelService } from 'src/app/service/channel.service';
 import { HttpChannelService } from 'src/app/service/http-channel.service';
 import { HttpUserService } from 'src/app/service/http-user.service';
 import { UserService } from 'src/app/service/user.service';
@@ -24,6 +25,7 @@ export class ChannelCreateFormComponent {
     private formBuilder: FormBuilder,
     private httpChannelService: HttpChannelService,
     private userService: UserService,
+    private channelService:ChannelService,
     private router: Router
   ) {
     this.createChannelForm = this.formBuilder.group({
@@ -60,7 +62,7 @@ export class ChannelCreateFormComponent {
     this.httpChannelService.createChannel(channelForm).subscribe({
       next: (data) => {
         console.log(data);
-        this.router.navigate(['channels/1']);
+        this.router.navigate(['']);
       },
       error: (err) => {
         //console.error(err.error.error);
