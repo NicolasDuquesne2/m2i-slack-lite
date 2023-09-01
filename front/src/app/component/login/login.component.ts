@@ -43,7 +43,7 @@ export class LoginComponent {
       avatar: null
     };
 
-    // Appel API
+    // API call
     this.httpUserService.loginUser(user).subscribe({
       next: (data) => {
         this.userService.setUserId(data.userId);     
