@@ -15,7 +15,7 @@
       <form class="pb-3" id="edit-form" (ngSubmit)="submitEditForm()">
         <div class="mb-3">
           <label for="post-text" class="form-label">Modifier le message :</label>
-          <textarea class="form-control" id="post-text" rows="3" [(ngModel)]="editForm.text"></textarea>
+          <textarea class="form-control" id="post-text" rows="3" [(ngModel)]="editForm.text" (input)="limitText($event, 100)"></textarea>
         </div>
         <!-- pb de margin -->
         <button type="submit" class="btn btn-outline-dark" id="edit-btn-submit">

@@ -44,5 +44,9 @@ export class PostCardComponent {
   deletePost(){
   
   }
-
+  limitText(event: any, maxLength: number) {
+    if (event.target.value.length > maxLength) {
+      event.target.value = event.target.value.slice(0, maxLength);
+    }
+  }
 }
