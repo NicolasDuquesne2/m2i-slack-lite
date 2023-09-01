@@ -10,27 +10,29 @@ import { HttpPostService } from 'src/app/service/http-post.service';
 })
 export class PostCardComponent {
   @Input() post!: Post;
-  // text: String = '';
+
   userId: number = 0;
 
-  editing = false;
+  isEditing: boolean = false;
   editForm: PostForm = { id: null, text: '', user: null, channel: null };
 
   constructor(private httpPostService: HttpPostService) { }
 
-   formatDate(date: Date): string {
-    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(date).toLocaleDateString('fr-FR', options);
+  formatedDate(): string {
+    let dateFormated = this.post.createdDateTime === this.post.updatedDateTime ? 'Publié le ' : 'Modifié le ';
+    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+    dateFormated += new Date(this.post.updatedDateTime).toLocaleDateString('fr-FR', options);
+    return dateFormated;
   }
 
   startEdit() {
-    this.editing = true;
+    this.isEditing = true;
     this.editForm.id = this.post.id;
     this.editForm.text = this.post.text;
 
   }
   closeEdit() {
-    this.editing = false;
+    this.isEditing = false;
     this.editForm = { id: null, text: '', user: null, channel: null };
   }
 
