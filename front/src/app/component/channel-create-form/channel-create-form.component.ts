@@ -1,6 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Channel } from 'src/app/interface/channel';
 import { ChannelForm } from 'src/app/interface/channel-form';
 import { ChannelService } from 'src/app/service/channel.service';
 import { HttpChannelService } from 'src/app/service/http-channel.service';
@@ -17,23 +18,28 @@ export class ChannelCreateFormComponent {
   createChannelForm: FormGroup;
   isError = false;
   isErrorName = false;
-  isErrorColor = false; 
-  userId!:number; 
-
+  isErrorColor = false;
+  userId!: number;
+  channels: Channel[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
     private httpChannelService: HttpChannelService,
     private userService: UserService,
-    private channelService:ChannelService,
+    private channelService: ChannelService,
     private router: Router
   ) {
     this.createChannelForm = this.formBuilder.group({
-      channelName: ['', [Validators.required, Validators.min(5), Validators.max(20)]],
+      channelName: [
+        '',
+        [Validators.required, Validators.min(5), Validators.max(20)],
+      ],
       channelColor: ['', [Validators.required]],
     });
 
-    this.userService.userId.subscribe((observer) => {if(observer) this.userId = observer})
+    this.userService.userId.subscribe((observer) => {
+      if (observer) this.userId = observer;
+    });
   }
 
   onAddChannel() {
@@ -42,33 +48,38 @@ export class ChannelCreateFormComponent {
     this.isErrorColor = false;
 
     // Form validation
-    if (this.createChannelForm.get('channelName')?.invalid) this.isErrorName = true;
-    if (this.createChannelForm.get('channelColor')?.invalid) this.isErrorColor = true;
+    if (this.createChannelForm.get('channelName')?.invalid)
+      this.isErrorName = true;
+    if (this.createChannelForm.get('channelColor')?.invalid)
+      this.isErrorColor = true;
     if (this.createChannelForm.invalid) return;
-
 
     // Creation of the user variable
     const channelForm: ChannelForm = {
       id: null,
       name: this.createChannelForm.value.channelName,
-      color:this.createChannelForm.value.channelColor,
-      deletable:true,
-      user: {id: this.userId}
+      color: this.createChannelForm.value.channelColor,
+      deletable: true,
+      user: { id: this.userId },
     };
 
     console.log(channelForm);
-    
+
     // Appel API
     this.httpChannelService.createChannel(channelForm).subscribe({
       next: (data) => {
-        console.log(data);
-        this.router.navigate(['']);
+        this.httpChannelService.getChannels().subscribe({
+          next: (data) => {
+            const lastChannel = data.pop();
+            if (lastChannel)
+              this.channelService.addElemeToChannels(lastChannel);
+          },
+        });
       },
       error: (err) => {
         //console.error(err.error.error);
         this.isError = true;
       },
     });
-
   }
 }

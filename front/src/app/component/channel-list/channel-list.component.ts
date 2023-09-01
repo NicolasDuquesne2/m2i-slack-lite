@@ -13,12 +13,17 @@ export class ChannelListComponent {
   channels: Channel[] = [];
   localError!: Error;
 
-  constructor(private httpChannelService: HttpChannelService) {
+  constructor(private httpChannelService: HttpChannelService, private channelService: ChannelService) {
+    
+    this.channelService.channels.subscribe((observer) => {
+      this.channels = observer;
+    });
+    
     this.httpChannelService.getChannels().subscribe({
       next: (res) => {
         console.log(res);
-
-        this.channels = res;
+        
+        this.channelService.setChannels(res);
       },
       error: (err) => {
         console.error('something wrong occurred: ' + err.message);

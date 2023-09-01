@@ -12,13 +12,8 @@ export class HomeComponent {
   hasNewChannel: boolean = true;
 
   constructor(
-    private userService: UserService,
-    private channelService: ChannelService
+    private userService: UserService
   ) {
-    this.channelService.newChannel.subscribe((observer) => {
-      this.hasNewChannel = observer;
-    });
-
     this.userService.isLogged.subscribe((observer) => {
       this.isLogged = observer;
     });
