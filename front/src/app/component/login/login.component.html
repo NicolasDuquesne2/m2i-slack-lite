@@ -1,25 +1,30 @@
 <h2 class="text-center my-3">Connexion</h2>
 
 <div class="container text-center">
-  <form class="border border-dark rounded col-12 col-lg-6 mx-auto mb-3 p-3">
+  <form [formGroup]="formLogin" (ngSubmit)="onLogin()"
+    class="border border-dark rounded col-12 col-lg-6 mx-auto mb-3 p-3">
     <div class="mb-3">
       <label for="email" class="form-label">Email</label>
-      <input type="email" class="form-control text-center" id="email" />
+      <input type="email" class="form-control text-center" id="email" formControlName="email" />
+    </div>
+    <div *ngIf="isErrorEmail" class="alert alert-danger mt-3" role="alert" id="login-alert">
+      Email vide ou invalide
     </div>
     <div class="mb-3">
       <label for="password" class="form-label">Mot de passe</label>
-      <input type="password" class="form-control text-center" id="password" />
+      <input type="password" class="form-control text-center" id="password" formControlName="password" />
+    </div>
+    <div *ngIf="isErrorPassword" class="alert alert-danger mt-3" role="alert" id="login-alert">
+      Mot de passe vide
     </div>
     <button type="submit" class="btn btn-primary w-100" id="btn-login">
       Connexion
     </button>
-    <div class="alert alert-danger mt-3 d-none" role="alert" id="login-alert">
+    <div *ngIf="isError" class="alert alert-danger mt-3" role="alert" id="login-alert">
       Email ou mot de passe invalide
     </div>
     <div class="border-top border-secondary-subtle mt-3 pt-3 pb-3">
-      <a routerLink="/signup" class="btn btn-outline-dark"
-        >Créer un nouveau compte</a
-      >
+      <a routerLink="/signup" class="btn btn-outline-dark">Créer un nouveau compte</a>
     </div>
   </form>
 </div>
