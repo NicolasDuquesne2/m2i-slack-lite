@@ -31,7 +31,6 @@ export class ChannelComponent implements OnInit {
 
       this.httppostService.getPostByChannelId(numid).subscribe({
         next: (res) => {
-          console.log(res);
           this.posts = res;
           if (res.length > 0) this.channel = res[0].channel;
         },

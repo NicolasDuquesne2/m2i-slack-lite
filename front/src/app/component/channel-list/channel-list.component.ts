@@ -15,7 +15,6 @@ export class ChannelListComponent {
   constructor(private httpChannelService: HttpChannelService) {
     this.httpChannelService.getChannels().subscribe({
       next: (res) => {
-        console.log(res);
         this.channels = res;
       },
       error: (err) => {

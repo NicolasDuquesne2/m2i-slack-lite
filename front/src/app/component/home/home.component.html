@@ -33,7 +33,7 @@
             <div app-user-profile class="mb-3 position-relative"></div>
           </ng-template>
           
-          <div app-channel-create-form></div>
+          <div *ngIf="isLogged" app-channel-create-form></div>
 
           <div app-channel-list></div>
         </div>
