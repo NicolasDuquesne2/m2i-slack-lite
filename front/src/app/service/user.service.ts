@@ -6,27 +6,26 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
-  user!:User;
-  userId!: number;
-  
   private _isLogged = new BehaviorSubject<boolean>(false);
   isLogged = this._isLogged.asObservable();
 
+  private _userId = new BehaviorSubject<Number | null>(null);
+  userId = this._userId.asObservable();
+
+  private _user = new BehaviorSubject<User | undefined>(undefined);
+  user = this._user.asObservable();
+
   constructor() { }
 
-  getUser(): Observable<User>{
-    return new Observable<User>((observer)=>{
-      observer.next(this.user);
-    });
+  setIsLogged(logged: boolean) {
+    this._isLogged.next(logged);
   }
 
-  getUserId(): Observable<number>{
-    return new Observable<number>((observer)=>{
-      observer.next(this.userId);
-    });
+  setUserId(id: number){
+    this._userId.next(id);
   }
 
-  setIsLogged(value: boolean) {
-    this._isLogged.next(value);
+  setUser(user: User){
+    this._user.next(user);
   }
 }
