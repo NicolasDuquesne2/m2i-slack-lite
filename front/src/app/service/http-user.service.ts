@@ -4,6 +4,7 @@ import { BASE_URL } from '../config/config';
 import { Observable } from 'rxjs';
 import { User } from '../interface/user';
 import { UserForm } from '../interface/user-form';
+import { UserLogged } from '../interface/user-logged';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +29,7 @@ export class HttpUserService {
     return this.http.post(`${BASE_URL}/users/signup`, body);
   }
 
-  loginUser(userForm: UserForm) {
+  loginUser(userForm: UserForm):Observable<UserLogged | any> {
     const body = {
       email: userForm.email,
       password: userForm.password,

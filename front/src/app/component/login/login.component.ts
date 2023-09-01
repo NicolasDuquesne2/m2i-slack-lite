@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserForm } from 'src/app/interface/user-form';
 import { HttpUserService } from 'src/app/service/http-user.service';
+import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,7 @@ export class LoginComponent {
   isErrorEmail: boolean = false;
   isErrorPassword: boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private httpUserService: HttpUserService, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private httpUserService: HttpUserService, private router: Router, private userService: UserService) {
     this.formLogin = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
@@ -46,8 +47,11 @@ export class LoginComponent {
     this.httpUserService.loginUser(user).subscribe({
       next: (data) => {
         console.log('account logged');
-        console.log(data);
-        this.router.navigate(['channels/1']);                
+        console.log(data.userId);
+        this.userService.userId = data.userId;     
+        this.userService.isLogged = true;
+        localStorage.setItem('user', JSON.stringify(data));
+        this.router.navigate(['channels/1']);
       },
       error: (err) => {
         //console.error(err.error.error);
@@ -56,3 +60,4 @@ export class LoginComponent {
     });
   }
 }
+
