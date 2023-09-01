@@ -1,7 +1,7 @@
 <!-- La classe channel-cyan est une variable -->
 <!-- h2 est une variable : nom de canal-->
-<header class="header-channel rounded-top position-relative channel-cyan">
-  <h2>Canal vide</h2>
+<header *ngIf="channel" class="{{'header-channel rounded-top position-relative channel-'  + channel.color.toString().toLowerCase()}}">
+  <h2 >{{channel.name}}</h2>
   <app-channel-update-form *ngIf="accessToForm"></app-channel-update-form>
 </header>
 
@@ -21,7 +21,7 @@
     </div>
 
     <div *ngFor="let post of posts">
-      <app-post-card [text]="post"></app-post-card>
+      <app-post-card [text]="post.text"></app-post-card>
     </div>
 
     <app-post-form></app-post-form>
