@@ -5,15 +5,17 @@
     class="border border-dark rounded col-12 col-lg-6 mx-auto mb-3 p-3"
     id="form-signup"
     novalidate
+    [formGroup]="formSignup" (ngSubmit)="onSignup()"
   >
     <div class="mb-3">
       <label for="email" class="form-label">Email</label>
       <input
         type="email"
-        class="form-control text-center is-invalid"
+        class="form-control text-center"
+        [ngClass]="{'is-invalid' : isErrorEmail, 'is-valid' : isValidEmail}"
         aria-describedby="email-feedback"
         id="email"
-        required
+        formControlName="email"
       />
       <div class="invalid-feedback" id="email-feedback">Email invalide</div>
     </div>
@@ -22,9 +24,11 @@
       <label for="name" class="form-label">Pseudo</label>
       <input
         type="text"
-        class="form-control text-center is-valid"
+        class="form-control text-center"
+        [ngClass]="{'is-invalid' : isErrorName, 'is-valid' : isValidName}"
         aria-describedby="pseudo-feedback"
         id="name"
+        formControlName="name"
       />
       <div class="invalid-feedback" id="pseudo-feedback">Pseudo invalide</div>
     </div>
@@ -32,9 +36,11 @@
       <label for="password" class="form-label">Mot de passe</label>
       <input
         type="password"
-        class="form-control text-center is-invalid"
+        class="form-control text-center"
+        [ngClass]="{'is-invalid' : isErrorPassword, 'is-valid' : isValidPassword}"
         id="password"
         aria-describedby="passwordHelp"
+        formControlName="password"
       />
       <div id="passwordHelp" class="form-text">
         Doit comporter minuscule, majuscule, chiffre, caractère spécial et
@@ -45,15 +51,17 @@
       </div>
     </div>
     <div class="mb-3">
-      <label for="password-confirm" class="form-label"
+      <label for="passwordConfirm" class="form-label"
         >Confirmation du mot de passe</label
       >
       <input
         type="password"
-        class="form-control text-center is-invalid"
-        id="password-confirm"
+        class="form-control text-center"
+        [ngClass]="{'is-invalid' : isErrorPasswordConfirm, 'is-valid' : isValidPasswordConfirm}"
+        id="passwordConfirm"
+        formControlName="passwordConfirm"
       />
-      <div class="invalid-feedback" id="password-confirm-feedback">
+      <div class="invalid-feedback" id="passwordConfirm-feedback">
         Confirmation du mot de passe invalide
       </div>
     </div>
