@@ -12,4 +12,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     public List<PostProjection> findAllBy();
 
     public Optional<PostProjection> findOneById(Long id);
+
+    public List<PostProjection> findAllByChannelId(Long id);
 }

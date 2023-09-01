@@ -20,6 +20,8 @@ export class ChannelListComponent {
       },
       error: (err) => {
         console.error('something wrong occurred: ' + err.message);
+
+        this.localError = err;
       },
     });
   }

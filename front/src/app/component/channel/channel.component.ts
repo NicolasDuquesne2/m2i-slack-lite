@@ -16,6 +16,7 @@ export class ChannelComponent implements OnInit {
   isLoading: boolean = false;
 
   constructor(
+
     private httppostService: HttpPostService,
     private activeRoute: ActivatedRoute,
     private router: Router
@@ -40,5 +41,6 @@ export class ChannelComponent implements OnInit {
         },
       });
     });
+
   }
 }

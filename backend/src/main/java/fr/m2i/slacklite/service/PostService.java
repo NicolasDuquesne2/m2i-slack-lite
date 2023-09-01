@@ -27,8 +27,10 @@ public class PostService {
         return postRepository.findOneById(id);
     }
 
-    public List<PostProjection> getAllPostProjection() {
-        return postRepository.findAllBy();
+    public List<PostProjection> getAllPostProjection() { return postRepository.findAllBy();}
+
+    public List<PostProjection> getAllPostProjectionByChannelId(Long id) {
+        return postRepository.findAllByChannelId(id);
     }
 
     public Post save(Post post) {
