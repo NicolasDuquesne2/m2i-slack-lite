@@ -1,27 +1,23 @@
 <!-- Form pour la création de publication : composant-->
 <!-- Utilisateur non connecté -->
 
-<div
-  *ngIf="!isLogged"
-  class="container-postform container position-sticky bottom-0 start-0 bg-light border border-dark rounded p-3"
->
+<div *ngIf="!isLogged"
+  class="container-postform container position-sticky bottom-0 start-0 bg-light border border-dark rounded p-3">
   <p>Pour publier, veuillez vous connecter</p>
   <a class="btn btn-outline-dark" href="/login">Me connecter</a>
 </div>
 
 <!-- Utilisateur connecté -->
-<form
-  *ngIf="isLogged"
+<form *ngIf="isLogged"
   class="container-postform container position-sticky bottom-0 start-0 bg-light border border-dark rounded p-3"
->
+  (ngSubmit)="submitPost()">
   <div class="mb-3">
     <label for="post-text" class="form-label">Écrire un message :</label>
-    <textarea
-      class="form-control"
-      id="post-text"
-      rows="3"
-      placeholder="Publier un message dans le canal"
-    ></textarea>
+    <textarea class="form-control" id="post-text" rows="3" placeholder="Publier un message dans le canal"
+      [(ngModel)]="newPostText" (input)="limitText($event)"></textarea>
+  </div>
+  <div class="text-muted">
+    Caractères restants : {{ 1000 - newPostText.length }}
   </div>
   <button type="submit" class="btn btn-outline-dark">Publier</button>
 </form>
