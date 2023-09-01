@@ -9,17 +9,18 @@ import { HttpChannelService } from 'src/app/service/http-channel.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class ChannelListComponent {
-  channels!: Channel[];
+  channels: Channel[] = [];
   localError!: Error;
 
-  constructor(private htppChannelService: HttpChannelService) {
-    this.htppChannelService.getChannels().subscribe({
+  constructor(private httpChannelService: HttpChannelService) {
+    this.httpChannelService.getChannels().subscribe({
       next: (res) => {
         console.log(res);
         this.channels = res;
       },
       error: (err) => {
         console.error('something wrong occurred: ' + err.message);
+
         this.localError = err;
       },
     });

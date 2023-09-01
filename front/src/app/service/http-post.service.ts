@@ -21,6 +21,10 @@ export class HttpPostService {
     return this.http.get<Post>(`${BASE_URL}/posts/${id}`);
   }
 
+  getPostByChannelId(id:number): Observable<Post[]> {
+    return this.http.get<Post[]>(`${BASE_URL}/posts/channel/${id}`);
+  }
+
   // Method to perform a POST of Post
   createPost(postForm: PostForm) {
     const body = {
