@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserForm } from 'src/app/interface/user-form';
 
 @Component({
   selector: 'app-signup',
@@ -29,6 +30,7 @@ export class SignupComponent {
   }
 
   onSignup() {
+    // Reset error and validation variables
     this.isError = false;
     this.isErrorEmail = false;
     this.isErrorName = false;
@@ -39,6 +41,7 @@ export class SignupComponent {
     this.isValidPassword = false;
     this.isValidPasswordConfirm = false;
 
+    // Form validation
     this.formSignup.get('email')?.invalid ? this.isErrorEmail = true : this.isValidEmail = true;
     this.formSignup.get('name')?.invalid ? this.isErrorName = true : this.isValidName = true;
     this.formSignup.get('password')?.invalid ? this.isErrorPassword = true : this.isValidPassword = true;
@@ -54,7 +57,18 @@ export class SignupComponent {
     } 
     if (this.formSignup.invalid) return;
 
+    // Creation of the user variable
+     const user: UserForm = {
+       id: null,
+       name: this.formSignup.value.name,
+       email: this.formSignup.value.email,
+       password: this.formSignup.value.password,
+       avatar: null
+     };
+
     // Appel API
+    //
     console.log('account created');
+    console.log(user);
   }
 }

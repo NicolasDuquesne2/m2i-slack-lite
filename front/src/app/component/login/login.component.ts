@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserForm } from 'src/app/interface/user-form';
 
 @Component({
   selector: 'app-login',
@@ -20,16 +21,28 @@ export class LoginComponent {
   }
 
   onLogin(){
+    // Reset error and validation variables
     this.isError = false;
     this.isErrorEmail = false;
     this.isErrorPassword = false;
     
+    // Form validation
     if(this.formLogin.get('email')?.invalid) this.isErrorEmail = true;
     if(this.formLogin.get('password')?.invalid) this.isErrorPassword = true;
     if (this.formLogin.invalid) return;
     
-    // appel API
-    this.isError = false;
-    console.log('click');
+    // Creation of the user variable
+    const user: UserForm = {
+      id: null,
+      name: null,
+      email: this.formLogin.value.email,
+      password: this.formLogin.value.password,
+      avatar: null
+    };
+
+    // Appel API
+    // 
+    console.log('account Logged');
+    console.log(user);
   }
 }
