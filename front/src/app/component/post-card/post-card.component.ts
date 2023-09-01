@@ -11,6 +11,7 @@ import { HttpPostService } from 'src/app/service/http-post.service';
 export class PostCardComponent {
   @Input() post!: Post;
   // text: String = '';
+  userId: number = 0;
 
   editing = false;
   editForm: PostForm = { id: null, text: '', user: null, channel: null };
@@ -26,18 +27,22 @@ export class PostCardComponent {
     this.editing = true;
     this.editForm.id = this.post.id;
     this.editForm.text = this.post.text;
-    // this.editForm.user = this.post.user;
-    // this.editForm.channel = this.post.channel;
+
   }
-  cancelEdit() {
+  closeEdit() {
     this.editing = false;
     this.editForm = { id: null, text: '', user: null, channel: null };
   }
 
   submitEditForm() {
     this.httpPostService.partialUpdatePost(this.editForm).subscribe(updatedPost => {
-      this.post = updatedPost;
-      this.cancelEdit();
+      // this.editForm = updatedPost;
+      
     });
   }
+
+  deletePost(){
+  
+  }
+
 }

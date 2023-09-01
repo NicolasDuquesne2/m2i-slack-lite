@@ -2,41 +2,35 @@
   <div class="col-12 col-lg-2 p-2 bg-secondary-subtle">
     <div class="container text-center mb-3 container-avatar">
       <img [src]="post.user.avatar ? post.user.avatar : '../../../assets/img/default-user.svg'"
-      class="img-thumbnail rounded-circle w-75 object-fit-cover container-avatar-img" [alt]="'avatar de ' + post.user.name" />
+        class="img-thumbnail rounded-circle w-75 object-fit-cover container-avatar-img"
+        [alt]="'avatar de ' + post.user.name" />
     </div>
     <p class="h5 text-center text-break">{{ post.user.name }}</p>
   </div>
   <div class="col-12 col-lg-10 py-1">
-    <p class="">Publié le 20 août 2023, 12:47</p>
-    <!-- <p class="text-break" id="edit-text"> -->
-    <p class="text-break" id="edit-text">{{ formatDate(post.createdDateTime) }}
-      Ceci est une publication dont l'auteur est l'utilisateur connecté, des
-      boutons d'options sont alors disponibles.<br />
-      Le premier bouton pour éditer la publication.<br />
-      Le deuxième pour supprimer la publication et qui ouvre un modal pour la
-      confirmation.
-    </p>
+    <p class="">Publié le {{ formatDate(post.createdDateTime) }}</p>
+    <p class="text-break" id="edit-text" *ngIf="editing, else elseBlock ">{{post.text}}</p>
     <!-- Formulaire d'édition de la publication -->
-    <form class="pb-3 d-none" id="edit-form" *ngIf="editing" (ngSubmit)="submitEditForm()">
-      <div class="mb-3">
-        <label for="post-text" class="form-label">Modifier le message :</label>
-        <textarea class="form-control" id="post-text" rows="3" [(ngModel)]="editForm.text">
-Ceci est une publication dont l'auteur est l'utilisateur connecté, des boutons d'options sont alors disponibles. Le premier bouton pour éditer la publication. Le deuxième pour supprimer la publication et qui ouvre un modal pour la confirmation.
-                </textarea>
-      </div>
-      <!-- pb de margin -->
-      <button type="submit" class="btn btn-outline-dark" id="edit-btn-submit">
-        Modifier
-      </button>
-      <!-- pb de margin -->
-      <button type="button" class="btn btn-danger" id="edit-btn-close" (click)="cancelEdit()">
-        Annuler
-      </button>
-    </form>
+    <ng-template #elseBlock>
+      <form class="pb-3" id="edit-form" (ngSubmit)="submitEditForm()">
+        <div class="mb-3">
+          <label for="post-text" class="form-label">Modifier le message :</label>
+          <textarea class="form-control" id="post-text" rows="3" [(ngModel)]="editForm.text"></textarea>
+        </div>
+        <!-- pb de margin -->
+        <button type="submit" class="btn btn-outline-dark" id="edit-btn-submit">
+          Modifier
+        </button>
+        <!-- pb de margin -->
+        <button type="button" class="btn btn-danger" id="edit-btn-close" (click)="closeEdit()">
+          Annuler
+        </button>
+      </form>
+    </ng-template>
     <!-- Fin formulaire d'édition de la publication -->
   </div>
   <!-- Boutons d'options si id user logged == id auteur -->
-  <div class="w-auto position-absolute top-0 end-0 p-1">
+  <div class="w-auto position-absolute top-0 end-0 p-1" *ngIf="post.user.id == userId">
     <button class="btn btn-secondary" title="Modifier" id="edit-btn">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square"
         viewBox="0 0 16 16">
@@ -47,7 +41,7 @@ Ceci est une publication dont l'auteur est l'utilisateur connecté, des boutons 
       </svg>
     </button>
     <!-- data-bs-target="#deleteModal" devrait être dynamique -->
-    <button class="btn btn-danger" title="Supprimer" data-bs-toggle="modal" data-bs-target="#deleteModal">
+    <button class="btn btn-danger" title="Supprimer" data-bs-toggle="modal" data-bs-target="#deleteModal" >
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3"
         viewBox="0 0 16 16">
         <path
@@ -70,11 +64,11 @@ Ceci est une publication dont l'auteur est l'utilisateur connecté, des boutons 
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        {{ text }}
+        {{ post.text }}
       </div>
       <div class="modal-footer justify-content-center">
         <!-- suppresion du post en cours avec une fonction pour supprimer post et fermer modal-->
-        <button type="button" class="btn btn-outline-dark" id="modal-btn-confirm">
+        <button type="button" class="btn btn-outline-dark" id="modal-btn-confirm" (click)="deletePost()">
           Supprimer
         </button>
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
