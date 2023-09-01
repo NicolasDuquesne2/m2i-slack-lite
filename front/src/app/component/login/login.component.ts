@@ -46,10 +46,8 @@ export class LoginComponent {
     // Appel API
     this.httpUserService.loginUser(user).subscribe({
       next: (data) => {
-        console.log('account logged');
-        console.log(data.userId);
         this.userService.userId = data.userId;     
-        this.userService.isLogged = true;
+        this.userService.setIsLogged(true);
         localStorage.setItem('user', JSON.stringify(data));
         this.router.navigate(['channels/1']);
       },

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User } from '../interface/user';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +8,9 @@ import { Observable } from 'rxjs';
 export class UserService {
   user!:User;
   userId!: number;
-  isLogged:boolean = false;
+  
+  private _isLogged = new BehaviorSubject<boolean>(false);
+  isLogged = this._isLogged.asObservable();
 
   constructor() { }
 
@@ -24,9 +26,7 @@ export class UserService {
     });
   }
 
-  getIsLogged(): Observable<boolean>{
-    return new Observable<boolean>((observer)=>{
-      observer.next(this.isLogged);
-    });
+  setIsLogged(value: boolean) {
+    this._isLogged.next(value);
   }
 }
