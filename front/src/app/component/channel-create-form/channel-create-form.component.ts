@@ -20,7 +20,7 @@ export class ChannelCreateFormComponent {
   isErrorName = false;
   isErrorColor = false;
   userId!: number;
-  channels: Channel[] = [];
+  newChannelId!: number;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -63,18 +63,22 @@ export class ChannelCreateFormComponent {
       user: { id: this.userId },
     };
 
-    console.log(channelForm);
-
     // Appel API
     this.httpChannelService.createChannel(channelForm).subscribe({
       next: (data) => {
         this.httpChannelService.getChannels().subscribe({
           next: (data) => {
             const lastChannel = data.pop();
-            if (lastChannel)
+            if (lastChannel) {
+              this.newChannelId = lastChannel?.id;
+              console.log(this.newChannelId);
+              console.log(lastChannel.id)
               this.channelService.addElemeToChannels(lastChannel);
+            }
+            this.router.navigate([`/channels/${this.newChannelId}`]);
           },
         });
+        
       },
       error: (err) => {
         //console.error(err.error.error);
