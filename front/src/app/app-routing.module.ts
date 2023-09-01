@@ -8,6 +8,11 @@ import { ChannelComponent } from './component/channel/channel.component';
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'channels/1',
+    pathMatch: 'full',
+  },
+  {
     path: 'login',
     component: LoginComponent,
   },
