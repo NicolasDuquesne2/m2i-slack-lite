@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Color } from 'src/app/enum/color';
 import { Channel } from 'src/app/interface/channel';
 import { ChannelForm } from 'src/app/interface/channel-form';
 import { ChannelService } from 'src/app/service/channel.service';
@@ -16,6 +18,7 @@ export class ChannelUpdateFormComponent {
   channel!: Channel;
 
   displayForm: boolean = false;
+  displayModal: boolean = false;
   updateChannelForm: FormGroup;
   userId!: number;
   isError = false;
@@ -26,7 +29,8 @@ export class ChannelUpdateFormComponent {
     private formBuilder: FormBuilder,
     private httpChannelService: HttpChannelService,
     private channelService: ChannelService,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) {
     this.updateChannelForm = this.formBuilder.group({
       channelName: [
@@ -43,6 +47,23 @@ export class ChannelUpdateFormComponent {
 
   onDisplayForm() {
     this.displayForm = !this.displayForm;
+    if (this.displayForm) {
+      this.updateChannelForm.controls['channelName'].setValue(
+        this.channel.name
+      );
+      this.updateChannelForm.controls['channelColor'].setValue(
+        this.channel.color
+      );
+    }
+  }
+
+  onDisplayModal() {
+    this.displayModal = !this.displayForm;
+    console.log('pp');
+  }
+
+  onAbort() {
+    this.displayForm = false;
   }
 
   onUpdateChannel(event: Event) {
@@ -82,6 +103,27 @@ export class ChannelUpdateFormComponent {
                 this.displayForm = false;
               },
             });
+          },
+        });
+      },
+      error: (err) => {
+        //console.error(err.error.error);
+        this.isError = true;
+      },
+    });
+  }
+
+  onDelete(event: Event) {
+    event.preventDefault();
+    console.log(event);
+
+    // Appel API
+    this.httpChannelService.deleteChannelById(this.channel.id).subscribe({
+      next: (data) => {
+        this.httpChannelService.getChannels().subscribe({
+          next: (data) => {
+            this.channelService.setChannels(data);
+            this.router.navigate(['']);
           },
         });
       },

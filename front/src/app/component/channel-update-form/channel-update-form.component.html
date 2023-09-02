@@ -79,9 +79,8 @@
   <button
     class="btn btn-danger"
     title="Supprimer"
-    data-bs-toggle="modal"
-    data-bs-target="#deleteChannelModal"
     *ngIf="channel.deletable"
+    (click)="onDisplayModal()"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -101,42 +100,9 @@
 
 <!-- Modal pour la confirmation de suppression du canal -->
 <div
-  class="modal fade"
-  id="deleteChannelModal"
-  tabindex="-1"
-  aria-labelledby="deleteChannelModalLabel"
-  aria-hidden="true"
+  class="overlay bg-black w-100 h-100 position-absolute start-0 top-0 opacity-25"
+  *ngIf="displayModal"
 >
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="deleteChannelModalLabel">
-          Supprimer le canal
-        </h1>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <!--  {{ Nom du canal }} -->
-        Nom du canal
-      </div>
-      <div class="modal-footer justify-content-center">
-        <button
-          type="button"
-          class="btn btn-outline-dark"
-          id="modalChannel-btn-confirm"
-        >
-          Supprimer
-        </button>
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-          Annuler
-        </button>
-      </div>
-    </div>
-  </div>
+  
 </div>
 <!-- Fin modal pour la confirmation de suppression du canal  -->
