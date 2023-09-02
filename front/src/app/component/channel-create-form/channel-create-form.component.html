@@ -1,41 +1,103 @@
 <div class="d-flex justify-content-between mb-3">
-    <h3>Canaux</h3>
-    <button type="button" class="btn btn-outline-dark rounded-circle" id="btn-toggle-create" title="créer un canal" data-bs-toggle="collapse" data-bs-target="#channel-create" aria-expanded="false" aria-controls="channel-create">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down" viewBox="0 0 16 16">
-            <path d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z"/>
-        </svg>
-    </button>
+  <h3>Canaux</h3>
+  <button
+    type="button"
+    class="btn btn-outline-dark rounded-circle"
+    id="btn-toggle-create"
+    title="créer un canal"
+    data-bs-toggle="collapse"
+    data-bs-target="#channel-create"
+    aria-expanded="false"
+    aria-controls="channel-create"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      fill="currentColor"
+      class="bi bi-caret-down"
+      viewBox="0 0 16 16"
+    >
+      <path
+        d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z"
+      />
+    </svg>
+  </button>
 </div>
 
 <div class="collapse" id="channel-create">
-    <form id="channel-form" class="pb-3 mb-3 border-bottom border-dark">
-        <h4>Créer un canal</h4>
-        <div class="mb-3">
-            <label for="channel-name" class="form-label">Nom du canal</label>
-            <input class="form-control" type="text" placeholder="Mon canal" id="channel-name"
-                name="channel-name" minlength="3" maxlength="25" required>
-        </div>
-        <div class="mb-3">
-            <label for="channel-color" class="form-label">Choisir une couleur</label>
-            <select class="form-select" id="channel-color" name="channel-color">
-                <option value="WHITE" class="channel-white" selected>Blanc</option>
-                <option value="GREY" class="channel-grey">Gris</option>
-                <option value="BLACK" class="channel-black">Noir</option>
-                <option value="BLUE" class="channel-blue">Bleu</option>
-                <option value="PURPLE" class="channel-purple">Violet</option>
-                <option value="RED" class="channel-red">Rouge</option>
-                <option value="ORANGE" class="channel-orange">Orange</option>
-                <option value="YELLOW" class="channel-yellow">Jaune</option>
-                <option value="GREEN" class="channel-green">Vert</option>
-                <option value="CYAN" class="channel-cyan">Cyan</option>
-                <option value="ELDENRING" class="channel-eldenring">Elden</option>
-            </select>
-        </div>
-        <div class="mb-3 form-check d-none">
-            <input class="form-check-input" type="checkbox" value="" id="channel-deletable"
-                checked>
-            <label class="form-check-label channel-deletable-label" for="channel-deletable">Canal supprimable</label>
-        </div>
-        <button type="submit" class="btn btn-outline-dark w-100">Créer</button>
-    </form>
+  <form
+    id="channel-form"
+    class="pb-3 mb-3 border-bottom border-dark"
+    [formGroup]="createChannelForm"
+    (ngSubmit)="onAddChannel()"
+  >
+    <h4>Créer un canal</h4>
+    <div class="mb-3">
+      <label for="channel-name" class="form-label">Nom du canal</label>
+      <input
+        class="form-control"
+        type="text"
+        placeholder="Mon canal"
+        id="channel-name"
+        name="channel-name"
+        minlength="3"
+        maxlength="25"
+        formControlName="channelName"
+        required
+      />
+    </div>
+    <div
+      *ngIf="isErrorName"
+      class="alert alert-danger mt-3"
+      role="alert"
+      id="login-alert"
+    >
+      Veullez entrer un nom compris entre 5 et 20 caratères.
+    </div>
+    <div class="mb-3">
+      <label for="channel-color" class="form-label">Choisir une couleur</label>
+      <select
+        class="form-select"
+        id="channel-color"
+        name="channel-color"
+        formControlName="channelColor"
+      >
+        <option value="WHITE" class="channel-white" selected>Blanc</option>
+        <option value="GREY" class="channel-grey">Gris</option>
+        <option value="BLACK" class="channel-black">Noir</option>
+        <option value="BLUE" class="channel-blue">Bleu</option>
+        <option value="PURPLE" class="channel-purple">Violet</option>
+        <option value="RED" class="channel-red">Rouge</option>
+        <option value="ORANGE" class="channel-orange">Orange</option>
+        <option value="YELLOW" class="channel-yellow">Jaune</option>
+        <option value="GREEN" class="channel-green">Vert</option>
+        <option value="CYAN" class="channel-cyan">Cyan</option>
+        <option value="ELDENRING" class="channel-eldenring">Elden</option>
+      </select>
+    </div>
+    <div
+      *ngIf="isErrorColor"
+      class="alert alert-danger mt-3"
+      role="alert"
+      id="login-alert"
+    >
+      Veullez une couleur.
+    </div>
+    <div class="mb-3 form-check d-none">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        value=""
+        id="channel-deletable"
+        checked
+      />
+      <label
+        class="form-check-label channel-deletable-label"
+        for="channel-deletable"
+        >Canal supprimable</label
+      >
+    </div>
+    <button type="submit" class="btn btn-outline-dark w-100">Créer</button>
+  </form>
 </div>

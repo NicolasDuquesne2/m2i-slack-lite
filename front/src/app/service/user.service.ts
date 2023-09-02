@@ -9,7 +9,7 @@ export class UserService {
   private _isLogged = new BehaviorSubject<boolean>(false);
   isLogged = this._isLogged.asObservable();
 
-  private _userId = new BehaviorSubject<Number | null>(null);
+  private _userId = new BehaviorSubject<number | null>(null);
   userId = this._userId.asObservable();
 
   private _user = new BehaviorSubject<User | undefined>(undefined);

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-post-form',
@@ -6,12 +6,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./post-form.component.scss'],
 })
 export class PostFormComponent {
-  isLogged: boolean = false;
+  
+ @Input() isLogged!: boolean;
   newPostText: string = '';
 
   limitText(event: any) {
     const maxLength = 1000;
-    if (event.target.value.length > maxLength) {
+    if (event.target.value.length >= maxLength) {
       event.target.value = event.target.value.slice(0, maxLength);
     }
   }
