@@ -12,14 +12,14 @@ import { UserService } from 'src/app/service/user.service';
 })
 export class UserProfileComponent {
   user: User | undefined;
-  id:number | null = null;
+  userId:number | null = null;
 
   constructor(private userService: UserService, private httpUserService: HttpUserService) { }
 
   ngOnInit(): void {
     this.userService.userId.subscribe((observer)=>{
-      this.id = observer;
-      console.log(`userId observer: ${this.id}`);
+      this.userId = observer;
+      console.log(`userId observer: ${this.userId}`);
     });
 
     this.userService.user.subscribe((observer)=>{
@@ -27,8 +27,8 @@ export class UserProfileComponent {
       console.log(`userId observer: ${this.user}`);
     });
 
-    if(this.id != null) {
-      this.httpUserService.getUserById(this.id).subscribe({
+    if(this.userId != null) {
+      this.httpUserService.getUserById(this.userId).subscribe({
         next: (res:User) => {
           console.log(res);
           this.userService.setUser(res);
