@@ -14,7 +14,8 @@
   <div class="mb-3">
     <label for="post-text" class="form-label">Écrire un message :</label>
     <textarea class="form-control" id="post-text" rows="3" placeholder="Publier un message dans le canal"
-      [(ngModel)]="newPostText" (input)="limitText($event)" [ngModelOptions]="{standalone: true}"></textarea>
+      [(ngModel)]="newPostText" name="newPostText" (input)="limitText($event)">
+    </textarea>
   </div>
   <div class="text-muted">
     Caractères restants : {{ 1000 - newPostText.length }}

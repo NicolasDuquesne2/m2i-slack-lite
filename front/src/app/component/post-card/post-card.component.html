@@ -1,24 +1,23 @@
 <div class="row mx-1 mb-3 bg-white shadow rounded overflow-hidden position-relative">
   <div class="col-12 col-lg-2 p-2 bg-secondary-subtle">
     <div class="container text-center mb-3 container-avatar">
-      <img src="../../../assets/img/default-user.svg"
-        class="img-thumbnail rounded-circle w-75 object-fit-cover container-avatar-img"
+      <img [src]="getAvatarSrc(post.user.avatar)" class="img-thumbnail rounded-circle w-75 object-fit-cover container-avatar-img"
         [alt]="'avatar de ' + post.user.name" />
     </div>
     <p class="h5 text-center text-break">{{ post.user.name }}</p>
   </div>
   <div class="col-12 col-lg-10 py-1">
     <p class="">{{ formatedDate() }}</p>
-    <p class="text-break" id="edit-text" *ngIf="!isEditing, else elseBlock ">{{post.text}}</p>
+    <p class="text-break" id="edit-text" *ngIf="!isEditing; else elseBlock">{{post.text}}</p>
     <!-- Formulaire d'édition de la publication -->
     <ng-template #elseBlock>
       <form class="pb-3" id="edit-form" (ngSubmit)="submitEditForm()">
         <div class="mb-3">
           <label for="post-text" class="form-label">Modifier le message :</label>
-          <textarea class="form-control" id="post-text" rows="3" [(ngModel)]="editForm.text" (input)="limitText($event, 100)"></textarea>
+          <textarea class="form-control" id="post-text" rows="3" [(ngModel)]="post.text" name="postText"></textarea>
         </div>
         <!-- pb de margin -->
-        <button type="submit" class="btn btn-outline-dark" id="edit-btn-submit">
+        <button type="submit" class="btn btn-outline-dark" id="edit-btn-submit" >
           Modifier
         </button>
         <!-- pb de margin -->
@@ -28,10 +27,11 @@
       </form>
     </ng-template>
     <!-- Fin formulaire d'édition de la publication -->
+
   </div>
   <!-- Boutons d'options si id user logged == id auteur -->
   <div class="w-auto position-absolute top-0 end-0 p-1" *ngIf="post.user.id == userId">
-    <button class="btn btn-secondary" title="Modifier" id="edit-btn">
+    <button class="btn btn-secondary" title="Modifier" id="edit-btn" (click)="startEdit()">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square"
         viewBox="0 0 16 16">
         <path
@@ -41,7 +41,7 @@
       </svg>
     </button>
     <!-- data-bs-target="#deleteModal" devrait être dynamique -->
-    <button class="btn btn-danger" title="Supprimer" data-bs-toggle="modal" data-bs-target="#deleteModal" >
+    <button class="btn btn-danger" title="Supprimer" data-bs-toggle="modal" data-bs-target="#deleteModal">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3"
         viewBox="0 0 16 16">
         <path
