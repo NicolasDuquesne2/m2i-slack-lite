@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Channel } from 'src/app/interface/channel';
 import { Post } from 'src/app/interface/post';
+import { ChannelService } from 'src/app/service/channel.service';
 import { HttpChannelService } from 'src/app/service/http-channel.service';
 import { HttpPostService } from 'src/app/service/http-post.service';
 import { UserService } from 'src/app/service/user.service';
@@ -13,7 +14,7 @@ import { UserService } from 'src/app/service/user.service';
 })
 export class ChannelComponent implements OnInit {
   posts: Post[] = [];
-  channel!: Channel;
+  channel: Channel | undefined;
   isLoading: boolean = true;
   isLogged!:boolean;
   userId!:number|null;
@@ -22,6 +23,7 @@ export class ChannelComponent implements OnInit {
 
     private httppostService: HttpPostService,
     private httpChannelService: HttpChannelService,
+    private channelService: ChannelService,
     private activeRoute: ActivatedRoute,
     private userService: UserService,
     private router: Router
@@ -35,6 +37,10 @@ export class ChannelComponent implements OnInit {
       this.userId = observer;
     });
 
+    this.channelService.channel.subscribe((observer) => {
+      this.channel = observer;
+    })
+
   }
 
   ngOnInit(): void {
@@ -47,7 +53,7 @@ export class ChannelComponent implements OnInit {
 
       this.httpChannelService.getChanelById(numid).subscribe({
         next: (res) => {
-          this.channel = res;
+          this.channelService.setChannel(res)
           this.isLoading = false;
         },
         error: (err) => {
