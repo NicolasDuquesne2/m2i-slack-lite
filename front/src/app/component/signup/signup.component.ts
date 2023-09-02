@@ -73,7 +73,7 @@ export class SignupComponent {
       avatar: null
     };
 
-    // APIcall
+    // API call
     this.httpUserService.createUser(user).subscribe({
       next: (data) => {
         this.login(user);
