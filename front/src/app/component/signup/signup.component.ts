@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { UserForm } from 'src/app/interface/user-form';
+import { HttpUserService } from 'src/app/service/http-user.service';
+import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'app-signup',
@@ -20,7 +23,10 @@ export class SignupComponent {
   isValidPassword: boolean = false;
   isValidPasswordConfirm: boolean = false;
 
-  constructor(private formBuilder: FormBuilder) {
+  errorMessageEmailDefault: string = 'Email invalide';
+  errorMessageEmail: string = this.errorMessageEmailDefault;
+
+  constructor(private formBuilder: FormBuilder, private httpUserService: HttpUserService, private userService: UserService, private router: Router) {
     this.formSignup = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
@@ -40,35 +46,61 @@ export class SignupComponent {
     this.isValidName = false;
     this.isValidPassword = false;
     this.isValidPasswordConfirm = false;
+    this.errorMessageEmail = this.errorMessageEmailDefault;
 
     // Form validation
     this.formSignup.get('email')?.invalid ? this.isErrorEmail = true : this.isValidEmail = true;
     this.formSignup.get('name')?.invalid ? this.isErrorName = true : this.isValidName = true;
     this.formSignup.get('password')?.invalid ? this.isErrorPassword = true : this.isValidPassword = true;
-    
-    if(this.formSignup.get('passwordConfirm')?.invalid) {
+
+    if (this.formSignup.get('passwordConfirm')?.invalid) {
       this.isErrorPasswordConfirm = true;
-    } else{
-      if(this.formSignup.value.password !== this.formSignup.value.passwordConfirm){
+    } else {
+      if (this.formSignup.value.password !== this.formSignup.value.passwordConfirm) {
         this.isErrorPasswordConfirm = true;
         return;
       }
-      this.isValidPasswordConfirm = true;    
-    } 
+      this.isValidPasswordConfirm = true;
+    }
     if (this.formSignup.invalid) return;
 
     // Creation of the user variable
-     const user: UserForm = {
-       id: null,
-       name: this.formSignup.value.name,
-       email: this.formSignup.value.email,
-       password: this.formSignup.value.password,
-       avatar: null
-     };
+    const user: UserForm = {
+      id: null,
+      name: this.formSignup.value.name,
+      email: this.formSignup.value.email,
+      password: this.formSignup.value.password,
+      avatar: null
+    };
 
-    // Appel API
-    //
-    console.log('account created');
-    console.log(user);
+    // APIcall
+    this.httpUserService.createUser(user).subscribe({
+      next: (data) => {
+        this.login(user);
+      },
+      error: (err) => {
+        //console.error(err.error);
+        if(err.error) {
+          this.isErrorEmail = true;
+          this.errorMessageEmail = 'Un utilisateur utilise déjà cet email';
+        } else this.isError = true;
+      },
+    });
   }
+
+  login(user:UserForm){
+    this.httpUserService.loginUser(user).subscribe({
+      next: (data) => {
+        this.userService.setUserId(data.userId);     
+        this.userService.setIsLogged(true);
+        localStorage.setItem('user', JSON.stringify(data));
+        this.router.navigate(['channels/1']);
+      },
+      error: (err) => {
+        //console.error(err.error.error);
+        this.isError = true;
+      },
+    });
+  }
+  
 }

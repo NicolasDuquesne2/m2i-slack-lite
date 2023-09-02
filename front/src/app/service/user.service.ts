@@ -21,11 +21,11 @@ export class UserService {
     this._isLogged.next(logged);
   }
 
-  setUserId(id: number){
+  setUserId(id: number | null){
     this._userId.next(id);
   }
 
-  setUser(user: User){
+  setUser(user: User | undefined){
     this._user.next(user);
   }
 }

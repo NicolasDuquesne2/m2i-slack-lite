@@ -17,7 +17,7 @@
         id="email"
         formControlName="email"
       />
-      <div class="invalid-feedback" id="email-feedback">Email invalide</div>
+      <div class="invalid-feedback" id="email-feedback">{{ errorMessageEmail }}</div>
     </div>
 
     <div class="mb-3">
@@ -66,5 +66,8 @@
       </div>
     </div>
     <button type="submit" class="btn btn-primary w-100">Valider</button>
+    <div *ngIf="isError" class="alert alert-danger mt-3" role="alert" id="login-alert">
+      Oups... une erreur est survenue
+    </div>
   </form>
 </div>

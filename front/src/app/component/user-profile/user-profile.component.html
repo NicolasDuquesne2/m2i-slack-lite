@@ -1,17 +1,17 @@
-<div class="container text-center mb-3 container-avatar">
+<div *ngIf="user" class="container text-center mb-3 container-avatar">
   <img
-    src="./assets/img/default-user.svg"
+    [src]=" getAvatarSrc(user.avatar)"
     class="img-thumbnail rounded-circle w-100 object-fit-cover container-avatar-img"
-    alt="avatar de { User }"
+    alt="avatar de {{ user.name }}"
   />
 </div>
-<p class="h4 text-center text-break">User name</p>
-<a class="btn btn-outline-dark w-100 mb-3" href="/account">Mon compte</a>
+<p *ngIf="user" class="h4 text-center text-break">{{ user.name }}</p>
+<a class="btn btn-outline-dark w-100 mb-3" routerLink="/account">Mon compte</a>
 <button
   type="button"
   class="btn btn-danger btn-sm position-absolute top-0 end-0"
-  href="/login"
   title="Me déconnecter"
+  (click)="logout()"
 >
   <svg
     xmlns="http://www.w3.org/2000/svg"

@@ -17,5 +17,15 @@ export class HomeComponent {
     this.userService.isLogged.subscribe((observer) => {
       this.isLogged = observer;
     });
+
+    if(localStorage.length != 0 && localStorage.getItem('user')){
+      //console.log('user in the constructor');
+      let localStorageUser = localStorage.getItem('user');
+      if(localStorageUser != null){
+        const userId:number = JSON.parse(localStorageUser).userId;
+        this.userService.setIsLogged(true);
+        this.userService.setUserId(userId);
+      }
+    }
   }
 }
