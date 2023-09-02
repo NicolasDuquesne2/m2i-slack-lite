@@ -1,4 +1,17 @@
-#deleteChannelModal {
-    color: #212529;
-    display: block;
+.z-10 {
+  z-index: 10;
+}
+
+.modal-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-card {
+    background-color: white;
+    opacity: 1;
+    width: 40%;
+}
+
+.modal-card-close {
+    border: none;
 }
