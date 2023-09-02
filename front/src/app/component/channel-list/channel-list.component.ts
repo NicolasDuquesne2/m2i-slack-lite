@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Channel } from 'src/app/interface/channel';
+import { ChannelService } from 'src/app/service/channel.service';
 import { HttpChannelService } from 'src/app/service/http-channel.service';
 
 @Component({
@@ -12,11 +13,17 @@ export class ChannelListComponent {
   channels: Channel[] = [];
   localError!: Error;
 
-  constructor(private httpChannelService: HttpChannelService) {
+  constructor(private httpChannelService: HttpChannelService, private channelService: ChannelService) {
+    
+    this.channelService.channels.subscribe((observer) => {
+      this.channels = observer;
+    });
+    
     this.httpChannelService.getChannels().subscribe({
       next: (res) => {
         console.log(res);
-        this.channels = res;
+        
+        this.channelService.setChannels(res);
       },
       error: (err) => {
         console.error('something wrong occurred: ' + err.message);

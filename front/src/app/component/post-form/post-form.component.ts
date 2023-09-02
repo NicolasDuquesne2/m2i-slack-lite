@@ -1,8 +1,10 @@
+
 import { Component } from '@angular/core';
 import { HttpPostService } from 'src/app/service/http-post.service';
 import { UserService } from 'src/app/service/user.service';
 import { PostForm } from 'src/app/interface/post-form';
 import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-post-form',
@@ -10,6 +12,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./post-form.component.scss'],
 })
 export class PostFormComponent {
+
   userId: number | null = null;
   isLogged: boolean = false;
   channelId: number | null = null;
@@ -31,6 +34,7 @@ export class PostFormComponent {
   limitText(event: any) {
     const maxLength = 999;
     if (event.target.value.length > maxLength) {
+
       event.target.value = event.target.value.slice(0, maxLength);
     }
   }
