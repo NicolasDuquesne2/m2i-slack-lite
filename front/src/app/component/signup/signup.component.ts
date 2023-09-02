@@ -23,6 +23,9 @@ export class SignupComponent {
   isValidPassword: boolean = false;
   isValidPasswordConfirm: boolean = false;
 
+  errorMessageEmailDefault: string = 'Email invalide';
+  errorMessageEmail: string = this.errorMessageEmailDefault;
+
   constructor(private formBuilder: FormBuilder, private httpUserService: HttpUserService, private userService: UserService, private router: Router) {
     this.formSignup = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -43,6 +46,7 @@ export class SignupComponent {
     this.isValidName = false;
     this.isValidPassword = false;
     this.isValidPasswordConfirm = false;
+    this.errorMessageEmail = this.errorMessageEmailDefault;
 
     // Form validation
     this.formSignup.get('email')?.invalid ? this.isErrorEmail = true : this.isValidEmail = true;
@@ -75,8 +79,11 @@ export class SignupComponent {
         this.login(user);
       },
       error: (err) => {
-        console.error(err.error.error);
-        this.isError = true;
+        //console.error(err.error);
+        if(err.error) {
+          this.isErrorEmail = true;
+          this.errorMessageEmail = 'Un utilisateur utilise déjà cet email';
+        } else this.isError = true;
       },
     });
   }
