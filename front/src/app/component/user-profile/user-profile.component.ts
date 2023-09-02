@@ -12,7 +12,7 @@ import { UserService } from 'src/app/service/user.service';
 })
 export class UserProfileComponent {
   user: User | undefined;
-  userId:number | null = null;
+  userId: number | null = null;
 
   constructor(private userService: UserService, private httpUserService: HttpUserService) { }
 

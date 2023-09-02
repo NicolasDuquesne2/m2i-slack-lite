@@ -1,42 +1,21 @@
 <h2 class="text-center my-3">Modifier mon compte</h2>
 
 <div class="container text-center">
-  <form
-    class="border border-dark rounded col-12 col-lg-6 mx-auto mb-3 p-3"
-    id="form-update-mail"
-    novalidate
-  >
+  <form class="border border-dark rounded col-12 col-lg-6 mx-auto mb-3 p-3" id="formUpdateMail" novalidate>
     <div class="mb-3">
       <label for="email" class="form-label">Modifier mon email</label>
-      <input
-        type="email"
-        class="form-control text-center is-invalid"
-        aria-describedby="email-feedback"
-        id="email"
-        placeholder="Entrer votre nouveau email"
-        required
-      />
+      <input type="email" class="form-control text-center is-invalid" aria-describedby="email-feedback" id="email"
+        placeholder="Entrer votre nouveau email" required />
       <div class="invalid-feedback" id="email-feedback">Email invalide</div>
     </div>
     <button type="submit" class="btn btn-primary w-100">Valider</button>
   </form>
 
-  <form
-    class="border border-dark rounded col-12 col-lg-6 mx-auto mb-3 p-3"
-    id="form-update"
-    novalidate
-  >
+  <form class="border border-dark rounded col-12 col-lg-6 mx-auto mb-3 p-3" id="formUpdatePassword" novalidate>
     <div class="mb-3">
-      <label for="password" class="form-label"
-        >Modifier votre mot de passe</label
-      >
-      <input
-        type="password"
-        class="form-control text-center is-invalid"
-        id="password"
-        aria-describedby="passwordHelp"
-        placeholder="Entrer votre nouveau mot de passe"
-      />
+      <label for="password" class="form-label">Modifier votre mot de passe</label>
+      <input type="password" class="form-control text-center is-invalid" id="password" aria-describedby="passwordHelp"
+        placeholder="Entrer votre nouveau mot de passe" />
       <div id="passwordHelp" class="form-text">
         Doit comporter minuscule, majuscule, chiffre, caractère spécial et
         minimun 8 caractères
@@ -46,15 +25,9 @@
       </div>
     </div>
     <div class="mb-3">
-      <label for="password-confirm" class="form-label"
-        >Confirmation de votre nouveau mot de passe</label
-      >
-      <input
-        type="password"
-        class="form-control text-center is-invalid"
-        id="password-confirm"
-        placeholder="Confirmer votre nouveau mot de passe"
-      />
+      <label for="password-confirm" class="form-label">Confirmation de votre nouveau mot de passe</label>
+      <input type="password" class="form-control text-center is-invalid" id="password-confirm"
+        placeholder="Confirmer votre nouveau mot de passe" />
       <div class="invalid-feedback" id="password-confirm-feedback">
         Confirmation du mot de passe invalide
       </div>
@@ -62,44 +35,25 @@
     <button type="submit" class="btn btn-primary w-100">Valider</button>
   </form>
 
-  <form
-    class="border border-dark rounded col-12 col-lg-6 mx-auto mb-3 p-3"
-    id="form-update"
-    novalidate
-  >
+  <form class="border border-dark rounded col-12 col-lg-6 mx-auto mb-3 p-3" id="formUpdateName" novalidate>
     <div class="mb-3">
-      <label for="name" class="form-label">Modifier mon pseudo</label>
-      <input
-        type="text"
-        class="form-control text-center is-valid"
-        aria-describedby="pseudo-feedback"
-        id="name"
-        placeholder="Entrer votre nouveau pseudo"
-      />
+      <label for="name" class="form-label">Modifier mon nom</label>
+      <input type="text" class="form-control text-center is-valid" aria-describedby="name-feedback" id="name"
+        placeholder="Entrer votre nouveau pseudo" />
       <div class="invalid-feedback" id="pseudo-feedback">Pseudo invalide</div>
     </div>
     <button type="submit" class="btn btn-primary w-100">Valider</button>
   </form>
 
-  <form
-    class="border border-dark rounded col-12 col-lg-6 mx-auto mb-3 p-3"
-    id="form-update"
-    novalidate
-  >
+  <form class="border border-dark rounded col-12 col-lg-6 mx-auto mb-3 p-3" id="formUpdateAvatar" novalidate>
     <div class="mb-3">
-      <label for="name" class="form-label">Modifier mon avatar</label>
-      <input
-        type="text"
-        class="form-control text-center is-valid"
-        aria-describedby="pseudo-feedback"
-        id="name"
-        aria-describedby="avatarHelp"
-        placeholder="Entrer l'url de votre avatar"
-      />
+      <label for="avatar" class="form-label">Modifier mon avatar</label>
+      <input type="text" class="form-control text-center is-valid" aria-describedby="avatar-feedback" id="avatar"
+        aria-describedby="avatarHelp" placeholder="Entrer l'url de votre avatar" />
       <div id="avatarHelp" class="form-text">
         Entrer l'url de votre fichier image
       </div>
-      <div class="invalid-feedback" id="pseudo-feedback">Avatar invalide</div>
+      <div class="invalid-feedback" id="avatar-feedback">Avatar invalide</div>
     </div>
     <button type="submit" class="btn btn-primary w-100">Valider</button>
   </form>
