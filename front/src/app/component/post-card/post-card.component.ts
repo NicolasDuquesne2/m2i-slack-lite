@@ -33,7 +33,6 @@ export class PostCardComponent {
 
   startEdit() {
     this.isEditing = true;
-
   }
 
   closeEdit() {
@@ -42,6 +41,7 @@ export class PostCardComponent {
 
   submitEditForm() {
     const postForm: PostForm = { id: this.post.id, text: this.post.text, user: null, channel: null };
+    this.post.updatedDateTime = new Date();
     this.httpPostService.partialUpdatePost(postForm).subscribe({
       next: (res) => {
         this.isEditing = false;
@@ -68,12 +68,12 @@ export class PostCardComponent {
       event.target.value = event.target.value.slice(0, maxLength);
     }
   }
-  getAvatarSrc(): string {
-    if (!this.post) return './assets/img/default-user.svg';
-    if (this.post.user.avatar == '') return './assets/img/default-user.svg';
-    if (this.post.user.avatar.toLowerCase() == 'avatar') return './assets/img/avatar.webp';
-    if (this.post.user.avatar.toLowerCase() == 'eldenring' || this.post.user.avatar.toLowerCase() == 'malenia') return './assets/img/malenia.webp';
-    if (!this.post.user.avatar.startsWith('http')) return './assets/img/default-user.svg';
-    return this.post.user.avatar;
+  getAvatarSrc(avatar: string): string {
+    if (avatar == null || avatar == undefined) return './assets/img/default-user.svg';
+    if (avatar == '') return './assets/img/default-user.svg';
+    if (avatar.toLowerCase() == 'avatar') return './assets/img/avatar.webp';
+    if (avatar.toLowerCase() == 'eldenring' || avatar.toLowerCase() == 'malenia') return './assets/img/malenia.webp';
+    if (!avatar.startsWith('http')) return './assets/img/default-user.svg';
+    return avatar;
   }
 }
