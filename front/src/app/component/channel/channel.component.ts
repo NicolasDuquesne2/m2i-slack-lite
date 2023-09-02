@@ -14,7 +14,7 @@ import { UserService } from 'src/app/service/user.service';
 export class ChannelComponent implements OnInit {
   posts: Post[] = [];
   channel!: Channel;
-  isLoading: boolean = false;
+  isLoading: boolean = true;
   isLogged!:boolean;
   userId!:number|null;
 
@@ -48,11 +48,11 @@ export class ChannelComponent implements OnInit {
       this.httpChannelService.getChanelById(numid).subscribe({
         next: (res) => {
           this.channel = res;
-          console.log(res);
-          
+          this.isLoading = false;
         },
         error: (err) => {
           console.error('something wrong occurred: ' + err.message);
+          this.isLoading = false;
           this.router.navigate(['/error']);
         },
       })

@@ -1,5 +1,11 @@
 <!-- Formulaire de modification du canal -->
-<form id="channel-updateform" class="p-3 bg-light bg-opacity-75 rounded d-none">
+<form
+  *ngIf="displayForm"
+  id="channel-updateform"
+  class="p-3 bg-light bg-opacity-75 rounded"
+  [formGroup]="updateChannelForm"
+  (ngSubmit)="onUpdateChannel($event)"
+>
   <h4>Modifier le canal</h4>
   <div class="mb-3">
     <label for="channel-name" class="form-label">Nom du canal</label>
@@ -13,11 +19,17 @@
       maxlength="25"
       required
       value="Canal modifiable"
+      formControlName="channelName"
     />
   </div>
   <div class="mb-3">
     <label for="channel-color" class="form-label">Choisir une couleur</label>
-    <select class="form-select" id="update-channel-color" name="channel-color">
+    <select
+      class="form-select"
+      id="update-channel-color"
+      name="channel-color"
+      formControlName="channelColor"
+    >
       <option value="WHITE" class="channel-white" selected>Blanc</option>
       <option value="GREY" class="channel-grey">Gris</option>
       <option value="BLACK" class="channel-black">Noir</option>
@@ -40,7 +52,12 @@
 
 <!-- Boutons d'options si id user logged == id auteur -->
 <div class="w-auto position-absolute top-0 end-0 p-1">
-  <button class="btn btn-secondary" title="Modifier" id="editChannel-btn">
+  <button
+    class="btn btn-secondary"
+    title="Modifier"
+    id="editChannel-btn"
+    (click)="onDisplayForm()"
+  >
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="16"

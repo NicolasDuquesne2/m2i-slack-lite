@@ -70,9 +70,7 @@ export class ChannelCreateFormComponent {
           next: (data) => {
             const lastChannel = data.pop();
             if (lastChannel) {
-              this.newChannelId = lastChannel?.id;
-              console.log(this.newChannelId);
-              console.log(lastChannel.id)
+              this.newChannelId = lastChannel.id;
               this.channelService.addElemeToChannels(lastChannel);
             }
             this.router.navigate([`/channels/${this.newChannelId}`]);

@@ -17,12 +17,7 @@ export class ChannelService {
 
   addElemeToChannels(channel: Channel) {
     this.channels.pipe(take(1)).subscribe(val => {
-      console.log(val);
-      const newArr = [...val, channel];
-      console.log(channel);
-      
-      console.log(newArr);
-      
+      const newArr = [...val, channel]; 
       this._channels.next(newArr);
     })
   }
