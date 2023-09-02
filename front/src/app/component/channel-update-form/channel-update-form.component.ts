@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Channel } from 'src/app/interface/channel';
 
 @Component({
   selector: 'app-channel-update-form',
@@ -7,4 +8,8 @@ import { Component } from '@angular/core';
 })
 export class ChannelUpdateFormComponent {
 
+  @Input()
+  channel!:Channel;
+
+  
 }

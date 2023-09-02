@@ -4,6 +4,7 @@ import { Channel } from 'src/app/interface/channel';
 import { Post } from 'src/app/interface/post';
 import { HttpChannelService } from 'src/app/service/http-channel.service';
 import { HttpPostService } from 'src/app/service/http-post.service';
+import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'app-channel',
@@ -13,16 +14,28 @@ import { HttpPostService } from 'src/app/service/http-post.service';
 export class ChannelComponent implements OnInit {
   posts: Post[] = [];
   channel!: Channel;
-  accessToForm: boolean = true;
   isLoading: boolean = false;
+  isLogged!:boolean;
+  userId!:number|null;
 
   constructor(
 
     private httppostService: HttpPostService,
     private httpChannelService: HttpChannelService,
     private activeRoute: ActivatedRoute,
+    private userService: UserService,
     private router: Router
-  ) {}
+  ) {
+
+    this.userService.isLogged.subscribe((observer) => {
+      this.isLogged = observer;
+    });
+
+    this.userService.userId.subscribe((observer) => {
+      this.userId = observer;
+    });
+
+  }
 
   ngOnInit(): void {
     this.activeRoute.paramMap.subscribe((params: ParamMap) => {
@@ -35,6 +48,8 @@ export class ChannelComponent implements OnInit {
       this.httpChannelService.getChanelById(numid).subscribe({
         next: (res) => {
           this.channel = res;
+          console.log(res);
+          
         },
         error: (err) => {
           console.error('something wrong occurred: ' + err.message);
