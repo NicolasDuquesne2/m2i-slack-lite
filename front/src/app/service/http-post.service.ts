@@ -21,7 +21,7 @@ export class HttpPostService {
     return this.http.get<Post>(`${BASE_URL}/posts/${id}`);
   }
 
-  getPostByChannelId(id:number): Observable<Post[]> {
+  getPostByChannelId(id: number): Observable<Post[]> {
     return this.http.get<Post[]>(`${BASE_URL}/posts/channel/${id}`);
   }
 
@@ -48,4 +48,5 @@ export class HttpPostService {
   deletePostById(id: number) {
     return this.http.delete(`${BASE_URL}/posts/${id}`);
   }
+
 }
