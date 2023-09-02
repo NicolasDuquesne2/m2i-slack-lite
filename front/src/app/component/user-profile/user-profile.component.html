@@ -1,6 +1,6 @@
 <div *ngIf="user" class="container text-center mb-3 container-avatar">
   <img
-    [src]=" getAvatarSrc()"
+    [src]=" getAvatarSrc(user.avatar)"
     class="img-thumbnail rounded-circle w-100 object-fit-cover container-avatar-img"
     alt="avatar de {{ user.name }}"
   />

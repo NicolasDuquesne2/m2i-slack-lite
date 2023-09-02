@@ -40,13 +40,13 @@ export class UserProfileComponent {
     }
   }
 
-  getAvatarSrc():string{
-    if(!this.user) return './assets/img/default-user.svg';
-    if( this.user.avatar == '') return './assets/img/default-user.svg';
-    if( this.user.avatar.toLowerCase() == 'avatar') return './assets/img/avatar.webp';
-    if( this.user.avatar.toLowerCase() == 'eldenring' ||  this.user.avatar.toLowerCase() == 'malenia') return './assets/img/malenia.webp';
-    if(!this.user.avatar.startsWith('http')) return './assets/img/default-user.svg';
-    return  this.user.avatar;
+  getAvatarSrc(avatar:string):string{
+    if(avatar == null || avatar == undefined) return './assets/img/default-user.svg';
+    if( avatar == '') return './assets/img/default-user.svg';
+    if( avatar.toLowerCase() == 'avatar') return './assets/img/avatar.webp';
+    if( avatar.toLowerCase() == 'eldenring' || avatar.toLowerCase() == 'malenia') return './assets/img/malenia.webp';
+    if(!avatar.startsWith('http')) return './assets/img/default-user.svg';
+    return avatar;
   }
 
   logout(){
