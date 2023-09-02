@@ -19,18 +19,15 @@ export class UserProfileComponent {
   ngOnInit(): void {
     this.userService.userId.subscribe((observer)=>{
       this.userId = observer;
-      console.log(`userId observer: ${this.userId}`);
     });
 
     this.userService.user.subscribe((observer)=>{
       this.user = observer;
-      console.log(`userId observer: ${this.user}`);
     });
 
     if(this.userId != null) {
       this.httpUserService.getUserById(this.userId).subscribe({
         next: (res:User) => {
-          console.log(res);
           this.userService.setUser(res);
         },
         error: (err) => {
