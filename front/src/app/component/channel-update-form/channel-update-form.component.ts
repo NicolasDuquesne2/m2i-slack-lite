@@ -72,24 +72,23 @@ export class ChannelUpdateFormComponent {
 
     this.httpChannelService.partialUpdateChannel(channelForm).subscribe({
       next: (data) => {
-          console.log(data);
-          this.httpChannelService.getChanelById(this.channel.id).subscribe({
-            next:(data) => {
-              this.channelService.setChannel(data)
-              this.httpChannelService.getChannels().subscribe({
-                next: (data) => {
-                  this.channelService.setChannels(data)
-                }
-              })
-            }
-          })
+        console.log(data);
+        this.httpChannelService.getChanelById(this.channel.id).subscribe({
+          next: (data) => {
+            this.channelService.setChannel(data);
+            this.httpChannelService.getChannels().subscribe({
+              next: (data) => {
+                this.channelService.setChannels(data);
+                this.displayForm = false;
+              },
+            });
+          },
+        });
       },
       error: (err) => {
         //console.error(err.error.error);
         this.isError = true;
       },
-    })
-
-
+    });
   }
 }
