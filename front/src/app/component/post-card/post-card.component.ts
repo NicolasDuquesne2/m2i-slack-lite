@@ -17,7 +17,9 @@ export class PostCardComponent {
   userId: number | null = 0;
   isEditing: boolean = false;
   originalText: string = '';
-
+  displayModal: boolean = false;
+  isUpdateError: boolean = false;
+  isDeleteError: boolean = false;
 
   constructor(private httpPostService: HttpPostService, private userService: UserService, private channelService: ChannelService) { }
 
@@ -35,11 +37,13 @@ export class PostCardComponent {
   }
 
   startEdit() {
+    this.isUpdateError=false;
     this.isEditing = true;
     this.originalText = this.post.text;
   }
 
   closeEdit() {
+    this.isUpdateError=false;
     this.isEditing = false;
     this.post.text = this.originalText;
   }
@@ -55,12 +59,12 @@ export class PostCardComponent {
             this.isEditing = false;
           },
           error: (err) => {
-            console.log(err);
+            this.isUpdateError = true;
           }
         })
       },
       error: (err) => {
-        console.log(err);
+        this.isUpdateError = true;
       }
     });
   }
@@ -74,23 +78,16 @@ export class PostCardComponent {
             this.channelService.setPosts(data);
           },
           error: (err) => {
-            console.log(err);
+            this.isDeleteError = true;
           }
         })
       },
       error: (err) => {
-        console.log(err);
+        this.isDeleteError = true;
       }
     });
-    console.log(this.post.id);
-    
   }
 
-  limitText(event: any, maxLength: number) {
-    if (event.target.value.length > maxLength) {
-      event.target.value = event.target.value.slice(0, maxLength);
-    }
-  }
   getAvatarSrc(avatar: string): string {
     if (avatar == null || avatar == undefined) return './assets/img/default-user.svg';
     if (avatar == '') return './assets/img/default-user.svg';
@@ -98,5 +95,15 @@ export class PostCardComponent {
     if (avatar.toLowerCase() == 'eldenring' || avatar.toLowerCase() == 'malenia') return './assets/img/malenia.webp';
     if (!avatar.startsWith('http')) return './assets/img/default-user.svg';
     return avatar;
+  }
+
+  onDisplayModal() {
+    this.displayModal = true;
+  }
+
+  onCloseModal(event: Event) {
+    this.isDeleteError = false;
+    event.stopPropagation();
+    this.displayModal = false;
   }
 }

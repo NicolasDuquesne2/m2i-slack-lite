@@ -6,18 +6,19 @@ import { PostForm } from 'src/app/interface/post-form';
 import { Observable } from 'rxjs';
 import { ChannelService } from 'src/app/service/channel.service';
 
-
 @Component({
   selector: 'app-post-form',
   templateUrl: './post-form.component.html',
   styleUrls: ['./post-form.component.scss'],
 })
+
 export class PostFormComponent {
   @Input() channelId!: number;
 
   userId: number | null = null;
   isLogged: boolean = false;
   newPostText: string = '';
+  isCreateError: boolean = false;
 
   constructor(private userService: UserService, private httpPostService: HttpPostService, private channelService: ChannelService) { }
 
@@ -31,13 +32,17 @@ export class PostFormComponent {
     })
   }
 
-
   limitText(event: any) {
     const maxLength = 999;
     if (event.target.value.length > maxLength) {
-
       event.target.value = event.target.value.slice(0, maxLength);
     }
+  }
+
+  counterText(): number {
+    let counter = 1000 - this.newPostText.length;
+    if (counter < 0) counter = 0;
+    return counter;
   }
 
   submitPost() {
@@ -56,12 +61,18 @@ export class PostFormComponent {
               this.channelService.setPosts(data)
             },
             error: (err) => {
-              console.log(err);
+              this.isCreateError = true;
+              setTimeout(() => {
+                this.isCreateError = false;
+              }, 1500);
             }
           })
         },
         (error) => {
-          console.error('Erreur lors de la création de la publication :', error);
+          this.isCreateError = true;
+          setTimeout(() => {
+            this.isCreateError = false;
+          }, 1500);
         }
       );
     }
