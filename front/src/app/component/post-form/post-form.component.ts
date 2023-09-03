@@ -1,9 +1,7 @@
-
 import { Component, Input } from '@angular/core';
 import { HttpPostService } from 'src/app/service/http-post.service';
 import { UserService } from 'src/app/service/user.service';
 import { PostForm } from 'src/app/interface/post-form';
-import { Observable } from 'rxjs';
 import { ChannelService } from 'src/app/service/channel.service';
 
 @Component({
@@ -53,10 +51,10 @@ export class PostFormComponent {
         user: { id: this.userId },
         channel: { id: this.channelId },
       };
-      this.httpPostService.createPost(postForm).subscribe(
-        (response) => {
+      this.httpPostService.createPost(postForm).subscribe({
+        next:(data) => {
           this.newPostText = '';
-          this.httpPostService.getPosts().subscribe({
+          this.httpPostService.getPostByChannelId(this.channelId).subscribe({
             next: (data) => {
               this.channelService.setPosts(data)
             },
@@ -68,13 +66,13 @@ export class PostFormComponent {
             }
           })
         },
-        (error) => {
+        error:(error) => {
           this.isCreateError = true;
           setTimeout(() => {
             this.isCreateError = false;
           }, 1500);
         }
-      );
+      })
     }
   }
 }
