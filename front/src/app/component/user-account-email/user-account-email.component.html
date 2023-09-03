@@ -1,0 +1,24 @@
+<form
+    class="border border-dark rounded col-12 col-lg-6 mx-auto mb-3 p-3"
+    id="formUpdateMail"
+    novalidate
+    [formGroup]="formUpdateEmail"
+    (ngSubmit)="onUpdateEmail()"
+  >
+    <div class="mb-3">
+      <label for="email" class="form-label">Modifier mon email</label>
+      <input
+        type="email"
+        class="form-control text-center"
+        [ngClass]="{'is-invalid' : isErrorEmail, 'is-valid' : isValidEmail}"
+        aria-describedby="email-feedback"
+        id="email"
+        placeholder="Entrer votre nouveau email"
+        formControlName="email"
+      />
+      <div class="invalid-feedback" id="email-feedback">{{ errorMessageEmail }}</div>
+    </div>
+    <button type="submit" class="btn btn-primary w-100">Valider</button>
+    <div *ngIf="isError" class="alert alert-danger mt-3">Une erreur est survenue</div>
+    <div *ngIf="isSuccess" class="alert alert-success mt-3">Enail modifié avec succès</div>
+</form>

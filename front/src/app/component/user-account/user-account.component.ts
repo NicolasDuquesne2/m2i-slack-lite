@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./user-account.component.scss']
 })
 export class UserAccountComponent {
-
+  
 }

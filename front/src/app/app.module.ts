@@ -18,6 +18,11 @@ import { PostCardComponent } from './component/post-card/post-card.component';
 import { ChannelUpdateFormComponent } from './component/channel-update-form/channel-update-form.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { UserAccountEmailComponent } from './component/user-account-email/user-account-email.component';
+import { UserAccountPasswordComponent } from './component/user-account-password/user-account-password.component';
+import { UserAccountNameComponent } from './component/user-account-name/user-account-name.component';
+import { UserAccountAvatarComponent } from './component/user-account-avatar/user-account-avatar.component';
+import { UserAccountDeleteComponent } from './component/user-account-delete/user-account-delete.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +40,11 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     PostFormComponent,
     PostCardComponent,
     ChannelUpdateFormComponent,
+    UserAccountEmailComponent,
+    UserAccountPasswordComponent,
+    UserAccountNameComponent,
+    UserAccountAvatarComponent,
+    UserAccountDeleteComponent,
   ],
   imports: [
     BrowserModule,
