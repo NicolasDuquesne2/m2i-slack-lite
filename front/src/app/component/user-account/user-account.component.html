@@ -3,50 +3,7 @@
 <div class="container text-center">
   <app-user-account-email></app-user-account-email>
 
-  <form
-    class="border border-dark rounded col-12 col-lg-6 mx-auto mb-3 p-3"
-    id="formUpdatePassword"
-    novalidate
-    [formGroup]="formUpdatePassword"
-    (ngSubmit)="onUpdatePassword()"
-  >
-    <div class="mb-3">
-      <label for="password" class="form-label">Modifier votre mot de passe</label>
-      <input
-        type="password"
-        class="form-control text-center"
-        id="password"
-        aria-describedby="passwordHelp"
-        placeholder="Entrer votre nouveau mot de passe"
-        formControlName="password"
-        [ngClass]="{'is-invalid' : isErrorPassword, 'is-valid' : isValidPassword}"
-      />
-      <div id="passwordHelp" class="form-text">
-        Doit comporter minuscule, majuscule, chiffre, caractère spécial et
-        minimun 8 caractères
-      </div>
-      <div class="invalid-feedback" id="password-feedback">
-        Mot de passe invalide
-      </div>
-    </div>
-    <div class="mb-3">
-      <label for="password-confirm" class="form-label">Confirmation de votre nouveau mot de passe</label>
-      <input
-        type="password"
-        class="form-control text-center"
-        id="password-confirm"
-        placeholder="Confirmer votre nouveau mot de passe"
-        formControlName="passwordConfirm"
-        [ngClass]="{'is-invalid' : isErrorPasswordConfirm, 'is-valid' : isValidPasswordConfirm}"
-      />
-      <div class="invalid-feedback" id="password-confirm-feedback">
-        Confirmation du mot de passe invalide
-      </div>
-    </div>
-    <button type="submit" class="btn btn-primary w-100">Valider</button>
-    <p *ngIf="isErrorPasswordGlobal" class="alert alert-danger mt-3">Une erreur est survenue</p>
-    <div *ngIf="isPasswordSuccess" class="alert alert-success mt-3">Mot de passe modifié avec succès</div>
-  </form>
+  <app-user-account-password></app-user-account-password>
 
   <form class="border border-dark rounded col-12 col-lg-6 mx-auto mb-3 p-3" id="formUpdateName" novalidate>
     <div class="mb-3">

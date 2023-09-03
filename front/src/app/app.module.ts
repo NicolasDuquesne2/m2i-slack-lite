@@ -19,6 +19,7 @@ import { ChannelUpdateFormComponent } from './component/channel-update-form/chan
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { UserAccountEmailComponent } from './component/user-account-email/user-account-email.component';
+import { UserAccountPasswordComponent } from './component/user-account-password/user-account-password.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { UserAccountEmailComponent } from './component/user-account-email/user-a
     PostCardComponent,
     ChannelUpdateFormComponent,
     UserAccountEmailComponent,
+    UserAccountPasswordComponent,
   ],
   imports: [
     BrowserModule,
