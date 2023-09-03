@@ -18,14 +18,19 @@
           <textarea class="form-control" id="post-text" rows="3" [(ngModel)]="post.text" name="postText"></textarea>
         </div>
         <p *ngIf="isUpdateError" class="alert alert-danger mt-3">Une erreur est survenue</p>
-        <!-- pb de margin -->
-        <button type="submit" class="btn btn-outline-dark" id="edit-btn-submit">
-          Modifier
-        </button>
-        <!-- pb de margin -->
-        <button type="button" class="btn btn-danger" id="edit-btn-close" (click)="closeEdit()">
-          Annuler
-        </button>
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <button type="submit" class="btn btn-outline-dark me-2" id="edit-btn-submit">
+              Modifier
+            </button>
+            <button type="button" class="btn btn-danger" id="edit-btn-close" (click)="closeEdit()">
+              Annuler
+            </button>
+          </div>
+          <!-- add counter text {{ counterText() }}-->
+          <span class="fst-italic">Caractères restants : </span>
+        </div>
+        
       </form>
     </ng-template>
     <!-- Fin formulaire d'édition de la publication -->
@@ -33,7 +38,7 @@
   </div>
   <!-- Boutons d'options si id user logged == id auteur -->
   <div class="w-auto position-absolute top-0 end-0 p-1" *ngIf="post.user.id == userId">
-    <button class="btn btn-secondary" title="Modifier" id="edit-btn" (click)="startEdit()">
+    <button class="btn btn-secondary me-2" title="Modifier" id="edit-btn" (click)="startEdit()">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square"
         viewBox="0 0 16 16">
         <path
