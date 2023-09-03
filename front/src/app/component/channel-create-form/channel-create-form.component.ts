@@ -16,7 +16,7 @@ import { UserService } from 'src/app/service/user.service';
 })
 export class ChannelCreateFormComponent {
   createChannelForm: FormGroup;
-  isError = false;
+  isCreateError = false;
   isErrorName = false;
   isErrorColor = false;
   userId!: number;
@@ -43,18 +43,16 @@ export class ChannelCreateFormComponent {
   }
 
   onAddChannel() {
-    this.isError = false;
+    this.isCreateError = false;
     this.isErrorName = false;
     this.isErrorColor = false;
 
-    // Form validation
     if (this.createChannelForm.get('channelName')?.invalid)
       this.isErrorName = true;
     if (this.createChannelForm.get('channelColor')?.invalid)
       this.isErrorColor = true;
     if (this.createChannelForm.invalid) return;
 
-    // Creation of the user variable
     const channelForm: ChannelForm = {
       id: null,
       name: this.createChannelForm.value.channelName,
@@ -63,7 +61,6 @@ export class ChannelCreateFormComponent {
       user: { id: this.userId },
     };
 
-    // Appel API
     this.httpChannelService.createChannel(channelForm).subscribe({
       next: (data) => {
         this.httpChannelService.getChannels().subscribe({
@@ -75,12 +72,19 @@ export class ChannelCreateFormComponent {
             }
             this.router.navigate([`/channels/${this.newChannelId}`]);
           },
+          error: (err) => {
+            this.isCreateError = true;
+            setTimeout(() => {
+              this.isCreateError = false;
+            }, 2000);
+          },
         });
-        
       },
       error: (err) => {
-        //console.error(err.error.error);
-        this.isError = true;
+        this.isCreateError = true;
+        setTimeout(() => {
+          this.isCreateError = false;
+        }, 1500);
       },
     });
   }

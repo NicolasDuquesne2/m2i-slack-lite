@@ -43,8 +43,9 @@
       <option value="ELDENRING" class="channel-eldenring">Elden</option>
     </select>
   </div>
+  <p *ngIf="isUpdateError" class="alert alert-danger mt-3">Une erreur est survenue</p>
   <button type="submit" class="btn btn-outline-dark">Modifier</button>
-  <button type="button" class="btn btn-danger" id="editchannel-btn-close">
+  <button type="button" class="btn btn-danger" (click)="onCloseForm()">
     Annuler
   </button>
 </form>
@@ -79,9 +80,8 @@
   <button
     class="btn btn-danger"
     title="Supprimer"
-    data-bs-toggle="modal"
-    data-bs-target="#deleteChannelModal"
     *ngIf="channel.deletable"
+    (click)="onDisplayModal()"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -100,43 +100,31 @@
 <!-- Fin boutons d'options si id user logged == id auteur -->
 
 <!-- Modal pour la confirmation de suppression du canal -->
-<div
-  class="modal fade"
-  id="deleteChannelModal"
-  tabindex="-1"
-  aria-labelledby="deleteChannelModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="deleteChannelModalLabel">
-          Supprimer le canal
-        </h1>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+
+  <div class="modal-wrapper w-100 h-100 position-fixed start-0 top-0 p-2 d-flex justify-content-center align-items-center"
+  *ngIf="displayModal">
+    <div
+    class="modal-overlay w-100 h-100 position-fixed start-0 top-0 z-10"
+    (click)="onCloseModal($event)"
+    ></div>
+    <div class="modal-card position-fixed top-50 start-50 translate-middle h-25 rounded-3 d-flex flex-column">
+      <div class="modal-card-header d-flex justify-content-between align-items-center p-2 border-bottom flex-grow-1">
+          <p class="text-dark m-0">Supprimer un canal</p>
+          <button type="button" class="btn-close" (click)="onCloseModal($event)"></button>
+      </div> 
+      <div *ngIf="!isDeleteError" class="modal-card-body p-2 border-bottom flex-grow-1 d-flex flex-column justify-content-center">
+        <p class="text-dark m-0">Canal : {{channel.name}}</p>
       </div>
-      <div class="modal-body">
-        <!--  {{ Nom du canal }} -->
-        Nom du canal
-      </div>
-      <div class="modal-footer justify-content-center">
-        <button
-          type="button"
-          class="btn btn-outline-dark"
-          id="modalChannel-btn-confirm"
-        >
+      <p *ngIf="isDeleteError" class="alert alert-danger rounded-0 border border-0">Une erreur est survenue</p>
+      <div class="modal-card-footer p-2 d-flex justify-content-between align-items-center flex-grow-1">
+        <button [disabled]="isDeleteError" type="button" class="btn btn-outline-dark" (click)="onDelete($event)">
           Supprimer
         </button>
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+        <button  type="button" class="btn btn-danger" (click)="onCloseModal($event)">
           Annuler
         </button>
       </div>
-    </div>
   </div>
 </div>
+
 <!-- Fin modal pour la confirmation de suppression du canal  -->

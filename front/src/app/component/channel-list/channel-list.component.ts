@@ -20,9 +20,7 @@ export class ChannelListComponent {
     });
     
     this.httpChannelService.getChannels().subscribe({
-      next: (res) => {
-        console.log(res);
-        
+      next: (res) => {    
         this.channelService.setChannels(res);
       },
       error: (err) => {
