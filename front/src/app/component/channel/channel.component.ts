@@ -16,8 +16,8 @@ export class ChannelComponent implements OnInit {
   posts: Post[] = [];
   channel: Channel | undefined;
   isLoading: boolean = true;
-  isLogged!:boolean;
-  userId!:number|null;
+  isLogged!: boolean;
+  userId!: number | null;
 
   constructor(
 
@@ -41,6 +41,9 @@ export class ChannelComponent implements OnInit {
       this.channel = observer;
     })
 
+    this.channelService.posts.subscribe((observer) => {
+      this.posts = observer;
+    })
   }
 
   ngOnInit(): void {
@@ -65,7 +68,7 @@ export class ChannelComponent implements OnInit {
 
       this.httppostService.getPostByChannelId(numid).subscribe({
         next: (res) => {
-          this.posts = res;
+          this.channelService.setPosts(res);
         },
         error: (err) => {
           console.error('something wrong occurred: ' + err.message);

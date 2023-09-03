@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Post } from 'src/app/interface/post';
 import { PostForm } from 'src/app/interface/post-form';
+import { ChannelService } from 'src/app/service/channel.service';
 import { HttpPostService } from 'src/app/service/http-post.service';
 import { UserService } from 'src/app/service/user.service';
 
@@ -9,14 +10,18 @@ import { UserService } from 'src/app/service/user.service';
   templateUrl: './post-card.component.html',
   styleUrls: ['./post-card.component.scss'],
 })
+
 export class PostCardComponent {
   @Input() post!: Post;
 
   userId: number | null = 0;
   isEditing: boolean = false;
+  originalText: string = '';
+  displayModal: boolean = false;
+  isUpdateError: boolean = false;
+  isDeleteError: boolean = false;
 
-
-  constructor(private httpPostService: HttpPostService, private userService: UserService) { }
+  constructor(private httpPostService: HttpPostService, private userService: UserService, private channelService: ChannelService) { }
 
   ngOnInit(): void {
     this.userService.userId.subscribe((observer) => {
@@ -32,11 +37,15 @@ export class PostCardComponent {
   }
 
   startEdit() {
+    this.isUpdateError=false;
     this.isEditing = true;
+    this.originalText = this.post.text;
   }
 
   closeEdit() {
+    this.isUpdateError=false;
     this.isEditing = false;
+    this.post.text = this.originalText;
   }
 
   submitEditForm() {
@@ -44,10 +53,18 @@ export class PostCardComponent {
     this.post.updatedDateTime = new Date();
     this.httpPostService.partialUpdatePost(postForm).subscribe({
       next: (res) => {
-        this.isEditing = false;
+        this.httpPostService.getPostById(this.post.id).subscribe({
+          next: (data) => {
+            this.post = data;
+            this.isEditing = false;
+          },
+          error: (err) => {
+            this.isUpdateError = true;
+          }
+        })
       },
       error: (err) => {
-        console.log(err);
+        this.isUpdateError = true;
       }
     });
   }
@@ -55,19 +72,22 @@ export class PostCardComponent {
   deletePost() {
     this.httpPostService.deletePostById(this.post.id).subscribe({
       next: (res) => {
-        this.isEditing = false;
+        this.httpPostService.getPosts().subscribe({
+          next: (data) => {
+            this.isEditing = false;
+            this.channelService.setPosts(data);
+          },
+          error: (err) => {
+            this.isDeleteError = true;
+          }
+        })
       },
       error: (err) => {
-        console.log(err);
+        this.isDeleteError = true;
       }
     });
   }
 
-  limitText(event: any, maxLength: number) {
-    if (event.target.value.length > maxLength) {
-      event.target.value = event.target.value.slice(0, maxLength);
-    }
-  }
   getAvatarSrc(avatar: string): string {
     if (avatar == null || avatar == undefined) return './assets/img/default-user.svg';
     if (avatar == '') return './assets/img/default-user.svg';
@@ -75,5 +95,15 @@ export class PostCardComponent {
     if (avatar.toLowerCase() == 'eldenring' || avatar.toLowerCase() == 'malenia') return './assets/img/malenia.webp';
     if (!avatar.startsWith('http')) return './assets/img/default-user.svg';
     return avatar;
+  }
+
+  onDisplayModal() {
+    this.displayModal = true;
+  }
+
+  onCloseModal(event: Event) {
+    this.isDeleteError = false;
+    event.stopPropagation();
+    this.displayModal = false;
   }
 }

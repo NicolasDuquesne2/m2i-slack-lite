@@ -17,9 +17,10 @@
       [(ngModel)]="newPostText" name="newPostText" (input)="limitText($event)">
     </textarea>
   </div>
+  <p *ngIf="isCreateError" class="alert alert-danger mt-3">Une erreur est survenue</p>
+  <button type="submit" class="btn btn-outline-dark" [disabled]="!isLogged || !newPostText.trim()">Publier</button>
   <div class="text-muted">
-    Caractères restants : {{ 1000 - newPostText.length }}
+    Caractères restants : {{counterText()}}
   </div>
-  <button type="submit" class="btn btn-outline-dark">Publier</button>
 </form>
 <!-- fin form pour la création de publication -->
