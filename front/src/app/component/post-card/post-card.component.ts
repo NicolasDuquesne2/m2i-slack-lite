@@ -83,7 +83,7 @@ export class PostCardComponent {
   deletePost() {
     this.httpPostService.deletePostById(this.post.id).subscribe({
       next: (res) => {
-        this.httpPostService.getPosts().subscribe({
+        this.httpPostService.getPostByChannelId(this.post.channel.id).subscribe({
           next: (data) => {
             this.isEditing = false;
             this.channelService.setPosts(data);
