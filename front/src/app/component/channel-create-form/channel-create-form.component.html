@@ -26,7 +26,7 @@
       role="alert"
       id="login-alert"
     >
-      Veullez entrer un nom compris entre 5 et 20 caratères.
+      Veuillez entrer un nom compris entre 5 et 20 caratères.
     </div>
     <div class="mb-3">
       <label for="channel-color" class="form-label">Choisir une couleur</label>
@@ -55,8 +55,9 @@
       role="alert"
       id="login-alert"
     >
-      Veullez une couleur.
+      Veuillez une couleur.
     </div>
+    <p *ngIf="isCreateError" class="alert alert-danger mt-3">Une erreur est survenue</p>
     <div class="mb-3 form-check d-none">
       <input
         class="form-check-input"

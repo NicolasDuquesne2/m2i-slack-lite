@@ -21,7 +21,8 @@ export class ChannelUpdateFormComponent {
   displayModal: boolean = false;
   updateChannelForm: FormGroup;
   userId!: number;
-  isError = false;
+  isUpdateError = false;
+  isDeleteError = false;
   isErrorName = false;
   isErrorColor = false;
 
@@ -46,7 +47,8 @@ export class ChannelUpdateFormComponent {
   }
 
   onDisplayForm() {
-    this.displayForm = !this.displayForm;
+    this.displayForm = true;
+    this.isUpdateError = false;
     if (this.displayForm) {
       this.updateChannelForm.controls['channelName'].setValue(
         this.channel.name
@@ -63,6 +65,7 @@ export class ChannelUpdateFormComponent {
 
   onDisplayModal() {
     this.displayModal = true;
+    this.isDeleteError = false;
   }
 
   onCloseModal(event: Event) {
@@ -72,19 +75,19 @@ export class ChannelUpdateFormComponent {
 
   onUpdateChannel(event: Event) {
     event.preventDefault();
-    // Reset error and validation variables
-    this.isError = false;
+
+      this.isUpdateError = false;
     this.isErrorName = false;
     this.isErrorColor = false;
 
-    // Form validation
+    
     if (this.updateChannelForm.get('channelName')?.invalid)
       this.isErrorName = true;
     if (this.updateChannelForm.get('channelColor')?.invalid)
       this.isErrorColor = true;
     if (this.updateChannelForm.invalid) return;
 
-    // Creation of the user variable
+    
     const channelForm: ChannelForm = {
       id: this.channel.id,
       name: this.updateChannelForm.value.channelName,
@@ -92,8 +95,6 @@ export class ChannelUpdateFormComponent {
       deletable: this.channel.deletable,
       user: { id: this.userId },
     };
-
-    // Appel API
 
     this.httpChannelService.partialUpdateChannel(channelForm).subscribe({
       next: (data) => {
@@ -106,34 +107,40 @@ export class ChannelUpdateFormComponent {
                 this.channelService.setChannels(data);
                 this.displayForm = false;
               },
+              error: (err) => {
+                this.isUpdateError = true
+              }
             });
           },
+          error: (err) => {
+            this.isUpdateError = true;
+          }
         });
       },
       error: (err) => {
-        //console.error(err.error.error);
-        this.isError = true;
+        this.isUpdateError = true;
       },
     });
   }
 
   onDelete(event: Event) {
-    event.stopPropagation()
-    // Appel API
+    event.stopPropagation();
     this.httpChannelService.deleteChannelById(this.channel.id).subscribe({
       next: (data) => {
         this.httpChannelService.getChannels().subscribe({
           next: (data) => {
             this.channelService.setChannels(data);
+            this.onCloseModal(event);
             this.router.navigate(['']);
+          },
+          error: (err) => {
+            this.isDeleteError = true;
           },
         });
       },
       error: (err) => {
-        //console.error(err.error.error);
-        this.isError = true;
+        this.isDeleteError = true;
       },
     });
-    this.onCloseModal(event);
   }
 }

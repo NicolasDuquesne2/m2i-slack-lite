@@ -43,8 +43,9 @@
       <option value="ELDENRING" class="channel-eldenring">Elden</option>
     </select>
   </div>
+  <p *ngIf="isUpdateError" class="alert alert-danger mt-3">Une erreur est survenue</p>
   <button type="submit" class="btn btn-outline-dark">Modifier</button>
-  <button type="button" class="btn btn-danger" id="editchannel-btn-close">
+  <button type="button" class="btn btn-danger" (click)="onCloseForm()">
     Annuler
   </button>
 </form>
@@ -111,14 +112,15 @@
           <p class="text-dark m-0">Supprimer un canal</p>
           <button type="button" class="btn-close" (click)="onCloseModal($event)"></button>
       </div> 
-      <div class="modal-card-body p-2 border-bottom flex-grow-1 d-flex flex-column justify-content-center">
+      <div *ngIf="!isDeleteError" class="modal-card-body p-2 border-bottom flex-grow-1 d-flex flex-column justify-content-center">
         <p class="text-dark m-0">Canal : {{channel.name}}</p>
       </div>
+      <p *ngIf="isDeleteError" class="alert alert-danger rounded-0 border border-0">Une erreur est survenue</p>
       <div class="modal-card-footer p-2 d-flex justify-content-between align-items-center flex-grow-1">
-        <button type="button" class="btn btn-outline-dark" (click)="onDelete($event)">
+        <button [disabled]="isDeleteError" type="button" class="btn btn-outline-dark" (click)="onDelete($event)">
           Supprimer
         </button>
-        <button type="button" class="btn btn-danger" (click)="onCloseModal($event)">
+        <button  type="button" class="btn btn-danger" (click)="onCloseModal($event)">
           Annuler
         </button>
       </div>
