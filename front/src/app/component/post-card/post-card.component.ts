@@ -117,4 +117,17 @@ export class PostCardComponent {
     event.stopPropagation();
     this.displayModal = false;
   }
+
+  limitText(event: any) {
+    const maxLength = 999;
+    if (event.target.value.length > maxLength) {
+      event.target.value = event.target.value.slice(0, maxLength);
+    }
+  }
+
+  counterText(): number {
+    let counter = 1000 - this.post.text.length;
+    if (counter < 0) counter = 0;
+    return counter;
+  }
 }
