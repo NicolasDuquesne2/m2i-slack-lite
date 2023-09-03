@@ -22,6 +22,7 @@ import { UserAccountEmailComponent } from './component/user-account-email/user-a
 import { UserAccountPasswordComponent } from './component/user-account-password/user-account-password.component';
 import { UserAccountNameComponent } from './component/user-account-name/user-account-name.component';
 import { UserAccountAvatarComponent } from './component/user-account-avatar/user-account-avatar.component';
+import { UserAccountDeleteComponent } from './component/user-account-delete/user-account-delete.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { UserAccountAvatarComponent } from './component/user-account-avatar/user
     UserAccountPasswordComponent,
     UserAccountNameComponent,
     UserAccountAvatarComponent,
+    UserAccountDeleteComponent,
   ],
   imports: [
     BrowserModule,
