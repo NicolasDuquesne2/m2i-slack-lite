@@ -3,13 +3,14 @@
 }
 
 .modal-overlay {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .modal-card {
     background-color: white;
     opacity: 1;
-    width: 40%;
+    width: 95%;
+    max-width: 500px;
 }
 
 .modal-card-close {

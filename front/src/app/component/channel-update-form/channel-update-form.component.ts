@@ -57,13 +57,17 @@ export class ChannelUpdateFormComponent {
     }
   }
 
-  onDisplayModal() {
-    this.displayModal = !this.displayForm;
-    console.log('pp');
+  onCloseForm() {
+    this.displayForm = false;
   }
 
-  onAbort() {
-    this.displayForm = false;
+  onDisplayModal() {
+    this.displayModal = true;
+  }
+
+  onCloseModal(event: Event) {
+    event.stopPropagation()
+    this.displayModal = false;
   }
 
   onUpdateChannel(event: Event) {
@@ -114,9 +118,7 @@ export class ChannelUpdateFormComponent {
   }
 
   onDelete(event: Event) {
-    event.preventDefault();
-    console.log(event);
-
+    event.stopPropagation()
     // Appel API
     this.httpChannelService.deleteChannelById(this.channel.id).subscribe({
       next: (data) => {
@@ -132,5 +134,6 @@ export class ChannelUpdateFormComponent {
         this.isError = true;
       },
     });
+    this.onCloseModal(event);
   }
 }
