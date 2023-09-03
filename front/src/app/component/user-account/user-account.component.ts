@@ -22,12 +22,15 @@ export class UserAccountComponent {
   isErrorName: boolean = false;
   isErrorPassword: boolean = false;
   isErrorPasswordConfirm: boolean = false;
+  isErrorPasswordGlobal:boolean = false;
   isErrorAvatar:boolean = false;
+  isDeleteError:boolean = false;
 
   isValidEmail: boolean = false;
   isValidName: boolean = false;
   isValidPassword: boolean = false;
   isValidPasswordConfirm: boolean = false;
+  isPasswordSuccess:boolean = false;
 
   errorMessageEmail: string = 'Email invalide';
   
@@ -113,7 +116,58 @@ export class UserAccountComponent {
         } else {
           this.errorMessageEmail = 'Une erreur est survenue';
         }
-      },
+      }
     });
   }
+
+  // Form Update password
+  onUpdatePassword() {
+    // Reset error and validation variable
+    this.isErrorPassword = false;
+    this.isErrorPasswordConfirm = false;
+    this.isValidPassword = false;
+    this.isValidPasswordConfirm = false;
+    this.isErrorPasswordGlobal = false;
+    this.isPasswordSuccess = false;
+
+    //Form Validation
+    this.formUpdatePassword.get('password')?.invalid ? this.isErrorPassword = true : this.isValidPassword = true;
+    if (this.formUpdatePassword.get('passwordConfirm')?.invalid) {
+      this.isErrorPasswordConfirm = true;
+    } else {
+      if (this.formUpdatePassword.value.password !== this.formUpdatePassword.value.passwordConfirm) {
+        this.isErrorPasswordConfirm = true;
+        return;
+      }
+      this.isValidPasswordConfirm = true;
+    }
+    if (this.formUpdatePassword.invalid) return;
+
+    // Creation of the user variable
+   const user: UserForm = {
+     id: this.userId,
+     name: null,
+     email: null,
+     password: this.formUpdatePassword.value.password,
+     avatar: null
+   };
+
+   // API call
+   this.httpUserService.partialUpdateUser(user).subscribe({
+     next: (data) => {
+       this.isPasswordSuccess = true;
+       setTimeout(()=>{
+        this.isValidPassword = false;
+        this.isValidPasswordConfirm = false;
+        this.isPasswordSuccess = false;
+        this.formUpdatePassword.reset();
+       }, 1500)
+
+     },
+     error: (err) => {
+       this.isErrorPasswordGlobal = true;
+       //console.error(err);
+     }
+   });
+ }
 }

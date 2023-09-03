@@ -25,11 +25,24 @@
     <button type="submit" class="btn btn-primary w-100">Valider</button>
   </form>
 
-  <form class="border border-dark rounded col-12 col-lg-6 mx-auto mb-3 p-3" id="formUpdatePassword" novalidate>
+  <form
+    class="border border-dark rounded col-12 col-lg-6 mx-auto mb-3 p-3"
+    id="formUpdatePassword"
+    novalidate
+    [formGroup]="formUpdatePassword"
+    (ngSubmit)="onUpdatePassword()"
+  >
     <div class="mb-3">
       <label for="password" class="form-label">Modifier votre mot de passe</label>
-      <input type="password" class="form-control text-center is-invalid" id="password" aria-describedby="passwordHelp"
-        placeholder="Entrer votre nouveau mot de passe" />
+      <input
+        type="password"
+        class="form-control text-center"
+        id="password"
+        aria-describedby="passwordHelp"
+        placeholder="Entrer votre nouveau mot de passe"
+        formControlName="password"
+        [ngClass]="{'is-invalid' : isErrorPassword, 'is-valid' : isValidPassword}"
+      />
       <div id="passwordHelp" class="form-text">
         Doit comporter minuscule, majuscule, chiffre, caractère spécial et
         minimun 8 caractères
@@ -40,13 +53,21 @@
     </div>
     <div class="mb-3">
       <label for="password-confirm" class="form-label">Confirmation de votre nouveau mot de passe</label>
-      <input type="password" class="form-control text-center is-invalid" id="password-confirm"
-        placeholder="Confirmer votre nouveau mot de passe" />
+      <input
+        type="password"
+        class="form-control text-center"
+        id="password-confirm"
+        placeholder="Confirmer votre nouveau mot de passe"
+        formControlName="passwordConfirm"
+        [ngClass]="{'is-invalid' : isErrorPasswordConfirm, 'is-valid' : isValidPasswordConfirm}"
+      />
       <div class="invalid-feedback" id="password-confirm-feedback">
         Confirmation du mot de passe invalide
       </div>
     </div>
     <button type="submit" class="btn btn-primary w-100">Valider</button>
+    <p *ngIf="isErrorPasswordGlobal" class="alert alert-danger mt-3">Une erreur est survenue</p>
+    <div *ngIf="isPasswordSuccess" class="alert alert-success mt-3">Mot de passe modifié avec succès</div>
   </form>
 
   <form class="border border-dark rounded col-12 col-lg-6 mx-auto mb-3 p-3" id="formUpdateName" novalidate>
@@ -71,4 +92,12 @@
     </div>
     <button type="submit" class="btn btn-primary w-100">Valider</button>
   </form>
+
+  <div class="border border-dark rounded col-12 col-lg-6 mx-auto mb-3 p-3">
+    <p>Supprimer mon compte</p>
+    
+    <button class="btn btn-danger">Supprimer</button>
+
+    <p *ngIf="isDeleteError" class="alert alert-danger mt-3">Une erreur est survenue</p>
+  </div>
 </div>
