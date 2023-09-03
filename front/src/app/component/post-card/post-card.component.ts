@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Post } from 'src/app/interface/post';
 import { PostForm } from 'src/app/interface/post-form';
+import { User } from 'src/app/interface/user';
 import { ChannelService } from 'src/app/service/channel.service';
 import { HttpPostService } from 'src/app/service/http-post.service';
 import { UserService } from 'src/app/service/user.service';
@@ -27,6 +28,16 @@ export class PostCardComponent {
     this.userService.userId.subscribe((observer) => {
       this.userId = observer;
     });
+
+    if(this.post != null && this.post.user == null){
+      const deletedUser: User = {
+        id : 0,
+        name: 'Utilisateur supprimé',
+        avatar: ''
+      }
+
+      this.post.user = deletedUser;
+    }
   }
 
   formatedDate(): string {
