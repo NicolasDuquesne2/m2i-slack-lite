@@ -18,9 +18,9 @@
     </textarea>
   </div>
   <p *ngIf="isCreateError" class="alert alert-danger mt-3">Une erreur est survenue</p>
-  <button type="submit" class="btn btn-outline-dark" [disabled]="!isLogged || !newPostText.trim()">Publier</button>
-  <div class="text-muted">
-    Caractères restants : {{counterText()}}
+  <div class="d-flex justify-content-between align-items-center">
+    <button type="submit" class="btn btn-outline-dark" [disabled]="!isLogged || !newPostText.trim()">Publier</button>
+    <span class="fst-italic">Caractères restants : {{ counterText() }}</span>
   </div>
 </form>
 <!-- fin form pour la création de publication -->
