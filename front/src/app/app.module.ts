@@ -21,6 +21,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { UserAccountEmailComponent } from './component/user-account-email/user-account-email.component';
 import { UserAccountPasswordComponent } from './component/user-account-password/user-account-password.component';
 import { UserAccountNameComponent } from './component/user-account-name/user-account-name.component';
+import { UserAccountAvatarComponent } from './component/user-account-avatar/user-account-avatar.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { UserAccountNameComponent } from './component/user-account-name/user-acc
     UserAccountEmailComponent,
     UserAccountPasswordComponent,
     UserAccountNameComponent,
+    UserAccountAvatarComponent,
   ],
   imports: [
     BrowserModule,

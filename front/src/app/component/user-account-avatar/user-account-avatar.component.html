@@ -1,0 +1,28 @@
+<form
+    class="border border-dark rounded col-12 col-lg-6 mx-auto mb-3 p-3"
+    id="formUpdateAvatar"
+    novalidate
+    [formGroup]="formUpdateAvatar"
+    (ngSubmit)="onUpdateAvatar()"
+>
+    <div class="mb-3">
+        <label for="avatar" class="form-label">Modifier mon avatar</label>
+        <input
+            type="text"
+            class="form-control text-center"
+            aria-describedby="avatar-feedback"
+            id="avatar"
+            aria-describedby="avatarHelp"
+            placeholder="Entrer l'url de votre avatar"
+            formControlName="avatar"
+            [ngClass]="{'is-invalid' : isErrorAvatar, 'is-valid' : isValidAvatar}"
+        />
+        <div class="invalid-feedback" id="avatar-feedback">Avatar invalide</div>
+        <div id="avatarHelp" class="form-text">
+            Entrer l'url de votre fichier image
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary w-100">Valider</button>
+    <div *ngIf="isError" class="alert alert-danger mt-3">Une erreur est survenue</div>
+    <div *ngIf="isSuccess" class="alert alert-success mt-3">Avatar modifié avec succès</div>
+</form>

@@ -7,24 +7,13 @@
 
   <app-user-account-name></app-user-account-name>
 
-  <form class="border border-dark rounded col-12 col-lg-6 mx-auto mb-3 p-3" id="formUpdateAvatar" novalidate>
-    <div class="mb-3">
-      <label for="avatar" class="form-label">Modifier mon avatar</label>
-      <input type="text" class="form-control text-center is-valid" aria-describedby="avatar-feedback" id="avatar"
-        aria-describedby="avatarHelp" placeholder="Entrer l'url de votre avatar" />
-      <div id="avatarHelp" class="form-text">
-        Entrer l'url de votre fichier image
-      </div>
-      <div class="invalid-feedback" id="avatar-feedback">Avatar invalide</div>
-    </div>
-    <button type="submit" class="btn btn-primary w-100">Valider</button>
-  </form>
+  <app-user-account-avatar></app-user-account-avatar>
 
   <div class="border border-dark rounded col-12 col-lg-6 mx-auto mb-3 p-3">
     <p>Supprimer mon compte</p>
     
     <button class="btn btn-danger">Supprimer</button>
 
-    <p *ngIf="isDeleteError" class="alert alert-danger mt-3">Une erreur est survenue</p>
+    <p *ngIf="" class="alert alert-danger mt-3">Une erreur est survenue</p>
   </div>
 </div>

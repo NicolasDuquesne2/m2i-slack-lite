@@ -1,30 +1,31 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { User } from 'src/app/interface/user';
 import { UserForm } from 'src/app/interface/user-form';
 import { HttpUserService } from 'src/app/service/http-user.service';
 import { UserService } from 'src/app/service/user.service';
 
 @Component({
-  selector: 'app-user-account-email',
-  templateUrl: './user-account-email.component.html',
-  styleUrls: ['./user-account-email.component.scss']
+  selector: 'app-user-account-avatar',
+  templateUrl: './user-account-avatar.component.html',
+  styleUrls: ['./user-account-avatar.component.scss']
 })
-export class UserAccountEmailComponent {
+export class UserAccountAvatarComponent {
   user: User | undefined;
   userId: number | null = null;
-  formUpdateEmail: FormGroup;
 
-  isErrorEmail: boolean = false;
-  isValidEmail: boolean = false;
+  formUpdateAvatar: FormGroup;
+
+  isErrorAvatar: boolean = false;
   isError: boolean = false;
+
+  isValidAvatar: boolean = false;
   isSuccess: boolean = false;
-  errorMessageEmail: string = 'Email invalide';
 
   constructor(private userService: UserService, private httpUserService: HttpUserService, private formBuilder: FormBuilder) {
-    // Form update Email
-    this.formUpdateEmail = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]]
+    //Form update Avatar
+    this.formUpdateAvatar = this.formBuilder.group({
+      avatar: ['']
     });
   }
 
@@ -49,48 +50,52 @@ export class UserAccountEmailComponent {
     }
   }
 
-  // Form Update email
-  onUpdateEmail() {
+  onUpdateAvatar() {
     // Reset error and validation variable
-    this.isErrorEmail = false;
-    this.isValidEmail = false;
+    this.isErrorAvatar = false;
+    this.isValidAvatar = false;
     this.isError = false;
     this.isSuccess = false;
-    this.errorMessageEmail = 'Email invalide';
 
     //Form Validation
-    if (this.formUpdateEmail.get('email')?.invalid) this.isErrorEmail = true;
-    if (this.formUpdateEmail.invalid) return;
+    let avatar = this.formUpdateAvatar.value.avatar;
+    if (avatar == null ||
+      avatar == '' ||
+      avatar.toLowerCase() == 'avatar' ||
+      avatar.toLowerCase() == 'eldenring' ||
+      avatar.toLowerCase() == 'malenia') {
+      this.isValidAvatar = true;
+    } else {
+      avatar.startsWith('http') ? this.isValidAvatar = true : this.isErrorAvatar = true;
+    }
+
+    if (this.isErrorAvatar) return;
 
     // Creation of the user variable
     const user: UserForm = {
       id: this.userId,
       name: null,
-      email: this.formUpdateEmail.value.email,
+      email: null,
       password: null,
-      avatar: null
+      avatar: avatar
     };
 
     // API call
     this.httpUserService.partialUpdateUser(user).subscribe({
       next: (data) => {
-        this.isValidEmail = true;
+        if (this.user != undefined && user.avatar != null) this.user.avatar = user.avatar;
+        this.userService.setUser(this.user);
         this.isSuccess = true;
         setTimeout(() => {
-          this.isValidEmail = false;
+          this.isValidAvatar = false;
           this.isSuccess = false;
-          this.formUpdateEmail.reset();
+          this.formUpdateAvatar.reset();
         }, 1500)
 
       },
       error: (err) => {
         //console.error(err);
-        if (err.error.error != null && err.error.error == 'The given email is already used') {
-          this.isErrorEmail = true;
-          this.errorMessageEmail = 'Un utilisateur utilise déjà cet email';
-        } else {
-          this.isError = true;
-        }
+        this.isError = true;
         setTimeout(() => {
           this.isError = false;
         }, 1500);
