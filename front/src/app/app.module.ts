@@ -20,6 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { UserAccountEmailComponent } from './component/user-account-email/user-account-email.component';
 import { UserAccountPasswordComponent } from './component/user-account-password/user-account-password.component';
+import { UserAccountNameComponent } from './component/user-account-name/user-account-name.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { UserAccountPasswordComponent } from './component/user-account-password/
     ChannelUpdateFormComponent,
     UserAccountEmailComponent,
     UserAccountPasswordComponent,
+    UserAccountNameComponent,
   ],
   imports: [
     BrowserModule,
