@@ -19,6 +19,6 @@
       <div class="invalid-feedback" id="email-feedback">{{ errorMessageEmail }}</div>
     </div>
     <button type="submit" class="btn btn-primary w-100">Valider</button>
-    <p *ngIf="isError" class="alert alert-danger mt-3">Une erreur est survenue</p>
+    <div *ngIf="isError" class="alert alert-danger mt-3">Une erreur est survenue</div>
     <div *ngIf="isSuccess" class="alert alert-success mt-3">Enail modifié avec succès</div>
 </form>
