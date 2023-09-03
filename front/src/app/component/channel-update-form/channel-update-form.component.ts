@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Color } from 'src/app/enum/color';
 import { Channel } from 'src/app/interface/channel';
 import { ChannelForm } from 'src/app/interface/channel-form';
 import { ChannelService } from 'src/app/service/channel.service';
@@ -98,7 +97,6 @@ export class ChannelUpdateFormComponent {
 
     this.httpChannelService.partialUpdateChannel(channelForm).subscribe({
       next: (data) => {
-        console.log(data);
         this.httpChannelService.getChanelById(this.channel.id).subscribe({
           next: (data) => {
             this.channelService.setChannel(data);
