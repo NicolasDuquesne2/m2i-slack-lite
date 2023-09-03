@@ -15,22 +15,22 @@
       <form class="pb-3" id="edit-form" (ngSubmit)="submitEditForm()">
         <div class="mb-3">
           <label for="post-text" class="form-label">Modifier le message :</label>
-          <textarea class="form-control" id="post-text" rows="3" [(ngModel)]="post.text" name="postText"></textarea>
+          <textarea class="form-control" id="post-text" rows="3" [(ngModel)]="post.text" name="postText"
+            (input)="limitText($event)"></textarea>
         </div>
         <p *ngIf="isUpdateError" class="alert alert-danger mt-3">Une erreur est survenue</p>
         <div class="d-flex justify-content-between align-items-center">
           <div>
-            <button type="submit" class="btn btn-outline-dark me-2" id="edit-btn-submit">
+            <button type="submit" class="btn btn-outline-dark me-2" id="edit-btn-submit" [disabled]=" !post.text.trim()">
               Modifier
             </button>
             <button type="button" class="btn btn-danger" id="edit-btn-close" (click)="closeEdit()">
               Annuler
             </button>
           </div>
-          <!-- add counter text {{ counterText() }}-->
-          <span class="fst-italic">Caractères restants : </span>
+          <span class="fst-italic">Caractères restants : {{counterText()}}</span>
         </div>
-        
+
       </form>
     </ng-template>
     <!-- Fin formulaire d'édition de la publication -->
@@ -69,12 +69,13 @@
       <p class="text-dark m-0">Supprimer un post</p>
       <button type="button" class="btn-close" (click)="onCloseModal($event)"></button>
     </div>
-    <div *ngIf="!isDeleteError" class="modal-card-body p-2 border-bottom flex-grow-1 d-flex flex-column justify-content-center">
+    <div *ngIf="!isDeleteError"
+      class="modal-card-body p-2 border-bottom flex-grow-1 d-flex flex-column justify-content-center">
       <p class="text-dark m-0">Post : {{post.text}}</p>
     </div>
     <p *ngIf="isDeleteError" class="alert alert-danger rounded-0 border border-0">Une erreur est survenue</p>
     <div class="modal-card-footer p-2 d-flex justify-content-between align-items-center flex-grow-1">
-     <button [disabled]="isDeleteError" type="button" class="btn btn-outline-dark" (click)="deletePost()" >
+      <button [disabled]="isDeleteError" type="button" class="btn btn-outline-dark" (click)="deletePost()">
         Supprimer
       </button>
       <button type="button" class="btn btn-danger" (click)="onCloseModal($event)">
