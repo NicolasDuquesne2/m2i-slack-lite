@@ -84,7 +84,7 @@ export class ChannelCreateFormComponent {
         this.isCreateError = true;
         setTimeout(() => {
           this.isCreateError = false;
-        }, 2000);
+        }, 1500);
       },
     });
   }
