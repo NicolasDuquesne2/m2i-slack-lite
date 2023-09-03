@@ -11,8 +11,13 @@
     opacity: 1;
     width: 95%;
     max-width: 500px;
+    z-index: 11;
 }
 
 .modal-card-close {
     border: none;
+}
+
+.modal-wrapper {
+  z-index: 9;
 }

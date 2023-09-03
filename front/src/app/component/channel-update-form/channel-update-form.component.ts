@@ -66,7 +66,7 @@ export class ChannelUpdateFormComponent {
   }
 
   onCloseModal(event: Event) {
-    event.stopPropagation()
+    event.stopPropagation();
     this.displayModal = false;
   }
 
