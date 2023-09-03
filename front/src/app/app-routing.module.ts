@@ -5,6 +5,8 @@ import { SignupComponent } from './component/signup/signup.component';
 import { ErrorPageComponent } from './component/error-page/error-page.component';
 import { UserAccountComponent } from './component/user-account/user-account.component';
 import { ChannelComponent } from './component/channel/channel.component';
+import { AuthGuardOK } from './guard/authok';
+import { AuthGuardBad } from './guard/authbad';
 
 const routes: Routes = [
   {
@@ -15,10 +17,12 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [AuthGuardOK]
   },
   {
     path: 'signup',
     component: SignupComponent,
+    canActivate: [AuthGuardOK]
   },
   {
     path: 'channels/:id',
@@ -27,6 +31,7 @@ const routes: Routes = [
   {
     path: 'account',
     component: UserAccountComponent,
+    canActivate: [AuthGuardBad]
   },
   {
     path: '**',
