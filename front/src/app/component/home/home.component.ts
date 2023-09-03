@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { ChannelService } from 'src/app/service/channel.service';
+import { Component } from '@angular/core';
 import { UserService } from 'src/app/service/user.service';
 
 @Component({
@@ -19,7 +18,6 @@ export class HomeComponent {
     });
 
     if(localStorage.length != 0 && localStorage.getItem('user')){
-      //console.log('user in the constructor');
       let localStorageUser = localStorage.getItem('user');
       if(localStorageUser != null){
         const userId:number = JSON.parse(localStorageUser).userId;
