@@ -1,29 +1,7 @@
 <h2 class="text-center my-3">Modifier mon compte</h2>
 
 <div class="container text-center">
-  <form
-    class="border border-dark rounded col-12 col-lg-6 mx-auto mb-3 p-3"
-    id="formUpdateMail"
-    novalidate
-    [formGroup]="formUpdateEmail"
-    (ngSubmit)="onUpdateEmail()"
-  >
-    <div class="mb-3">
-      <label for="email" class="form-label">Modifier mon email</label>
-      <input
-        type="email"
-        class="form-control text-center"
-        [ngClass]="{'is-invalid' : isErrorEmail, 'is-valid' : isValidEmail}"
-        aria-describedby="email-feedback"
-        id="email"
-        placeholder="Entrer votre nouveau email"
-        formControlName="email"
-      />
-      <div class="invalid-feedback" id="email-feedback">{{ errorMessageEmail }}</div>
-      <div class="valid-feedback" id="email-feedback">Email modifié avec succès</div>
-    </div>
-    <button type="submit" class="btn btn-primary w-100">Valider</button>
-  </form>
+  <app-user-account-email></app-user-account-email>
 
   <form
     class="border border-dark rounded col-12 col-lg-6 mx-auto mb-3 p-3"

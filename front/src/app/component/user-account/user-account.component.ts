@@ -13,12 +13,11 @@ import { UserService } from 'src/app/service/user.service';
 export class UserAccountComponent {
   user: User | undefined;
   userId: number | null = null;
-  formUpdateEmail: FormGroup;
+
   formUpdatePassword: FormGroup;
   formUpdateName: FormGroup;
   formUpdateAvatar: FormGroup;
 
-  isErrorEmail: boolean = false;
   isErrorName: boolean = false;
   isErrorPassword: boolean = false;
   isErrorPasswordConfirm: boolean = false;
@@ -26,20 +25,13 @@ export class UserAccountComponent {
   isErrorAvatar:boolean = false;
   isDeleteError:boolean = false;
 
-  isValidEmail: boolean = false;
   isValidName: boolean = false;
   isValidPassword: boolean = false;
   isValidPasswordConfirm: boolean = false;
   isPasswordSuccess:boolean = false;
 
-  errorMessageEmail: string = 'Email invalide';
   
   constructor(private userService: UserService, private httpUserService: HttpUserService, private formBuilder: FormBuilder) {
-    // Form update Email
-    this.formUpdateEmail = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]]
-    });
-
     // Form update Password
     this.formUpdatePassword = this.formBuilder.group({
       password: ['', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&^#_+=\-()[\]{}|\\:;"'<>,.?/~])[A-Za-z\d@$!%*?&^#_+=\-()[\]{}|\\:;"'<>,.?/~]{8,}$/)]],
@@ -76,48 +68,6 @@ export class UserAccountComponent {
         }
       });
     }
-  }
-
-  // Form Update email
-  onUpdateEmail() {
-     // Reset error and validation variable
-     this.isErrorEmail = false;
-     this.isValidEmail = false;
-     this.errorMessageEmail = 'Email invalide';
-
-     //Form Validation
-     if(this.formUpdateEmail.get('email')?.invalid) this.isErrorEmail = true;
-     if (this.formUpdateEmail.invalid) return;
-
-     // Creation of the user variable
-    const user: UserForm = {
-      id: this.userId,
-      name: null,
-      email: this.formUpdateEmail.value.email,
-      password: null,
-      avatar: null
-    };
-
-    // API call
-    this.httpUserService.partialUpdateUser(user).subscribe({
-      next: (data) => {
-        this.isValidEmail = true;
-        setTimeout(()=>{
-          this.isValidEmail = false;
-          this.formUpdateEmail.reset();
-        }, 1500)
-
-      },
-      error: (err) => {
-        this.isErrorEmail = true;
-        //console.error(err);
-        if(err.error.error != null && err.error.error == 'The given email is already used') {
-          this.errorMessageEmail = 'Un utilisateur utilise déjà cet email';
-        } else {
-          this.errorMessageEmail = 'Une erreur est survenue';
-        }
-      }
-    });
   }
 
   // Form Update password

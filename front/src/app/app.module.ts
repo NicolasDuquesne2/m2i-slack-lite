@@ -18,6 +18,7 @@ import { PostCardComponent } from './component/post-card/post-card.component';
 import { ChannelUpdateFormComponent } from './component/channel-update-form/channel-update-form.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { UserAccountEmailComponent } from './component/user-account-email/user-account-email.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     PostFormComponent,
     PostCardComponent,
     ChannelUpdateFormComponent,
+    UserAccountEmailComponent,
   ],
   imports: [
     BrowserModule,
