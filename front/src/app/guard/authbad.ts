@@ -15,7 +15,7 @@ export const AuthGuardBad = () => {
   });
 
   if (!isLogged) {
-    router.navigateByUrl('');
+    router.navigateByUrl('/login');
     return false;
   }
   return true;

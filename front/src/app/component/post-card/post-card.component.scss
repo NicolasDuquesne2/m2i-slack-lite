@@ -1,0 +1,13 @@
+.container-avatar{
+    width: 50%;
+}
+
+.container-avatar-img{
+    aspect-ratio: 1 / 1;
+}
+
+@media screen and (min-width: 992px) {
+    .container-avatar{
+        width: 100%;
+    }    
+}
