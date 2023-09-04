@@ -35,7 +35,7 @@ export class ChannelUpdateFormComponent {
     this.updateChannelForm = this.formBuilder.group({
       channelName: [
         '',
-        [Validators.required, Validators.min(5), Validators.max(20)],
+        [Validators.required, Validators.minLength(5), Validators.maxLength(20)],
       ],
       channelColor: ['', [Validators.required]],
     });
