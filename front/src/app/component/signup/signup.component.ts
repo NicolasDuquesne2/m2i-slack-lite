@@ -22,6 +22,7 @@ export class SignupComponent {
   isValidName: boolean = false;
   isValidPassword: boolean = false;
   isValidPasswordConfirm: boolean = false;
+  isSuccess: boolean = false;
 
   errorMessageEmailDefault: string = 'Email invalide';
   errorMessageEmail: string = this.errorMessageEmailDefault;
@@ -47,6 +48,7 @@ export class SignupComponent {
     this.isValidPassword = false;
     this.isValidPasswordConfirm = false;
     this.errorMessageEmail = this.errorMessageEmailDefault;
+    this.isSuccess = false;
 
     // Form validation
     this.formSignup.get('email')?.invalid ? this.isErrorEmail = true : this.isValidEmail = true;
@@ -76,7 +78,10 @@ export class SignupComponent {
     // API call
     this.httpUserService.createUser(user).subscribe({
       next: (data) => {
-        this.login(user);
+        this.isSuccess = true;
+        setTimeout(()=>{
+          this.login(user);
+        }, 1500);        
       },
       error: (err) => {
         //console.error(err.error);
