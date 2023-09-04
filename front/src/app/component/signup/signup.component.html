@@ -26,11 +26,14 @@
         type="text"
         class="form-control text-center"
         [ngClass]="{'is-invalid' : isErrorName, 'is-valid' : isValidName}"
-        aria-describedby="pseudo-feedback"
+        aria-describedby="name-feedback"
         id="name"
         formControlName="name"
       />
-      <div class="invalid-feedback" id="pseudo-feedback">Pseudo invalide</div>
+      <div class="invalid-feedback" id="name-feedback">Pseudo invalide</div>
+      <div id="nameHelp" class="form-text">
+        Doit comporter minimun 3 caractères et 20 caractères maximum
+      </div>
     </div>
     <div class="mb-3">
       <label for="password" class="form-label">Mot de passe</label>
@@ -42,13 +45,13 @@
         aria-describedby="passwordHelp"
         formControlName="password"
       />
-      <div id="passwordHelp" class="form-text">
-        Doit comporter minuscule, majuscule, chiffre, caractère spécial et
-        minimun 8 caractères
-      </div>
       <div class="invalid-feedback" id="password-feedback">
         Mot de passe invalide
       </div>
+      <div id="passwordHelp" class="form-text">
+        Doit comporter minuscule, majuscule, chiffre, caractère spécial et
+        minimun 8 caractères
+      </div>      
     </div>
     <div class="mb-3">
       <label for="passwordConfirm" class="form-label"
@@ -66,8 +69,7 @@
       </div>
     </div>
     <button type="submit" class="btn btn-primary w-100">Valider</button>
-    <div *ngIf="isError" class="alert alert-danger mt-3" role="alert" id="login-alert">
-      Oups... une erreur est survenue
-    </div>
+    <div *ngIf="isError" class="alert alert-danger mt-3" role="alert" id="login-alert">Une erreur est survenue</div>
+    <div *ngIf="isSuccess" class="alert alert-success mt-3">Compte créé avec succès</div>
   </form>
 </div>

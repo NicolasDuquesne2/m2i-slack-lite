@@ -1,4 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 import { User } from 'src/app/interface/user';
 import { HttpUserService } from 'src/app/service/http-user.service';
 import { UserService } from 'src/app/service/user.service';
@@ -14,7 +15,7 @@ export class UserProfileComponent {
   user: User | undefined;
   userId: number | null = null;
 
-  constructor(private userService: UserService, private httpUserService: HttpUserService) { }
+  constructor(private userService: UserService, private httpUserService: HttpUserService, private router: Router) { }
 
   ngOnInit(): void {
     this.userService.userId.subscribe((observer)=>{
@@ -51,5 +52,6 @@ export class UserProfileComponent {
     this.userService.setUserId(null);
     this.userService.setUser(undefined);
     localStorage.clear();
+    this.router.navigate(['']);
   }
 }
