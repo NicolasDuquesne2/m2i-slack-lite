@@ -70,6 +70,7 @@ export class ChannelCreateFormComponent {
               this.newChannelId = lastChannel.id;
               this.channelService.addElemeToChannels(lastChannel);
             }
+            this.createChannelForm.reset();
             this.router.navigate([`/channels/${this.newChannelId}`]);
           },
           error: (err) => {

@@ -2,7 +2,7 @@
 <!-- h2 est une variable : nom de canal-->
 <header *ngIf="channel" class="{{'header-channel rounded-top position-relative channel-'  + channel.color.toString().toLowerCase()}}">
   <h2 >{{channel.name}}</h2>
-  <app-channel-update-form *ngIf="isLogged && userId == channel.user.id" [channel]="channel"></app-channel-update-form>
+  <app-channel-update-form *ngIf="checkChannelUser()" [channel]="channel"></app-channel-update-form>
 </header>
 
 <div class="container p-3">

@@ -78,4 +78,16 @@ export class ChannelComponent implements OnInit {
     });
 
   }
+
+  checkChannelUser(): boolean {
+    
+    if(this.channel) {
+      if(this.channel.user) {
+        if(this.isLogged && this.userId == this.channel.user.id)
+          return true;
+      }
+    }
+    return false;
+  }
+
 }
